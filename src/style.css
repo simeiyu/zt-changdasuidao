@@ -1,0 +1,34 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.el-menu {
+  --el-menu-item-height: 40px;
+  --el-menu-base-level-padding: 12px;
+  --el-menu-icon-width: 14px;
+  --el-menu-text-color: #4C5A67;
+  --el-menu-hover-bg-color: var(--el-color-info-light-9);
+}
