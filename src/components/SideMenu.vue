@@ -64,7 +64,7 @@ defineExpose({
 <style lang="scss" scoped>
 .side-toggle {
   padding: 12px;
-  height: 48px;
+  height: 48.5px;
   font-size: 14px;
   line-height: 24px;
   vertical-align: middle;
