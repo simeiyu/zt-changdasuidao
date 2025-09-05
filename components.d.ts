@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Content: typeof import('./src/components/Content.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -25,16 +26,17 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElSpace: typeof import('element-plus/es')['ElSpace']
     ElText: typeof import('element-plus/es')['ElText']
-    Header: typeof import('./src/components/Header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconEpRefresh: typeof import('~icons/ep/refresh')['default']
     IEpArrowDown: typeof import('~icons/ep/arrow-down')['default']
     IEpBell: typeof import('~icons/ep/bell')['default']
     IEpBellFilled: typeof import('~icons/ep/bell-filled')['default']
     IEpRefresh: typeof import('~icons/ep/refresh')['default']
+    LHeader: typeof import('./src/components/LHeader.vue')['default']
+    RightPane: typeof import('./src/components/RightPane.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SideMenu: typeof import('./src/components/SideMenu.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
+    Title1: typeof import('./src/components/Title1.vue')['default']
   }
 }

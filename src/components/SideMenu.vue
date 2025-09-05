@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 
 const menu = [
   {
@@ -43,8 +44,12 @@ const menu = [
 const collapsed = ref(false)
 const active = ref('1')
 
-defineExpose({
-  collapsed
+const onSelect = (index: string) => {
+  router.push(index)
+}
+
+onMounted(() => {
+  active.value = route.path
 })
 
 </script>
@@ -53,8 +58,8 @@ defineExpose({
   <div class="side-toggle" @click="collapsed = !collapsed">
     <el-icon class="side-toggle-icon"><SvgIcon icon-name="toggle" /></el-icon>
   </div>
-  <el-menu class="side-menu" :default-active="active" :collapse="collapsed">
-    <el-menu-item v-for="(item, index) in menu" :key="item.icon" :index="`${index + 1}`" :route="item.path">
+  <el-menu class="side-menu" :default-active="active" :collapse="collapsed" @select="onSelect">
+    <el-menu-item v-for="item in menu" :key="item.icon" :index="item.path" :route="item.path">
       <el-icon class="side-icon"><SvgIcon :icon-name="item.icon" /></el-icon>
       <template #title>{{ item.title }}</template>
     </el-menu-item>
