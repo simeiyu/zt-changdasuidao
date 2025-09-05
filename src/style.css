@@ -32,3 +32,35 @@ body {
   --el-menu-text-color: #4C5A67;
   --el-menu-hover-bg-color: var(--el-color-info-light-9);
 }
+
+.mg-t-sm {
+  margin-top: 4px;
+}
+
+.mg-t {
+  margin-top: 8px;
+}
+
+.mg-t-lg {
+  margin-top: 12px;
+}
+
+.mg-t-xl {
+  margin-top: 16px;
+}
+
+.mg-b-sm {
+  margin-bottom: 4px;
+}
+
+.mg-b {
+  margin-bottom: 8px;
+}
+
+.mg-b-lg {
+  margin-bottom: 12px;
+}
+
+.mg-b-xl {
+  margin-bottom: 16px;
+}
