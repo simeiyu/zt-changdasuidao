@@ -58,6 +58,7 @@ const tableData = [
 
   &-value {
     font-size: 16px;
+    font-weight: bold;
     color: #F53F3F;
     line-height: 24px;
   }
