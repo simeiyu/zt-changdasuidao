@@ -9,6 +9,7 @@
 <style lang="scss" scoped>
 .main {
   position: relative;
+  width: calc(100% - 312px);
   height: 100%;
   flex: 1;
   border-radius: 2px;
@@ -41,7 +42,11 @@
     position: relative;
     z-index: 5;
     height: 100%;
+    padding: 2px;
+    overflow: auto;
     background: repeating-linear-gradient(180deg, transparent 0, transparent 15px, rgb(220 222 225 / 30%), rgb(220 222 225 / 30%) 16px);
+
+    @include scroll;
   }
 }
 </style>
