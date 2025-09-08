@@ -1,40 +1,69 @@
 <script setup lang="ts">
 import * as echarts from 'echarts';
+import { getLineOption } from '~/assets/constant';
 
 const active = ref(0)
 
 const chartRef = ref(null);
-const option = {}
+const dimensions = ['时间', '实测', '预测', '上限', '下限'];
+const option = getLineOption('m 3/h', dimensions);
 
-let chartline: echarts.ECharts;
+const data = [
+  ['12:00', 120, 130, 170, 20],
+  ['12:01', 80, 80, 180, 30],
+  ['12:02', 150, 130, 170, 20],
+  ['12:03', 120, 130, 170, 20],
+  ['12:04', 100, 130, 170, 20],
+  ['12:05', 110, 130, 170, 20],
+  ['12:06', 120, 130, 170, 20],
+  ['12:07', 150, 130, 170, 20],
+]
+
+let myChart: echarts.ECharts;
 function onResize() {
-  chartline.resize();
+  myChart.resize();
 }
+
+const handleChange = (value: any) => {
+  console.log(value)
+}
+
 onMounted(() => {
   if (chartRef.value) {
-    chartline = echarts.init(chartRef.value);
-    chartline.setOption(option);
+    myChart = echarts.init(chartRef.value);
+    // myChart.setOption(option);
+    myChart.setOption({
+      ...option,
+      dataset: {
+        dimensions,
+        source: data
+      }
+    })
     window.addEventListener('resize',  onResize, false);
   }
 })
+
+onUnmounted(() => {
+  window.removeEventListener('resize',  onResize, false);
+  myChart.dispose();
+});
 </script>
 
 <template>
-  <el-radio-group class="flow-radio" v-model="active" size="small">
+  <el-radio-group class="flow-radio" v-model="active" @change="handleChange">
     <el-radio-button :value="0">进浆流量</el-radio-button>
     <el-radio-button :value="1">排浆流量</el-radio-button>
   </el-radio-group>
-  <div class="flow-line"></div>
+  <div class="flow-line" ref="chartRef"></div>
 </template>
 
 <style scoped lang="scss">
 .flow-radio {
-  margin-top: 8px;
+  margin: 8px;
 }
 
 .flow-line {
-  height: 182px;
-  background-color: #fff;
+  height: 160px;
   margin-top: 10px;
 }
 </style>

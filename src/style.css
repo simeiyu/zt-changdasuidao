@@ -8,6 +8,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+
+  --el-border-radius-base: 2px;
 }
 
 *, *::before, *::after {
@@ -32,6 +34,7 @@ body {
   --el-menu-text-color: #4C5A67;
   --el-menu-hover-bg-color: var(--el-color-info-light-9);
 }
+
 
 .mg-t-sm {
   margin-top: 4px;
@@ -63,4 +66,36 @@ body {
 
 .mg-b-xl {
   margin-bottom: 16px;
+}
+
+.mg-l-sm {
+  margin-left: 4px;
+}
+
+.mg-l {
+  margin-left: 8px;
+}
+
+.mg-l-lg {
+  margin-left: 12px;
+}
+
+.mg-l-xl {
+  margin-left: 16px;
+}
+
+.mg-r-sm {
+  margin-right: 4px;
+}
+
+.mg-r {
+  margin-right: 8px;
+}
+
+.mg-r-lg {
+  margin-right: 12px;
+}
+
+.mg-r-xl {
+  margin-right: 16px;
 }

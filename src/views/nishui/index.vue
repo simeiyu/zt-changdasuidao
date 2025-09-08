@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import AlarmPane from './right/AlarmPane.vue';
 import FlowPane from './right/FlowPane.vue';
+import Pressure from './right/Pressure.vue';
+import WavePane from './right/WavePane.vue';
 
 </script>
 
@@ -7,7 +10,10 @@ import FlowPane from './right/FlowPane.vue';
   <Content><el-text>泥水环流</el-text></Content>
   <RightPane>
     <FlowPane />
-    <Title1>振动分析</Title1>
-    <Title1>预测报警</Title1>
+    <Pressure />
+    <Title1 class="mg-t-sm mg-l mg-r">振动分析</Title1>
+    <WavePane />
+    <Title1 class="mg-t-sm mg-l mg-r">预测报警</Title1>
+    <AlarmPane />
   </RightPane>
 </template>

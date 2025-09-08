@@ -40,5 +40,6 @@
   display: flex;
   height: calc(100vh - 112px);
   padding: 16px;
+  overflow: visible;
 }
 </style>

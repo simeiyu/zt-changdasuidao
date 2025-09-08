@@ -13,7 +13,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
   plugins: [
@@ -38,10 +38,10 @@ export default defineConfig({
           importStyle: 'sass',
         }),
       ],
-      // types: [{
-      //   from: 'vue-router',
-      //   names: ['RouterLink', 'RouterView']
-      // }]
+      types: [{
+        from: 'vue-router',
+        names: ['RouterLink', 'RouterView']
+      }]
     }),
     Icons({
       compiler: 'vue3',
@@ -59,8 +59,7 @@ export default defineConfig({
       // scss 全局变量的配置 
       scss: {
         silenceDeprecations: ['legacy-js-api'],
-        // additionalData: '@use "@/assets/styles/variable.scss" as *;',
-        additionalData: '@use "@/assets/styles/index.scss" as *;',
+        additionalData: '@use "~/assets/styles/index.scss" as *;',
       },
     },
     postcss: {

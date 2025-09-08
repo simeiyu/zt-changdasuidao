@@ -6,7 +6,7 @@ const router = useRouter()
 <template>
   <header class="header-container">
     <div class="logo-container">
-      <a class="logo" v-on:click="router.push('/')"><img src="@/assets/logo.svg" alt="中铁装备" /></a>
+      <a class="logo" v-on:click="router.push('/')"><img src="../assets/logo.svg" alt="中铁装备" /></a>
       <h1 class="title">长大隧道同步推拼智能盾构运行状态智能检测与诊断系统边缘端(崇太隧道)</h1>
     </div>
     <div class="header-right">
@@ -32,6 +32,8 @@ const router = useRouter()
 </template>
 
 <style lang="scss" scoped>
+$color-white: #fff;
+
 .header-container {
   display: flex;
   justify-content: space-between;
