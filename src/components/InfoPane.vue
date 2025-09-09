@@ -101,12 +101,7 @@ const props = defineProps<{
 
 .output {
   display: inline-block;
-  width: 80px;
-  height: 20px;
-  padding: 0 8px;
-  line-height: 18px;
-  text-align: center;
-  border: 1px solid #C2C7CC;
-  background-color: #EFF7FF;
+  
+  @include valueBox(80px);
 }
 </style>
