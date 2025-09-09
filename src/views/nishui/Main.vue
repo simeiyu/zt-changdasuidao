@@ -86,7 +86,25 @@ const data = [{
       <InfoPane class="info" :columns="columns" :data="data" />
       <div class="configuration">
         <!-- 测点 -->
-        <div class="points"></div>
+        <div class="points">
+          <span class="C8">C8</span>
+          <span class="C9">C9</span>
+          <span class="V32">V32</span>
+          <span class="V55">V55</span>
+          <span class="V61">V61</span>
+          <span class="V62">V62</span>
+          <span class="V63">V63</span>
+          <span class="V64">V64</span>
+          <span class="V66">V66</span>
+          <span class="V67">V67</span>
+          <span class="V68">V68</span>
+          <span class="V69">V69</span>
+          <span class="V70">V70</span>
+          <span class="V71">V71</span>
+          <span class="V72">V72</span>
+          <span class="V73">V73</span>
+          <span class="V74">V74</span>
+        </div>
         <!-- 阀门 -->
         <div class="tap">
           <div class="tap-col_1">
@@ -408,6 +426,97 @@ const data = [{
         top: 696px;
         left: 990px;
       }
+    }
+  }
+
+  .points {
+    >span {
+      position: absolute;
+    }
+
+    .C8 {
+      top: 294px;
+      left: 38px;
+    }
+
+    .C9 {
+      top: 323px;
+      left: 38px;
+    }
+
+    .V32 {
+      top: 675px;
+      left: 350px;
+    }
+
+    .V55 {
+      top: 613px;
+      left: 350px;
+    }
+
+    .V61 {
+      top: 186px;
+      left: 618px;
+    }
+
+    .V62 {
+      top: 245px;
+      left: 794px;
+    }
+
+    .V63 {
+      top: 402px; 
+      left: 854px;
+    }
+
+    .V64 {
+      top: 474px;
+      left: 471px;
+    }
+
+    .V66 {
+      top: 645px;
+      left: 350px;
+    }
+
+    .V67 {
+      top: 51px;
+      left: 52px;
+    }
+
+    .V68 {
+      top: 87px;
+      left: 52px;
+    }
+
+    .V69 {
+      top: 654px;
+      left: 843px;
+    }
+
+    .V70  {
+      top: 621px;      
+      left: 1097px;
+    }
+
+    .V71 {
+      top: 583px;      
+      left: 1110px;
+    }
+
+    .V72 {
+      top: 494px;
+      left:773px;
+    }
+
+    .V73 {
+      top: 494px;
+      left: 704px;
+    }
+
+    .V74 {
+      top: 126px;
+      left:745px;
     }
   }
 }
