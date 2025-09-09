@@ -89,6 +89,7 @@ onUnmounted(() => {
 }
 
 .flow-line {
+  width: 356px;
   height: 160px;
   margin-top: 10px;
 }

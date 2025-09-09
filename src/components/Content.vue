@@ -43,10 +43,8 @@
     z-index: 5;
     height: 100%;
     padding: 2px;
-    overflow: auto;
+    overflow: hidden;
     background: repeating-linear-gradient(180deg, transparent 0, transparent 15px, rgb(220 222 225 / 30%), rgb(220 222 225 / 30%) 16px);
-
-    @include scroll;
   }
 }
 </style>

@@ -3,11 +3,13 @@ import AlarmPane from './right/AlarmPane.vue';
 import FlowPane from './right/FlowPane.vue';
 import Pressure from './right/Pressure.vue';
 import WavePane from './right/WavePane.vue';
-
+import MainNishui from './Main.vue';
 </script>
 
 <template>
-  <Content><el-text>泥水环流</el-text></Content>
+  <Content>
+    <MainNishui />
+  </Content>
   <RightPane>
     <FlowPane />
     <Pressure />

@@ -20,7 +20,7 @@
 
 @forward 'element-plus/theme-chalk/src/dark/css-vars.scss';
 
-@mixin scroll($width: 6px, $thumb_bg: #cadae377, $track_bg: transparent) {
+@mixin scroll($width: 6px, $thumb_bg: #cadae38a, $track_bg: transparent) {
   &::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: $width;

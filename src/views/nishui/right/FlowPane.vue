@@ -4,7 +4,7 @@ import { getLineOption } from '~/assets/constant';
 
 const active = ref(0)
 
-const chartRef = ref(null);
+const chartRef = ref<null | HTMLElement>(null);
 const dimensions = ['时间', '实测', '预测', '上限', '下限'];
 const option = getLineOption('m 3/h', dimensions);
 
@@ -63,6 +63,7 @@ onUnmounted(() => {
 }
 
 .flow-line {
+  width: 356px;
   height: 160px;
   margin-top: 10px;
 }

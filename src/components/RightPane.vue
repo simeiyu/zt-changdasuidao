@@ -9,6 +9,7 @@
 <style lang="scss" scoped>
 .right {
   margin-left: 16px;
+  flex: 0 0 360px;
   width: 360px;
   height: 100%;
   padding: 2px;
