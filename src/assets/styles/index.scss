@@ -38,3 +38,13 @@
     background-color: $track_bg;
   }
 }
+
+@mixin valueBox($width: 50px) {  
+    width: $width;
+    height: 20px;
+    padding: 0 5px;
+    border: 1px solid #C2C7CC;
+    line-height: 18px;
+    text-align: center;
+    background-color: #EFF7FF;
+}
