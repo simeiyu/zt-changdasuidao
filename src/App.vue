@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const route = useRoute()
 </script>
 
 <template>
@@ -8,7 +9,7 @@
       <SideMenu ref="menuRef" />
     </el-aside>
     <el-container>
-      <el-header class="breadcrumb">Header</el-header>
+      <el-header class="breadcrumb">{{ route.name }}</el-header>
       <el-main class="main-wrapper">
         <router-view></router-view>
       </el-main>
