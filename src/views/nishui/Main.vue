@@ -324,6 +324,28 @@ const data = [{
             <div class="out-unit">bar</div>
           </div>
         </div>
+        <!-- 左侧第1列 -->
+        <div class="out-group small" style="top: 108px; left: 5px;">
+          <div class="out-title">右中上</div>          
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 194px; left: 5px;">
+          <div class="out-title">左中上</div>          
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 250px; left: 5px;">
+          <div class="out-title">中心冲刷支路</div>          
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
         <!-- 左侧第2列 -->
         <div class="out-group small" style="top: 116px; left: 320px;">          
           <div class="out-row">
@@ -366,6 +388,50 @@ const data = [{
           </div>
         </div>
         <div class="out-group" style="top: 428px; left: 228px;">逆冲洗管</div>      
+        <!-- 左侧第3列 -->
+        <div class="out-group" style="top: 166px; left: 442px;">          
+          <div class="out-row">
+            <div class="out-label">流量</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">压力</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 245px; left: 442px;">          
+          <div class="out-row">
+            <div class="out-label">转速</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">rpm</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">电流</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">A密封</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 338px; left: 442px;">          
+          <div class="out-row">
+            <div class="out-label">压力</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 394px; left: 442px;">          
+          <div class="out-row">
+            <div class="out-label">转速</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">rpm</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">电流</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">A密封</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
