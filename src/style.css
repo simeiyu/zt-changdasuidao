@@ -101,3 +101,11 @@ body {
 .mg-r-xl {
   margin-right: 16px;
 }
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left!important;
+}

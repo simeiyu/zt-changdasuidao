@@ -10,6 +10,8 @@ const updateScale = () => {
   }
 }
 
+useResizeObserver(wrapper, updateScale)
+
 onMounted(() => {
   updateScale();
 })
@@ -137,60 +139,233 @@ const data = [{
           <span class="P1_1">P1.1</span>
           <span class="P2_1">P2.1</span>
         </div>
+        <!-- 顶部 -->
         <div class="sup">
           <div class="sup-item">
-            <div class="sup-title">泥水仓压力</div>
-            <div class="sup-row">
-              <div class="sup-label">顶左</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
+            <div class="out-title">泥水仓压力</div>
+            <div class="out-row">
+              <div class="out-label">顶左</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
             </div>
-            <div class="sup-row">
-              <div class="sup-label">顶右</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
-            </div>
-          </div>
-          <div class="sup-item">
-            <div class="sup-title"></div>
-            <div class="sup-row">
-              <div class="sup-label">气垫仓压力</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
-            </div>
-            <div class="sup-row">
-              <div class="sup-label">中心仓压力</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
+            <div class="out-row">
+              <div class="out-label">顶右</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
             </div>
           </div>
           <div class="sup-item">
-            <div class="sup-title">保压管线压力</div>
-            <div class="sup-row">
-              <div class="sup-label">1#</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
+            <div class="out-title"></div>
+            <div class="out-row">
+              <div class="out-label">气垫仓压力</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
             </div>
-            <div class="sup-row">
-              <div class="sup-label">2#</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
-            </div>
-            <div class="sup-row">
-              <div class="sup-label">保压主管路</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">bar</div>
+            <div class="out-row">
+              <div class="out-label">中心仓压力</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
             </div>
           </div>
           <div class="sup-item">
-            <div class="sup-title"></div>
-            <div class="sup-row">
-              <div class="sup-label">雷达液位</div>
-              <div class="sup-value">0.0</div>
-              <div class="sup-unit">m</div>
+            <div class="out-title">保压管线压力</div>
+            <div class="out-row">
+              <div class="out-label">1#</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
+            </div>
+            <div class="out-row">
+              <div class="out-label">2#</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
+            </div>
+            <div class="out-row">
+              <div class="out-label">保压主管路</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">bar</div>
+            </div>
+          </div>
+          <div class="sup-item">
+            <div class="out-title"></div>
+            <div class="out-row">
+              <div class="out-label">雷达液位</div>
+              <div class="out-value">0.0</div>
+              <div class="out-unit">m</div>
             </div>
           </div>
         </div>
+        <div class="out-group" style="top: 40px; left: 488px;">
+          <div class="out-row">
+            <div class="out-label">双仓压差</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">泥仓压差</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <!-- 进浆 排浆 -->
+        <div class="out-group" style="top: 70px; left: 880px;">
+          <div class="out-row">
+            <div class="out-label"> </div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">进浆</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">℃ </div>
+          </div>
+          <div class="out-row">
+            <div class="out-label"> </div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 98px; left: 1030px;">
+          <div class="out-title text-left">进浆密度</div>
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">T/m 3</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 222px; left: 980px;">
+          <div class="out-row">
+            <div class="out-label">进</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+          <div class="out-row"> 
+            <div class="out-label">出</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 222px; left: 1090px;">
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">rpm</div>
+          </div>
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">A</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 308px; left: 1038px;">
+          <div class="out-row">
+            <div class="out-label">给定</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">%</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 360px; left: 880px;">
+          <div class="out-row">
+            <div class="out-label"> </div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">排浆</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">℃ </div>
+          </div>
+          <div class="out-row">
+            <div class="out-label"> </div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 374px; left: 1008px;">
+          <div class="out-row">
+            <div class="out-label">排浆密度</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">T/m 3</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">排浆SY</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 620px; left: 866px;">
+          <div class="out-row">
+            <div class="out-label">转速</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">rpm</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 656px; left: 866px;">
+          <div class="out-row">
+            <div class="out-label">电流</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">A密封 </div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 620px; left: 990px;">
+          <div class="out-row">
+            <div class="out-label">给定</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">%</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 656px; left: 990px;">
+          <div class="out-row">
+            <div class="out-label">冲洗</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 708px; left: 866px;">          
+          <div class="out-row">
+            <div class="out-label">压力</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">bar</div>
+          </div>
+        </div>
+        <!-- 左侧第2列 -->
+        <div class="out-group small" style="top: 116px; left: 320px;">          
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group small" style="top: 204px; left: 320px;">          
+          <div class="out-row">
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 336px; left: 247px;">          
+          <div class="out-row">
+            <div class="out-label">泥浆门冲刷</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 457px; left: 247px;">          
+          <div class="out-row">
+            <div class="out-label">格栅后冲刷</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 498px; left: 247px;">          
+          <div class="out-row">
+            <div class="out-label">搅拌器冲刷</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 574px; left: 235px;">          
+          <div class="out-row">
+            <div class="out-label">泥浆门后冲刷</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 428px; left: 228px;">逆冲洗管</div>      
       </div>
     </div>
   </div>
@@ -229,6 +404,47 @@ const data = [{
   min-width: 392px;
 }
 
+.out {
+    &-title {
+      height: 18px;
+      line-height: 18px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    &-row {
+      margin: 3px 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;      
+    }
+
+    &-label {
+      padding: 0 8px;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    &-value {
+      @include valueBox;
+    }
+
+    &-unit {
+      width: 3.2em;
+      padding: 0 5px;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    &-group {
+      position: absolute;
+
+      .out-label, .out-unit {
+        padding: 0 4px;
+      }
+    }
+}
+
 .configuration {
   position: relative;
   width: 100%;
@@ -251,41 +467,12 @@ const data = [{
     &-item {
       &:first-child {
         margin-left: 40px;
-        margin-right: 12px;
+        margin-right: 0;
       }
 
       &:nth-child(3) {
-        margin-left: 16px;
-        margin-right: 32px;
+        margin-right: 16px;
       }
-    }
-
-    &-title {
-      height: 18px;
-      line-height: 18px;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    &-row {
-      margin: 3px 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;      
-    }
-
-    &-label {
-      padding: 0 8px;
-      line-height: 20px;
-    }
-
-    &-value {
-      @include valueBox;
-    }
-
-    &-unit {
-      padding: 0 5px;
-      line-height: 20px;
     }
   }
 
@@ -513,5 +700,6 @@ const data = [{
       left:745px;
     }
   }
+
 }
 </style>
