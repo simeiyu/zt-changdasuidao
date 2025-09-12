@@ -178,8 +178,8 @@ const getTransform = (i: number, j=0) => {
     &::before {
       content: '';
       position: absolute;
-      top: $size;
-      left: $size;
+      top: $size - 1px;
+      left: $size - 1px;
       width: ($radius - $size) * 2;
       height: ($radius - $size) * 2;
       border-radius: 50%;
@@ -190,8 +190,8 @@ const getTransform = (i: number, j=0) => {
     &::after {
       content: '';
       position: absolute;
-      top: $size + $space;
-      left: $size + $space;
+      top: $size + $space - 1px;
+      left: $size + $space - 1px;
       width: ($radius - $size - $space) * 2;
       height: ($radius - $size - $space) * 2;
       border-radius: 50%;

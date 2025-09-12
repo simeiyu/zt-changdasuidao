@@ -1,0 +1,243 @@
+<script setup lang="ts">
+const scale = ref(1);
+const MinWidth = 720;
+const wrapper = ref<HTMLDivElement | null>(null);
+
+const updateScale = () => {
+  if (wrapper.value) {
+    const wrapperWidth = wrapper.value.offsetWidth;
+    const _scale = wrapperWidth / MinWidth;
+    scale.value = _scale > 1 ? 1 : _scale;
+  }
+}
+
+useResizeObserver(wrapper, updateScale)
+
+onMounted(() => {
+  updateScale();
+})
+
+const runStatusData = [{
+  label: '刀盘转速',
+  value: '0.00',
+  unit: 'rpm'
+}, {
+  label: '刀盘方向',
+  value: '停止',
+  status: 'danger'
+}, {
+  label: '推进状态',
+  value: '停止',
+  status: 'danger'
+}, {
+  label: '泥浆状态',
+  value: '逆洗',
+  status: 'success'
+}]
+
+const group = [
+  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
+  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+
+const R = 220;
+
+const getTransform = (i: number, offset=0) => {
+  const angle = 360 / group[0].length * i - 90;
+  const radius = R + offset;
+  const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
+  const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
+  return `translate(${x}px, ${y}px)`
+}
+
+const pathes = new Array(6).fill(1)
+
+const getPathTransform = (i: number) => {
+  const angle = 360 / pathes.length * i;
+  const radius = R + 76;
+  const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
+  const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
+  return `translate(${x}px, ${y}px) rotate(${angle}deg)`
+}
+</script>
+
+<template>
+  <div class="wrapper" ref="wrapper">
+    <div class="main" :style="{ transform: `scale(${scale})` }">
+      <RunStatus class="status" :data="runStatusData" />
+      <div class="dunwei">
+        <div class="plate">
+            <div class="daopan">
+              <div class="group">
+                <span class="led" v-for="(value, j) in group[2]"
+                  :key="j" :class="value ? 'led-green' : 'led-red'"
+                  :style="{ transform: getTransform(j) }"></span>
+                <span v-for="(item, i) in group[0]"
+                  class="label"
+                  :key="item"
+                  :style="{ transform: getTransform(i, 32) }"
+                >{{ item }}</span>
+                <span class="value" v-for="(value, j) in group[1]"
+                  :key="j"
+                  :style="{ transform: getTransform(j, 80) }">{{ value }}</span>
+              </div>
+              <span class="path" v-for="(value, i) in pathes"
+                :key="i"
+                :style="{ transform: getPathTransform(i) }"></span>
+            </div>
+        </div>
+      </div>
+      <div class="configuration"></div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden auto;
+  
+  @include scroll;
+}
+
+.main {
+  position: relative;
+  min-width: 720px;
+  width: 100%;
+  min-height: 100%;
+  padding: 142px 24px 24px;
+  transform-origin: 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.status {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 30%;
+  min-width: 380px;
+}
+
+// .info {
+//   position: absolute;
+//   top: 14px;
+//   right: 14px;
+//   width: 302px;
+// }
+
+
+@mixin plate($el, $radius: 359px, $size: 124px, $bgColor: #ADC6E2) {
+  $bd: 4px;
+
+  #{$el} {
+    position: relative;
+    width: $radius * 2;
+    height: $radius * 2;
+    padding: $size + 21px;
+    border-radius: 50%;
+    border: $bd solid #9DD0FF;
+    background: linear-gradient(180deg, #AFC3DA 0%, #DFEEFF 19%, #A9BCD6 52%, #94A4BC 76%, #7F8A9E 100%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: $size - $bd;
+      left: $size - $bd;
+      width: ($radius - $size) * 2;
+      height: ($radius - $size) * 2;
+      border-radius: 50%;
+      border: 4px solid #ADC6E2;
+      background-color: #ECF5FF; 
+    }
+  }
+}
+
+.dunwei {
+  margin-right: 10%;
+
+  @include plate('.plate');
+
+}
+
+.daopan {
+  position: relative;
+  height: 100%;
+  background-image: url('~/assets/images/dunwei.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center
+}
+
+.label {
+  position: absolute;
+  display: block;
+
+  // top: -4px;
+  left: -4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #DCDEE1;
+  font-size: var(--el-font-size-base);
+  text-align: center;
+  line-height: 28px;
+  background-color: #FFF;
+  transform-origin: center center;
+  box-shadow: inset 0 4px 10px 0 #B6CDE1;
+}
+
+.value {
+  position: absolute;
+  display: block;
+
+  // top: -2px;
+  left: -16px;
+
+  @include valueBox(52px, 24px);
+}
+
+.led {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  
+  &-red {
+    background-image: url('~/assets/images/led_red.png');
+  }
+  
+  &-green {
+    background-image: url('~/assets/images/led_green.svg');
+  }
+}
+
+.path {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  margin-left: -60px;
+  width: 120px;
+  height: 1px;
+  background-color: #0084FF;
+}
+
+.group {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  margin-top: -10px;
+  margin-left: -10px;
+  width: 20px;
+  height: 20px;
+}
+</style>  

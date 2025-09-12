@@ -23,7 +23,7 @@ const routes = [
     name: '推进系统',
     path: '/tuijin',
     icon: 'tuijin',
-    component: () => import('./views/nishui/index.vue')
+    component: () => import('./views/tuijin/index.vue')
   },
   {
     name: '刀盘系统',
