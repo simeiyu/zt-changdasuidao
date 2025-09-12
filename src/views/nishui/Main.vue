@@ -139,6 +139,26 @@ const data = [{
           <span class="P1_1">P1.1</span>
           <span class="P2_1">P2.1</span>
         </div>
+        <div class="tag" style="top: 684px; left: 554px;">采石箱</div>
+        <!-- 信号灯 -->
+        <div class="state-group">
+          <div class="state"><span class="led led-red"></span>5.6m</div>
+          <div class="state" style="margin-top: 22px;"><span class="led led-red"></span>4.8m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>4.0m</div>
+          <div class="state" style="margin-top: 50px;"><span class="led led-red"></span>3.2m</div>
+          <div class="state" style="margin-top: 60px;"><span class="led led-green"></span>2.4m</div>
+          <div class="state" style="margin-top: 40px;"><span class="led led-red"></span>1.6m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>0.8m</div>
+          <div class="state" style="margin-top: 22px;"><span class="led led-red"></span>0m</div>
+          <div class="state" style="margin-top: 26px;"><span class="led led-red"></span>-0.7m</div>
+          <div class="state" style="margin-top: 20px;"><span class="led led-red"></span>-1.4m</div>
+          <div class="state" style="margin-top: 24px;"><span class="led led-red"></span>-2.1m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-2.8m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-3.5m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-4.2m</div>
+          <div class="state" style="margin-top: 14px;"><span class="led led-red"></span>-4.2m</div>
+          <div class="state" style="margin-top: 12px;"><span class="led led-red"></span>-5.6m</div>
+        </div>
         <!-- 顶部 -->
         <div class="sup">
           <div class="sup-item">
@@ -413,6 +433,18 @@ const data = [{
             <div class="out-unit">A密封</div>
           </div>
         </div>
+        <div class="out-group" style="top: 245px; left: 564px;">
+          <div class="out-row">
+            <div class="out-label">给定</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">%</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">冲洗</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
+          </div>
+        </div>
         <div class="out-group" style="top: 338px; left: 442px;">          
           <div class="out-row">
             <div class="out-label">压力</div>
@@ -430,6 +462,22 @@ const data = [{
             <div class="out-label">电流</div>
             <div class="out-value">0.0</div>
             <div class="out-unit">A密封</div>
+          </div>
+        </div>
+        <div class="out-group" style="top: 368px; left: 564px;">          
+          <div class="out-row mg-b">
+            <div class="out-value">过滤器</div>
+            <div class="out-unit"></div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">给定</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">%</div>
+          </div>
+          <div class="out-row">
+            <div class="out-label">冲洗</div>
+            <div class="out-value">0.0</div>
+            <div class="out-unit">m 3/h</div>
           </div>
         </div>
       </div>
@@ -493,6 +541,8 @@ const data = [{
 
     &-value {
       @include valueBox;
+
+      white-space: nowrap;
     }
 
     &-unit {
@@ -509,6 +559,45 @@ const data = [{
         padding: 0 4px;
       }
     }
+}
+
+.tag {
+  position: absolute;
+
+  @include valueBox(52px, 28px);
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  font-size: var(--el-font-size-small);
+  line-height: 1;
+
+  &-group {
+    position: absolute;
+    top: 26px;
+    left: 124px;
+  }
+}
+
+.led {
+  display: inline-block;
+  margin-right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-position: center center;
+  background-repeat: no-repeat;
+  
+  &-red {
+    background-image: url('~/assets/images/led_red.svg');
+  }
+  
+  &-green {
+    background-image: url('~/assets/images/led_green.svg');
+  }
 }
 
 .configuration {
