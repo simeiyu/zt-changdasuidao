@@ -39,7 +39,7 @@ const props = defineProps<{
   &-header {
     position: relative;
     height: 36px;
-    margin: 6px 14px;
+    margin: 4px 14px 0;
     padding: 8px 22px;
     line-height: 19px;
 
@@ -70,6 +70,10 @@ const props = defineProps<{
   display: flex;
   margin-top: 8px;
   padding: 0 6px;
+
+  .pane-header + & {
+    margin-top: 0;
+  }
 }
 
 .tbody {
