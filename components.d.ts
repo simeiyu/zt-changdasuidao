@@ -8,6 +8,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AlarmPane: typeof import('./src/components/AlarmPane.vue')['default']
+    ChartLines: typeof import('./src/components/ChartLines.vue')['default']
+    ChartWave: typeof import('./src/components/ChartWave.vue')['default']
     Content: typeof import('./src/components/Content.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']

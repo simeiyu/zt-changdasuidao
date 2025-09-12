@@ -17,7 +17,7 @@ const routes = [
     name: '盾尾密封',
     path: '/dunwei',
     icon: 'dunwei',
-    component: () => import('./views/nishui/index.vue')
+    component: () => import('./views/dunwei/index.vue')
   },
   {
     name: '推进系统',

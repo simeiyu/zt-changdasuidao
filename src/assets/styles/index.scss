@@ -39,12 +39,12 @@
   }
 }
 
-@mixin valueBox($width: 50px, $height: 20px) {  
+@mixin valueBox($width: 50px, $height: 20px, $bgColor: #EFF7FF, $borderColor: #C2C7CC) {  
     width: $width;
     height: $height;
     padding: 0 5px;
-    border: 1px solid #C2C7CC;
+    border: 1px solid $borderColor;
     line-height: $height - 2px;
     text-align: center;
-    background-color: #EFF7FF;
+    background-color: $bgColor;
 }

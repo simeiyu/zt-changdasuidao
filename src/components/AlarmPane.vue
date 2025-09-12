@@ -1,38 +1,30 @@
 <script setup lang="ts">
 
-const tableData = [
-  {
-    time: '2022-01-01 12:00:00',
-    content: '设备1报警'
+const props = defineProps({
+  height: {
+    type: Number,
+    default: 128
   },
-  {
-    time: '2022-01-01 12:00:00',
-    content: '设备2报警'
+  data: {
+    type: Array<{time: string, content: string}>,
+    default: () => []
   },
-  {
-    time: '2022-01-01 12:00:00',
-    content: '设备3报警'
+  collects: {
+    type: Array<{label: string, value: number}>,
+    default: () => []
   }
-]
+})
 </script>
 
 <template>
   <div class="alarm">
-    <div class="alarm-item">
-      <span class="alarm-value">2</span>
-      <span class="alarm-label">今日报警</span>
-    </div>
-    <div class="alarm-item">
-      <span class="alarm-value">3</span>
-      <span class="alarm-label">本月报警</span>
-    </div>
-    <div class="alarm-item">
-      <span class="alarm-value">5</span>
-      <span class="alarm-label">累计报警</span>
+    <div class="alarm-item" v-for="item in collects" key="item.label">
+      <span class="alarm-value">{{ item.value }}</span>
+      <span class="alarm-label">{{ item.label }}</span>
     </div>
   </div>
   <div class="alarm-table">
-    <el-table :data="tableData" size="small" height="128">
+    <el-table :data="data" size="small" :height="height">
       <el-table-column label="序号" type="index" width="44" />
       <el-table-column prop="time" label="时间" width="146" />
       <el-table-column prop="content" label="报警内容" />

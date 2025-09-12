@@ -6,7 +6,8 @@ const wrapper = ref<HTMLDivElement | null>(null);
 const updateScale = () => {
   if (wrapper.value) {
     const wrapperWidth = wrapper.value.offsetWidth;
-    scale.value = wrapperWidth / MinWidth;
+    const _scale = wrapperWidth / MinWidth;
+    scale.value = _scale > 1 ? 1 : _scale;
   }
 }
 

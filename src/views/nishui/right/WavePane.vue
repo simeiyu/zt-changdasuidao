@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import * as echarts from 'echarts';
-import { waveOption } from '~/assets/constant';
 
 const active = ref(0)
 const type = ref('排浆泵振动')
-
-const chartRef = ref(null);
 
 const options = [
   {
@@ -40,37 +36,20 @@ const data = [
   ['12:07', 150, 130, 170, 20],
 ]
 
-let myChart: echarts.ECharts;
-function onResize() {
-  myChart.resize();
-}
 
 const handleChange = (value: any) => {
   console.log(value)
 }
 
 onMounted(() => {
-  if (chartRef.value) {
-    myChart = echarts.init(chartRef.value);
-    // myChart.setOption(waveOption);
-    myChart.setOption({
-      ...waveOption,
-      dataset: {
-        dimensions: ['时间', '实测', '预测', '上限', '下限'],
-        source: data
-      }
-    })
-    window.addEventListener('resize',  onResize, false);
-  }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize',  onResize, false);
-  myChart.dispose();
 });
 </script>
 
 <template>
+  <Title1 class="mg-t-sm mg-l mg-r">振动分析</Title1>
   <div class="wave-top">
     <el-radio-group v-model="active" @change="handleChange">
       <el-radio-button :value="0">时域波形</el-radio-button>
@@ -78,7 +57,7 @@ onUnmounted(() => {
     </el-radio-group>
     <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" />
   </div>
-  <div class="flow-line" ref="chartRef"></div>
+  <ChartWave :data="data" />
 </template>
 
 <style scoped lang="scss">
@@ -86,11 +65,5 @@ onUnmounted(() => {
   margin: 12px 8px 0;
   display: flex;
   justify-content: space-between;
-}
-
-.flow-line {
-  width: 356px;
-  height: 160px;
-  margin-top: 10px;
 }
 </style>

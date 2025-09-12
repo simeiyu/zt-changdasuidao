@@ -1,4 +1,4 @@
-export const getLineOption = (name: string, dimensions: string[]) => {
+export const getLineOption = (name: string) => {
   return {
     grid: {
       top: 24,
@@ -90,9 +90,6 @@ export const getLineOption = (name: string, dimensions: string[]) => {
           type: "dashed",
         },
       },
-    },
-    dataset: {
-      dimensions,
     },
     color: ["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"],
     series: [

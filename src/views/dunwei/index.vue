@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import MainNishui from './Main.vue';
-import Right from './right/index.vue'
+import MainC from './Main.vue';
+import Right from './Right.vue'
 </script>
 
 <template>
   <Content>
-    <MainNishui />
+    <MainC />
   </Content>
   <RightPane>
     <Right />
