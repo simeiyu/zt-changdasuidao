@@ -59,7 +59,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .chart-line {
-  width: 356px;
+  width: 344px;
   height: 160px;
   margin-top: 10px;
 }

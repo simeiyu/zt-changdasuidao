@@ -9,7 +9,7 @@
 <style lang="scss" scoped>
 .main {
   position: relative;
-  width: calc(100% - 312px);
+  width: calc(100% - 382px);
   height: 100%;
   flex: 1;
   border-radius: 2px;

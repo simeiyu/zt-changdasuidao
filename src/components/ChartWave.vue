@@ -49,7 +49,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .chart-wave {
-  width: 356px;
+  width: 344px;
   height: 160px;
   margin-top: 10px;
 }
