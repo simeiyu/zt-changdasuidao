@@ -69,13 +69,14 @@ const list = [{label: '1#', status: 1}, {label: '2#', status: 1}, {label: '3#', 
   <ul class="list">
     <li v-for="item in list" :key="item.label" class="list-item" :class="{'warn': item.status === 0}">{{ item.label }}</li>
   </ul>
+  <ChartRadar />
   <Title1 class="mg-t mg-l mg-r mg-b-lg">振动分析</Title1>
-  <div class="right-box mg-b-lg">
+  <div class="right-box">
     <el-radio-group v-model="active" @change="handleChange">
       <el-radio-button :value="0">时域波形</el-radio-button>
       <el-radio-button :value="1">频域波形</el-radio-button>
     </el-radio-group>
-    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" />
+    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 100px;" />
   </div>
   <ChartWave :data="source1" unit="m 3/h"/>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>

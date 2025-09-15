@@ -111,7 +111,7 @@ body {
 }
 
 .flex {
-  display: flex;
+  display: flex!important;
 }
 
 .flex-end {

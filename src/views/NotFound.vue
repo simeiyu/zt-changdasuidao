@@ -1,16 +1,11 @@
-<script setup lang="ts">
-// import MainC from './Main.vue';
-// import Right from './Right.vue'
-</script>
-
 <template>
-  <div class="overview">
-    <el-empty description="暂无数据" />
+  <div class="not-found">
+    <el-empty description="没有找到页面" :image-size="200" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.overview {
+.not-found {
   width: 100%;
   height: 100%;
   display: flex;

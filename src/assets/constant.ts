@@ -171,7 +171,7 @@ export const getLineOption = (name: string) => {
 export const waveOption = {
   grid: {
     top: 24,
-    left: 8,
+    left: 16,
     right: 16,
     bottom: 16,
     containLabel: true,
@@ -255,3 +255,67 @@ export const waveOption = {
     smooth: false,
   },
 };
+
+export const radarOption = {
+    radar: {
+      center: ["50%", "50%"],
+      radius: "74%",
+      axisNameGap: 8,
+      axisName: {
+        color: "#1C2126",
+        fontSize: 12,
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#C2C7CC",
+        }
+      },
+      splitLine: {
+        show: false,
+        lineStyle: {
+          color: "#D8D8D8",
+          width: 2,
+        }
+      },
+      splitArea: {
+        areaStyle: {
+          color: "#4AA8FF",
+          opacity: 0.1
+        }
+      },
+      indicator: [{text: '1', max: 1}, {text: '2', max: 1}, {text: '3', max: 1}, {text: '4', max: 1}, {text: '5', max: 1}, {text: '6', max: 1}, {text: '7', max: 1}, {text: '8', max: 1}, {text: '9', max: 1}, {text: '10', max: 1}, {text: '11', max: 1}, {text: '12', max: 1}, {text: '13', max: 1}, {text: '14', max: 1}]
+    },
+    series: [{
+      name: 'xxx',
+      type: 'radar',
+      symbolSize: 0,
+      lineStyle: {
+        color: '#C2C7CC',
+        width: 2,
+      },
+      data: [
+        {
+          value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          name: 'A'
+        },
+      ]
+    }, {
+      name: 'xxx',
+      type: 'radar',
+      symbolSize: 0,
+      lineStyle: {
+        color: '#0084FF',
+        width: 2,
+      },
+      areaStyle: {
+        color: '#2EA1FF',
+        opacity: 0.4,
+      },
+      data: [
+        {
+          value: [0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+          name: 'Allocated Budget'
+        }
+      ]
+    }],
+}
