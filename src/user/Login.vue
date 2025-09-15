@@ -46,7 +46,7 @@ const rules = {
           <span>9225</span>
         </el-col>
       </el-form-item>
-      <el-form-item style="margin-top: 48px;">
+      <el-form-item style="margin-top: 40px;">
         <el-button type="primary" size="large" class="login-button">登录</el-button>
       </el-form-item>
     </el-form>
@@ -59,7 +59,7 @@ const rules = {
     margin-bottom: 10%;
     margin-left: 40%;
     width: 540px;
-    padding: 52px 48px;
+    padding: 52px 48px 60px;
     border-radius: 16px;
     background: rgba($color: #fff, $alpha: 80%);
   }
