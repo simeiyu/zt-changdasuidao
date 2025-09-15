@@ -67,26 +67,8 @@ const getPathTransform = (i: number) => {
     <div class="main" :style="{ transform: `scale(${scale})` }">
       <RunStatus class="status" :data="runStatusData" />
       <div class="dunwei">
-        <div class="plate">
-            <div class="daopan">
-              <div class="group">
-                <span class="led" v-for="(value, j) in group[2]"
-                  :key="j" :class="value ? 'led-green' : 'led-red'"
-                  :style="{ transform: getTransform(j) }"></span>
-                <span v-for="(item, i) in group[0]"
-                  class="label"
-                  :key="item"
-                  :style="{ transform: getTransform(i, 32) }"
-                >{{ item }}</span>
-                <span class="value" v-for="(value, j) in group[1]"
-                  :key="j"
-                  :style="{ transform: getTransform(j, 80) }">{{ value }}</span>
-              </div>
-              <span class="path" v-for="(value, i) in pathes"
-                :key="i"
-                :style="{ transform: getPathTransform(i) }"></span>
-            </div>
-        </div>
+        
+        
       </div>
     </div>
   </div>
@@ -148,86 +130,17 @@ const getPathTransform = (i: number) => {
   width: 718px;
   height: 718px;
 
-  @include plate('.plate');
+  // @include plate('.plate');
 
 }
 
 .daopan {
   position: relative;
   height: 100%;
-  background-image: url('~/assets/images/dunwei.png');
+
+  // background-image: url('~/assets/images/dunwei.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center
-}
-
-.label {
-  position: absolute;
-  display: block;
-  left: -4px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid #DCDEE1;
-  font-size: var(--el-font-size-base);
-  text-align: center;
-  line-height: 28px;
-  background-color: #FFF;
-  transform-origin: center center;
-  box-shadow: inset 0 4px 10px 0 #B6CDE1;
-}
-
-.value {
-  position: absolute; 
-  top: -35px;
-  left: -35px;
-  width: 70px;
-  height: 70px;
-  padding: 5px;
-  border-radius: 50%;
-  border: 1px solid #ECF5FF;
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 58px;
-  text-align: center;
-  color: #fff;
-  background: linear-gradient(180deg, #AFC3DA 0%, #DFEEFF 19%, #A9BCD6 52%, #94A4BC 76%, #7F8A9E 100%);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 5px; 
-    left: 5px;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: linear-gradient(168deg, #0084FF 8%, #378DF7 24%, #67AEFA 48%, #61A9F5 71%, #1E70FF 91%);
-    border-image: linear-gradient(175deg, #A8CBFF 4%, #156BC6 96%);
-    box-shadow: inset 0 4px 10px 0 rgb(0 0 0 / 30%);
-
-    .red & {
-      background: linear-gradient(168deg, #F00 8%, #F73737 24%, #FA6767 51%, #F56161 71%, #FF1E1E 91%);
-      border-image: linear-gradient(175deg, #FFA8A8 4%, #C61515 96%) ;
-    }
-  }
-}
-
-.led {
-  position: absolute;
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  
-  &-red {
-    background-image: url('~/assets/images/led_red.png');
-  }
-  
-  &-green {
-    background-image: url('~/assets/images/led_green.svg');
-  }
 }
 </style>  

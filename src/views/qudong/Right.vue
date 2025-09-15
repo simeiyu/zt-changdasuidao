@@ -2,7 +2,7 @@
 import AlarmPane from '~/components/AlarmPane.vue';
 
 const active = ref(0);
-const type = ref('前腔-1#压力测');
+const type = ref('1#电机');
 const options = [
   {
     value: 'Option1',
@@ -46,8 +46,6 @@ const tableData = [
   }
 ]
 
-const dimensions = ['时间', '实测', '预测', '上限', '下限'];
-
 const source1 = [
   ['12:00', 120, 130],
   ['12:01', 80, 80],
@@ -62,19 +60,48 @@ const source1 = [
 const handleChange = (value: any) => {
   console.log(value)
 }
+
+const list = [{label: '1#', status: 1}, {label: '2#', status: 1}, {label: '3#', status: 1}, {label: '4#', status: 0}, {label: '5#', status: 1}, {label: '6#', status: 1}, {label: '7#', status: 1}, {label: '8#', status: 1}, {label: '9#', status: 1}, {label: '10#', status: 1}, {label: '11#', status: 1}, {label: '12#', status: 1}, {label: '13#', status: 1}, {label: '14#', status: 1}]
 </script>
 
 <template>  
-  <Title1 class="mg-t mg-l mg-r mg-b-lg">推进组压力</Title1>
-  <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h"/>  
-  <div class="right-box mg-t mg-b-lg">
+  <Title1 class="mg-t mg-l mg-r">电机健康状态</Title1>
+  <ul class="list">
+    <li v-for="item in list" :key="item.label" class="list-item" :class="{'warn': item.status === 0}">{{ item.label }}</li>
+  </ul>
+  <Title1 class="mg-t mg-l mg-r mg-b-lg">振动分析</Title1>
+  <div class="right-box mg-b-lg">
     <el-radio-group v-model="active" @change="handleChange">
-      <el-radio-button :value="0">进浆流量</el-radio-button>
-      <el-radio-button :value="1">排浆流量</el-radio-button>
+      <el-radio-button :value="0">时域波形</el-radio-button>
+      <el-radio-button :value="1">频域波形</el-radio-button>
     </el-radio-group>
     <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" />
   </div>
-  <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h"/>
+  <ChartWave :data="source1" unit="m 3/h"/>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
-  <AlarmPane :collects="collects" :data="tableData" :height="200" />
+  <AlarmPane :collects="collects" :data="tableData" />
 </template>
+
+<style lang="scss" scoped>
+.list {
+  margin: 12px 0;
+  padding: 0 4px;
+  list-style: none;
+
+  &-item {
+    display: inline-block;
+    width: 58px;
+    height: 49px;
+    padding: 24px 4px 4px;
+    margin: 0 4px 4px;
+    text-align: center;
+    color: var(--el-text-color-secondary);
+    background: #F4F6F9 url('~/assets/images/dianji@2x.png') no-repeat center 8px;
+    background-size: 16.5px 12px;
+
+    &.warn {
+      background-image: url('~/assets/images/dianji_warn@2x.png');
+    }
+  }
+}
+</style>

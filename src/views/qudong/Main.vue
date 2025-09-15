@@ -35,12 +35,79 @@ const runStatusData = [{
   status: 'success'
 }]
 
-const values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14']
+const source: Array<{label: string, value: string, unit?: string}> = [
+  {label: '刀盘转速', value: '', unit: 'rpm'},
+  {label: '给定频率', value: '', unit: 'Hz'},
+  {label: '主驱动冷却流量', value: '', unit: 'm 3/h'},
+  {label: '当前阶段', value: ''},
+  {label: '当前堵转次数', value: ''},
+  {label: '总堵转次数', value: ''},
+  {label: '当前堵转次数', value: '', unit: 'rpm'},
+]
+
+const data: Array<{id: string, title: string, details: Array<{label: string, value: number, unit?: string}>}> = [
+  {
+    id: '1',
+    title: '1#电机运行参数',
+    details: [
+      {label: '电流', value: 202, unit: 'A'},
+      {label: '温度', value: 54, unit: '℃'},
+      {label: '扭矩', value: 1045, unit: 'Nm'},
+      {label: '峭度:', value: 5.2 },
+      {label: '转速', value: 1280, unit: 'rpm'},
+      {label: '磨损', value: 3.5}
+    ]
+  }, {
+    id: '2',
+    title: '2#电机运行参数',
+    details: [
+      {label: '电流', value: 202, unit: 'A'},
+      {label: '温度', value: 54, unit: '℃'},
+      {label: '扭矩', value: 1045, unit: 'Nm'},
+      {label: '峭度:', value: 5.2 },
+      {label: '转速', value: 1280, unit: 'rpm'},
+      {label: '磨损', value: 3.5}
+    ]
+  }, {
+    id: '3',
+    title: '4#电机运行参数',
+    details: [
+      {label: '电流', value: 202, unit: 'A'},
+      {label: '温度', value: 54, unit: '℃'},
+      {label: '扭矩', value: 1045, unit: 'Nm'},
+      {label: '峭度:', value: 5.2 },
+      {label: '转速', value: 1280, unit: 'rpm'},
+      {label: '磨损', value: 3.5}
+    ]
+  }, {
+    id: '4',
+    title: '4#电机运行参数',
+    details: [
+      {label: '电流', value: 202, unit: 'A'},
+      {label: '温度', value: 54, unit: '℃'},
+      {label: '扭矩', value: 1045, unit: 'Nm'},
+      {label: '峭度:', value: 5.2 },
+      {label: '转速', value: 1280, unit: 'rpm'},
+      {label: '磨损', value: 3.5}
+    ]
+  }, {
+    id: '5',
+    title: '5#电机运行参数',
+    details: [
+      {label: '电流', value: 202, unit: 'A'},
+      {label: '温度', value: 54, unit: '℃'},
+      {label: '扭矩', value: 1045, unit: 'Nm'},
+      {label: '峭度:', value: 5.2 },
+      {label: '转速', value: 1280, unit: 'rpm'},
+      {label: '磨损', value: 3.5}
+    ]
+  }
+]
 
 const R = 220;
 
 const getTransform = (i: number, offset=0) => {
-  const angle = 360 / values.length * i - 90;
+  const angle = 360 / data.length * i - 90;
   const radius = R + offset;
   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
@@ -56,9 +123,30 @@ const getTransform = (i: number, offset=0) => {
         <div class="plate">
             <div class="daopan">
               <div class="group">
-                <div class="value" v-for="(value, j) in values" :class="{'red': value === '4'}"
-                  :key="j"
-                  :style="{ transform: getTransform(j, 80) }"><span>{{ value }}</span></div>
+                <el-popover :width="260" popper-class="pop" :show-arrow="false" v-for="(item, index) in data" :title="item.title" :key="item.id">
+                  <template #reference>
+                    <div class="value" :class="{'red': item.id === '4'}"
+                      :key="index"
+                      :style="{ transform: getTransform(index, 80) }"
+                    ><span>{{ item.id }}</span></div>
+                  </template>
+                  <template #default>
+                    <ul class="list">
+                      <li v-for="(d, i) in item.details" :key="i">
+                        <span>{{ d.label }}</span>
+                        <span>{{ d.value }}</span>
+                        <span>{{ d.unit }}</span>
+                      </li>
+                    </ul>
+                  </template>
+                </el-popover>
+              </div>
+              <div class="box">
+                <div class="box-row" v-for="item in source" :key="item.label">
+                  <label class="box-label">{{ item.label }}</label>
+                  <span class="box-value">{{ item.value }}</span>
+                  <span class="box-unit" v-if="item.unit">{{ item.unit }}</span>
+                </div>
               </div>
             </div>
         </div>
@@ -179,6 +267,74 @@ const getTransform = (i: number, offset=0) => {
   > span {
     position: relative;
     z-index: 3;
+  }
+}
+
+.box {
+  position: absolute;
+  top: 60px;
+  left: 49px;
+  width: 322px;
+  padding: 6px;
+  border-radius: 2px;
+  border: 1px solid rgb(194 199 204 / 90%);
+  background-color: rgb(255 255 255 / 90%);
+
+  &-row {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;    
+  }
+
+  &-label {
+    display: inline-block;
+    width: 156px;
+    padding: 0 16px;
+    line-height: 20px;
+    text-align: right;
+  }
+
+  &-unit {
+    display: inline-block;
+    padding: 0 8px;
+    font-size: var(--el-font-size-small);
+    line-height: 20px;
+  }
+
+  &-value {
+    @include valueBox(80px, 20px, #fff, #C2C7CC);
+  }
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  >li {
+    padding: 4px 0;
+    flex: 0 0 50%;
+    white-space: nowrap;
+
+    &:nth-child(2n) {
+      padding-left: 8px;
+    }
+
+    >span {
+      display: inline-block;
+
+      &:first-child {
+        margin-right: 8px;
+
+        &::after {
+          content: ':';
+        }
+      }
+
+      &:nth-child(2) {
+        width: 3em;
+      }
+    }
   }
 }
 </style>  

@@ -132,3 +132,9 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.pop .el-popover__title {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--el-border-color-light);
+}

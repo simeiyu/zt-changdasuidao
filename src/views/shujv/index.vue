@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import MainC from './Main.vue';
-import Right from './Right.vue'
+// import MainC from './Main.vue';
+// import Right from './Right.vue'
 </script>
 
 <template>
   <Content>
-    <MainC />
+    <el-empty description="暂无数据" />
   </Content>
   <RightPane>
-    <Right />
+    <el-empty description="暂无数据" />
   </RightPane>
 </template>
