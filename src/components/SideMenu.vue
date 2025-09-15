@@ -52,6 +52,10 @@ onMounted(() => {
   active.value = route.path
 })
 
+onBeforeRouteUpdate((to) => {
+  active.value = to.path
+})
+
 </script>
 
 <template>

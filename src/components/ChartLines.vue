@@ -14,6 +14,10 @@ const props = defineProps({
   unit: {
     type: String,
     default: ''
+  },
+  height: {
+    type: Number,
+    default: 160
   }
 })
 const chartRef = ref<null | HTMLElement>(null);
@@ -54,13 +58,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="chart-line" ref="chartRef"></div>
+  <div class="chart-line" ref="chartRef" :style="{height: `${height}px`}"></div>
 </template>
 
 <style scoped lang="scss">
 .chart-line {
   width: 344px;
-  height: 160px;
   margin-top: 10px;
 }
 </style>

@@ -29,19 +29,19 @@ const routes = [
     name: '刀盘系统',
     path: '/daopan',
     icon: 'daopan',
-    component: () => import('./views/nishui/index.vue')
+    component: () => import('./views/daopan/index.vue')
   },
   {
     name: '驱动电机',
     path: '/qudong',
     icon: 'qudong',
-    component: () => import('./views/nishui/index.vue')
+    component: () => import('./views/qudong/index.vue')
   },
   {
     name: '数据查询',
     path: '/shujv',
     icon: 'shujv',
-    component: () => import('./views/nishui/index.vue')
+    component: () => import('./views/shujv/index.vue')
   },
 ]
 

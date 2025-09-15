@@ -103,9 +103,7 @@ const getPathTransform = (i: number) => {
 
 .main {
   position: relative;
-  min-width: 766px;
   width: 100%;
-  min-height: 872px;
   padding: 130px 24px 24px;
   transform-origin: 0 0;
 }
@@ -146,9 +144,9 @@ const getPathTransform = (i: number) => {
 }
 
 .dunwei {
-  display: flex;
-  justify-content: center;
-  min-width: 518px;
+  margin: auto;
+  width: 718px;
+  height: 718px;
 
   @include plate('.plate');
 
@@ -166,8 +164,6 @@ const getPathTransform = (i: number) => {
 .label {
   position: absolute;
   display: block;
-
-  // top: -4px;
   left: -4px;
   width: 28px;
   height: 28px;
@@ -182,13 +178,38 @@ const getPathTransform = (i: number) => {
 }
 
 .value {
-  position: absolute;
-  display: block;
+  position: absolute; 
+  top: -35px;
+  left: -35px;
+  width: 70px;
+  height: 70px;
+  padding: 5px;
+  border-radius: 50%;
+  border: 1px solid #ECF5FF;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 58px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(180deg, #AFC3DA 0%, #DFEEFF 19%, #A9BCD6 52%, #94A4BC 76%, #7F8A9E 100%);
 
-  // top: -2px;
-  left: -16px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 5px; 
+    left: 5px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(168deg, #0084FF 8%, #378DF7 24%, #67AEFA 48%, #61A9F5 71%, #1E70FF 91%);
+    border-image: linear-gradient(175deg, #A8CBFF 4%, #156BC6 96%);
+    box-shadow: inset 0 4px 10px 0 rgb(0 0 0 / 30%);
 
-  @include valueBox(52px, 24px);
+    .red & {
+      background: linear-gradient(168deg, #F00 8%, #F73737 24%, #FA6767 51%, #F56161 71%, #FF1E1E 91%);
+      border-image: linear-gradient(175deg, #FFA8A8 4%, #C61515 96%) ;
+    }
+  }
 }
 
 .led {
@@ -208,28 +229,5 @@ const getPathTransform = (i: number) => {
   &-green {
     background-image: url('~/assets/images/led_green.svg');
   }
-}
-
-.path {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 0;
-  margin-left: -60px;
-  width: 120px;
-  height: 1px;
-  background-color: #0084FF;
-}
-
-.group {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  margin-top: -10px;
-  margin-left: -10px;
-  width: 20px;
-  height: 20px;
 }
 </style>  

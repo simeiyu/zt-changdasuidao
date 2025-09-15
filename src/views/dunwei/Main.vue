@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const scale = ref(1);
-const MinWidth = 720;
+const MinWidth = 766;
 const wrapper = ref<HTMLDivElement | null>(null);
 
 const updateScale = () => {
@@ -125,7 +125,6 @@ const getTransform = (i: number, j=0) => {
           </div>
         </div>
       </div>
-      <div class="configuration"></div>
     </div>
   </div>
 </template>
@@ -141,10 +140,10 @@ const getTransform = (i: number, j=0) => {
 
 .main {
   position: relative;
-  min-width: 720px;
+  min-width: 766px;
   width: 100%;
   min-height: 100%;
-  padding: 162px 24px 24px;
+  padding: 200px 48px 24px 24px;
   transform-origin: 0 0;
   display: flex;
   justify-content: center;
@@ -206,8 +205,6 @@ $size: 35px;
 $space: 7px;
 
 .dunwei {
-  margin-right: 10%;
-
   @include plate('.plate_1');
   @include plate('.plate_2', $radius - ($size + $space) * 2);
   @include plate('.plate_3', $radius - ($size + $space) * 4, $size, $space, #B6CDE1);

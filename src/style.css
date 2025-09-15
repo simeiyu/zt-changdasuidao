@@ -117,3 +117,18 @@ body {
 .flex-end {
   justify-content: flex-end!important;
 }
+
+.justify-between {
+  justify-content: space-between!important;
+}
+
+.align-center {
+  align-items: center!important;
+}
+
+.right-box {
+  padding: 0 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
