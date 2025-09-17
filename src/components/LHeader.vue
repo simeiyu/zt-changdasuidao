@@ -7,7 +7,7 @@ const router = useRouter()
   <header class="header-container">
     <div class="logo-container">
       <a class="logo" v-on:click="router.push('/')"><img src="../assets/logo.svg" alt="中铁装备" /></a>
-      <h1 class="title">长大隧道同步推拼智能盾构运行状态智能检测与诊断系统边缘端(崇太隧道)</h1>
+      <div class="title"><img src="../assets/images/title.png" alt="长大隧道同步推拼智能盾构运行状态智能检测与诊断系统边缘端(崇太隧道)" /></div>
     </div>
     <div class="header-right">
       <el-badge :value="3" class="bell">
@@ -53,7 +53,24 @@ $color-white: #fff;
   }
 
   .title {
-    font-size: 16px;
+    padding-left: 10px;
+    height: 21px;
+    position: relative;
+
+    &::before {
+      content: '';
+      width: 1px;
+      height: 20px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #fff;
+    }
+
+    img {
+      max-width: 720px;
+      height: 100%;
+    }
   }
 }
 
