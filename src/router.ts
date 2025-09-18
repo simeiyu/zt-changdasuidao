@@ -56,7 +56,14 @@ const routes = [
     children: [{
       path: '/login',
       component: () => import('./user/Login.vue'),
-    }]
+    }, {
+      path: '/userInfo',
+      component: () => import('./user/UserInfo.vue'),
+    }, {
+      path: '/admin',
+      component: () => import('./user/index.vue'),
+    }
+    ]
   }, {
     path: '/:pathMatch(.*)*',
     component: () => import('./views/NotFound.vue')

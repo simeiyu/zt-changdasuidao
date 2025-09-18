@@ -1,6 +1,20 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+const handleCommand = (command: string) => {
+  switch (command) {
+    case 'admin':
+      router.push('/admin')
+      break
+    case 'userInfo':
+      router.push('/userInfo')
+      break
+    case 'logout':
+      router.push('/login')
+      break
+  }
+}
 </script>
 
 <template>
@@ -13,7 +27,7 @@ const router = useRouter()
       <el-badge :value="3" class="bell">
         <i-ep-bell-filled />
       </el-badge>
-      <el-dropdown class="user-profile">
+      <el-dropdown class="user-profile" @command="handleCommand">
         <span class="el-dropdown-link">
           <span class="username">Admin</span>
           <el-avatar :size="32" fit="contain" src="avatar.png" />
@@ -23,7 +37,9 @@ const router = useRouter()
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item command="admin">后台管理</el-dropdown-item>
+            <el-dropdown-item command="userInfo">个人信息</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
