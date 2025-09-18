@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus';
+import { useUserStore } from '~/store/user';
 
+const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -23,10 +25,10 @@ const rules = {
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   try {
-    const values = await formEl.validate()
-    
-    const redirect = route.query.redirect || '/'
-    // router.push(redirect)
+    const validated = await formEl.validate()
+    const logined = userStore.login(state)
+    const redirect = (route.query.redirect as string) || '/'
+    router.push(redirect)
   } catch (error) {
     console.log(error)
   }

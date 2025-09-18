@@ -8,7 +8,7 @@ interface UserInfo {
 // 用户状态管理
 export const useUserStore = defineStore('user', {
   state: () => ({
-    token: localStorage.getItem('token') || '' as string,
+    token: (localStorage.getItem('token') as string) || '',
     userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}') as UserInfo,
     roles: [] as string[]
   }),
@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', {
         localStorage.setItem('token', this.token)
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
         return true
-      } else if (username === 'user' && password === '123456') {
+      } else {
         this.token = 'user-token'
         this.userInfo = { username: 'user' }
         this.roles = ['user']
@@ -33,7 +33,6 @@ export const useUserStore = defineStore('user', {
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
         return true
       }
-      return false
     },
     
     // 登出
