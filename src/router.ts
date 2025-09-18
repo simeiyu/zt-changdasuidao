@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useUserStore } from './store/user'
 
 const routes = [
   {
@@ -62,7 +63,47 @@ const routes = [
   },
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+// 白名单，不需要登录就可以访问
+const whiteList = ['/login', '/403']
+
+router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore()
+  const hasToken = userStore.token
+  
+  if (hasToken) {
+    if (to.path === '/login') {
+      // 如果已登录，重定向到首页
+      next({ path: '/' })
+    } else {
+      try {
+        // 判断用户信息是否已获取
+        if (userStore.roles.length === 0) {
+          // 获取用户信息
+          const { roles } = await userStore.getUserInfo()          
+          // 确保路由已添加完成
+          next({ ...to, replace: true })
+        } else {
+          next()
+        }
+      } catch (error) {
+        // 出错则重置token并重定向到登录页
+        await userStore.logout()
+        next(`/login?redirect=${to.path}`)
+      }
+    }
+  } else {
+    if (whiteList.includes(to.path)) {
+      // 在免登录白名单中，直接进入
+      next()
+    } else {
+      // 其他没有访问权限的页面被重定向到登录页面
+      next(`/login?redirect=${to.path}`)
+    }
+  }
+})
+
+export default router

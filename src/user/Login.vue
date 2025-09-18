@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import type { FormInstance } from 'element-plus';
+
+const router = useRouter()
+const route = useRoute()
+
+const formRef = ref<FormInstance>()
 const state = reactive({
   username: '',
   password: '',
@@ -13,12 +19,25 @@ const rules = {
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   invalidateCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 }
+
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  try {
+    const values = await formEl.validate()
+    
+    const redirect = route.query.redirect || '/'
+    // router.push(redirect)
+  } catch (error) {
+    console.log(error)
+  }
+    
+}
 </script>
 
 <template>
   <div class="login-container">
     <div class="login-title">欢迎登录</div>
-    <el-form v-model="state" :rules="rules" label-width="88px" size="large" label-suffix=":" style="width: 92%;">
+    <el-form ref="formRef" :model="state" :rules="rules" label-width="88px" size="large" label-suffix=":" style="width: 92%;">
       <el-form-item label="用户名" prop="username">
         <el-input size="large" v-model="state.username" placeholder="请输入用户名">
           <template #prefix>
@@ -47,7 +66,7 @@ const rules = {
         </el-col>
       </el-form-item>
       <el-form-item style="margin-top: 40px;">
-        <el-button type="primary" size="large" class="login-button">登录</el-button>
+        <el-button type="primary" size="large" class="login-button" @click="onSubmit(formRef)">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
