@@ -91,10 +91,22 @@ $color-white: #fff;
 }
 
 .header-right {
+  display: flex;
+  align-items: center;
   padding: 16px 24px;
 
   :deep(.el-badge__content) {
+    display: inline-block;
+    min-width: var(--el-badge-size);
     border: none;
+    text-align: center;
+    line-height: 15px;
+  }
+
+  .bell {
+    line-height: 0;
+
+    --el-badge-padding: 0;
   }
 
   .user-profile {

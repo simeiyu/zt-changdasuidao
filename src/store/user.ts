@@ -54,6 +54,15 @@ export const useUserStore = defineStore('user', {
         this.roles = ['user']
       }
       return { roles: this.roles }
+    },
+
+    // 用户信息
+    async changeUserInfo(userInfo: UserInfo) {
+      console.log(userInfo)
+    },
+    // 修改密码
+    async changePassword(oldPassword: string, newPassword: string ) {
+      console.log(oldPassword, newPassword)
     }
   }
 })
