@@ -4,7 +4,6 @@ import { useUserStore } from './store/user'
 const routes = [
   {
     path: '/',
-    redirect: '/overview',
     component: () => import('./views/index.vue'),
     children: [
       {
@@ -48,6 +47,11 @@ const routes = [
         path: '/shujv',
         icon: 'shujv',
         component: () => import('./views/shujv/index.vue')
+      }, {
+        path: '/admin',
+        name: '用户管理',
+        icon: 'admin',
+        component: () => import('./views/management/index.vue'),
       }
     ]
   }, {
@@ -59,11 +63,7 @@ const routes = [
     }, {
       path: '/userInfo',
       component: () => import('./user/UserInfo.vue'),
-    }, {
-      path: '/admin',
-      component: () => import('./user/index.vue'),
-    }
-    ]
+    }]
   }, {
     path: '/:pathMatch(.*)*',
     component: () => import('./views/NotFound.vue')

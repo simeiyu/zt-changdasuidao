@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useUserStore } from '~/store/user'
+
+const userStore = useUserStore()
 const router = useRouter()
 
 const handleCommand = (command: string) => {
@@ -37,7 +40,7 @@ const handleCommand = (command: string) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="admin">后台管理</el-dropdown-item>
+            <el-dropdown-item v-if="userStore.roles.includes('admin')" command="admin">后台管理</el-dropdown-item>
             <el-dropdown-item command="userInfo">个人信息</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>

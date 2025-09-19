@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useUserStore } from '~/store/user'
+
+const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -66,6 +69,10 @@ onBeforeRouteUpdate((to) => {
     <el-menu-item v-for="item in menu" :key="item.icon" :index="item.path" :route="item.path">
       <el-icon class="side-icon"><SvgIcon :icon-name="item.icon" /></el-icon>
       <template #title>{{ item.title }}</template>
+    </el-menu-item>
+    <el-menu-item v-if="userStore.roles.includes('admin')" key="admin" index="/admin">
+      <el-icon class="side-icon"><i-ep-user-filled /></el-icon>
+      <template #title>用户管理</template>
     </el-menu-item>
   </el-menu>
 </template>
