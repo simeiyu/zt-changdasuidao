@@ -1,15 +1,49 @@
 <script setup lang="ts">
+import type { FormInstance } from 'element-plus'
+
 const search = ref('')
 const state = reactive({
   currentPage: 1,
   pageSize: 10,
   total: 100,
 })
+const dialogVisible = ref(false)
+const formRef = ref<FormInstance>()
+const form = reactive({
+  username: '',
+  name: '',
+  password: '',
+  loginable: true,
+  permissions: [],
+})
 const data = ref([
   { username: 'admin', name: '管理员', permissions: '管理员' },
   { username: 'username1', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
   { username: 'username2', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
 ])
+const permissionOptions: { key: string; label: string }[] = [{
+  key: 'nishui',
+  label: '泥水环流',
+}, {
+  label: '盾尾密封',
+  key: 'dunwei',
+},
+{
+  label: '推进系统',
+  key: 'tuijin',
+},
+{
+  label: '刀盘系统',
+  key: 'daopan',
+},
+{
+  label: '驱动电机',
+  key: 'qudong',
+},
+{
+  label: '数据查询',
+  key: 'shujv',
+}]
 
 const handleSizeChange = (val: number) => {
   console.log(`${val} items per page`)
@@ -17,6 +51,16 @@ const handleSizeChange = (val: number) => {
 
 const handleCurrentChange = (val: number) => {
   console.log(`current page: ${val}`)
+}
+
+const handleConfirm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  try {
+    const validated = await formEl.validate()
+
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 
@@ -31,7 +75,7 @@ const handleCurrentChange = (val: number) => {
           </template>
         </el-input>
       </div>
-      <el-button type="primary">新增
+      <el-button type="primary" @click="dialogVisible = true">新增
         <template #icon>
           <i-ep-plus />
         </template>
@@ -42,7 +86,7 @@ const handleCurrentChange = (val: number) => {
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="name" label="姓名" />
         <el-table-column prop="permissions" label="权限" width="460px" />
-        <el-table-column label="操作" width="120px" >
+        <el-table-column label="操作" width="120px">
           <template #default>
             <el-button type="primary" link>编辑</el-button>
             <el-button type="danger" link>删除</el-button>
@@ -51,19 +95,39 @@ const handleCurrentChange = (val: number) => {
       </el-table>
     </div>
     <div class="card-footer">
-      <el-pagination
-        background
-        layout="total, prev, pager, next, sizes"
-        :page-sizes="[10, 20, 50, 100]"
-        :total="state.total"
-        v-model:current-page="state.currentPage"
-        v-model:page-size="state.pageSize"
-        :hide-on-single-page="false"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+      <el-pagination background layout="total, prev, pager, next, sizes" :page-sizes="[10, 20, 50, 100]"
+        :total="state.total" v-model:current-page="state.currentPage" v-model:page-size="state.pageSize"
+        :hide-on-single-page="false" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
   </div>
+
+  <el-dialog v-model="dialogVisible" title="新增用户" width="1000">
+    <el-form class="add-user" ref="formRef" :model="form" label-width="120px">
+      <el-form-item label="用户名">
+        <el-input v-model="form.username" />
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input v-model="form.password" />
+      </el-form-item>
+      <el-form-item label="姓名">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="登录权限">
+        <el-switch v-model="form.loginable" />
+      </el-form-item>
+      <el-form-item label="权限">
+        <el-transfer v-model="form.permissions" :data="permissionOptions" :titles="['未选', '已选']" :button-texts="['移除', '添加']" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleConfirm(formRef)">
+          提交
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -107,6 +171,23 @@ const handleCurrentChange = (val: number) => {
   &-footer {
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+.add-user {
+  :deep(.el-transfer) {
+    --el-transfer-panel-body-height: 200px;
+  }
+
+  :deep(.el-transfer__buttons) {
+    padding: 0 16px;
+    display: inline-flex;
+    flex-direction: column-reverse;
+
+  }
+
+  :deep(.el-transfer__button:nth-child(2)) {
+    margin: 0 0 10px;
   }
 }
 </style>
