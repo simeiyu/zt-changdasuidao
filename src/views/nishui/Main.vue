@@ -149,7 +149,7 @@ const data = [{
           <div class="state" style="margin-top: 50px;"><span class="led led-red"></span>3.2m</div>
           <div class="state" style="margin-top: 60px;"><span class="led led-green"></span>2.4m</div>
           <div class="state" style="margin-top: 40px;"><span class="led led-red"></span>1.6m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>0.8m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led led-yellow"></span>0.8m</div>
           <div class="state" style="margin-top: 22px;"><span class="led led-red"></span>0m</div>
           <div class="state" style="margin-top: 26px;"><span class="led led-red"></span>-0.7m</div>
           <div class="state" style="margin-top: 20px;"><span class="led led-red"></span>-1.4m</div>
@@ -498,7 +498,8 @@ const data = [{
 .nishui {
   position: relative;
   min-width: 1204px;
-  min-height: 100%;
+
+  // min-height: 100%;
   padding: 196px 16px 12px;
   transform-origin: 0 0;
 }
@@ -589,16 +590,20 @@ const data = [{
   height: 14px;
   border-radius: 50%;
   background-color: #fff;
-  background-position: center center;
+  background-position: center 33%;
   background-repeat: no-repeat;
   background-size: 120% 120%;
   
   &-red {
-    background-image: url('~/assets/images/led_red.png');
+    background-image: url('~/assets/images/led_red@4x.png');
   }
   
   &-green {
-    background-image: url('~/assets/images/led_green.png');
+    background-image: url('~/assets/images/led_green@4x.png');
+  }
+  
+  &-yellow {
+    background-image: url('~/assets/images/led_yellow@4x.png');
   }
 }
 
