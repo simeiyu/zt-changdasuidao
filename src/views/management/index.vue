@@ -7,6 +7,8 @@ const state = reactive({
   pageSize: 10,
   total: 100,
 })
+const loading = ref(false)
+const confirmLoading = ref(false)
 const delVisible = ref(false)
 const delItem = ref(null)
 const dialogVisible = ref(false)
@@ -71,6 +73,14 @@ const permissionOptions: { key: string; label: string }[] = [{
   key: 'shujv',
 }]
 
+const update = () => {
+  loading.value = true
+  console.log('search: ', search.value)
+  setTimeout(() => {
+    loading.value = false
+  }, 3000)
+}
+
 const handleSizeChange = (val: number) => {
   console.log(`${val} items per page`)
 }
@@ -109,9 +119,9 @@ const onDelete = () => {
     <div class="card-header">
       <div class="search">
         <label>搜索：</label>
-        <el-input placeholder="请输入关键词" v-model="search" style="width: 366px;">
+        <el-input placeholder="请输入关键词" v-model="search" style="width: 366px;" clearable @clear="update" @keyup.enter="update">
           <template #suffix>
-            <el-icon><i-ep-search /></el-icon>
+            <el-icon class="search-icon" @click="update"><i-ep-search /></el-icon>
           </template>
         </el-input>
       </div>
@@ -122,7 +132,7 @@ const onDelete = () => {
       </el-button>
     </div>
     <div class="card-body">
-      <el-table :data="data" row-key="username" stripe height="100%">
+      <el-table :data="data" row-key="username" stripe height="100%" v-loading="loading">
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="name" label="姓名" />
         <el-table-column prop="permissions" label="权限" width="460px" />
@@ -162,7 +172,7 @@ const onDelete = () => {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleConfirm(formRef)">
+        <el-button type="primary" @click="handleConfirm(formRef)" :disabled="confirmLoading">
           提交
         </el-button>
       </div>
@@ -177,7 +187,7 @@ const onDelete = () => {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="delVisible = false">取消</el-button>
-        <el-button type="danger" @click="onDelete">
+        <el-button type="danger" @click="onDelete" :disabled="confirmLoading">
           删除
         </el-button>
       </div>
@@ -215,6 +225,14 @@ const onDelete = () => {
   .search {
     display: flex;
     align-items: center;
+
+    &-icon {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--el-color-primary);
+      }
+    }
 
     label {
       margin-left: 4px;
