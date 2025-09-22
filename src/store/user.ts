@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: (localStorage.getItem('token') as string) || '',
     userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}') as UserInfo,
-    roles: [] as string[]
+    roles: ['admin'] as string[]
   }),
   actions: {
     // 登录

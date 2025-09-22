@@ -7,6 +7,8 @@ const state = reactive({
   pageSize: 10,
   total: 100,
 })
+const delVisible = ref(false)
+const delItem = ref(null)
 const dialogVisible = ref(false)
 const formRef = ref<FormInstance>()
 const form = reactive({
@@ -91,6 +93,15 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
     console.log(error)
   }
 }
+
+const handleDelete = (item: any) => {
+  delItem.value = item
+  delVisible.value = true
+}
+
+const onDelete = () => {
+  console.log('delItem: ', delItem.value)
+}
 </script>
 
 <template>
@@ -118,7 +129,7 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
         <el-table-column label="操作" width="120px">
           <template #default="{row}">
             <el-button type="primary" link @click="openDailog(row)">编辑</el-button>
-            <el-button type="danger" link>删除</el-button>
+            <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -130,7 +141,7 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
     </div>
   </div>
 
-  <el-dialog v-model="dialogVisible" title="新增用户" width="720" custom-class="add-user-dialog">
+  <el-dialog v-model="dialogVisible" title="新增用户" width="720">
     <el-form class="add-user" ref="formRef" :model="form" label-width="100px" style="width: 88%;">
       <el-form-item label="用户名">
         <el-input v-model="form.username" />
@@ -153,6 +164,21 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleConfirm(formRef)">
           提交
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+  <el-dialog v-model="delVisible" title="提示" width="420">
+    <div class="dialog-content">
+      <el-icon class="dialog-icon"><i-ep-warning /></el-icon>
+      <el-text>删除后不可恢复，是否确认删除？</el-text>
+    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="delVisible = false">取消</el-button>
+        <el-button type="danger" @click="onDelete">
+          删除
         </el-button>
       </div>
     </template>
@@ -217,6 +243,19 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
 
   :deep(.el-transfer__button:nth-child(2)) {
     margin: 0 0 10px;
+  }
+}
+
+.dialog-content {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  padding-bottom: 16px;
+
+  .dialog-icon {
+    margin-right: 10px;
+    font-size: 24px;
+    color: var(--el-color-warning);
   }
 }
 </style>

@@ -14,7 +14,7 @@ const handleCommand = (command: string) => {
       router.push('/userInfo')
       break
     case 'logout':
-      router.push('/login')
+      userStore.logout()
       break
   }
 }

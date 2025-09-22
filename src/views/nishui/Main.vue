@@ -591,13 +591,14 @@ const data = [{
   background-color: #fff;
   background-position: center center;
   background-repeat: no-repeat;
+  background-size: 120% 120%;
   
   &-red {
-    background-image: url('~/assets/images/led_red.svg');
+    background-image: url('~/assets/images/led_red.png');
   }
   
   &-green {
-    background-image: url('~/assets/images/led_green.svg');
+    background-image: url('~/assets/images/led_green.png');
   }
 }
 
