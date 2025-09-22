@@ -138,3 +138,22 @@ body {
   padding-bottom: 8px;
   border-bottom: 1px solid var(--el-border-color-light);
 }
+
+.el-dialog {
+  .el-dialog__header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--el-border-color-light);
+
+    --el-dialog-title-font-size: var(--el-font-size-medium);
+  }
+
+  .el-dialog__body {
+    padding-top: 24px;
+  }
+
+  .el-dialog__headerbtn {
+    width: 52px;
+    height: 52px;
+    padding-top: 3px;
+  }
+}

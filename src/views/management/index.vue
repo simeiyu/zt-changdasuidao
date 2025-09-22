@@ -20,6 +20,30 @@ const data = ref([
   { username: 'admin', name: '管理员', permissions: '管理员' },
   { username: 'username1', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
   { username: 'username2', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin1', name: '管理员', permissions: '管理员' },
+  { username: 'username11', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username12', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin2', name: '管理员', permissions: '管理员' },
+  { username: 'username21', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username22', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin3', name: '管理员', permissions: '管理员' },
+  { username: 'username31', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username32', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin4', name: '管理员', permissions: '管理员' },
+  { username: 'username41', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username42', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin5', name: '管理员', permissions: '管理员' },
+  { username: 'username51', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username52', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin6', name: '管理员', permissions: '管理员' },
+  { username: 'username61', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username62', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin7', name: '管理员', permissions: '管理员' },
+  { username: 'username71', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username72', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'admin8', name: '管理员', permissions: '管理员' },
+  { username: 'username81', name: '用户1', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
+  { username: 'username82', name: '用户2', permissions: '泥水环流、盾尾密封、推进系统、刀盘系统、驱动电机、数据查询' },
 ])
 const permissionOptions: { key: string; label: string }[] = [{
   key: 'nishui',
@@ -53,6 +77,11 @@ const handleCurrentChange = (val: number) => {
   console.log(`current page: ${val}`)
 }
 
+const openDailog = (item: any) => {
+  dialogVisible.value = true
+  console.log('item: ', item)
+}
+
 const handleConfirm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   try {
@@ -75,20 +104,20 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
           </template>
         </el-input>
       </div>
-      <el-button type="primary" @click="dialogVisible = true">新增
+      <el-button type="primary" @click="openDailog">新增
         <template #icon>
           <i-ep-plus />
         </template>
       </el-button>
     </div>
     <div class="card-body">
-      <el-table :data="data" row-key="username" stripe>
+      <el-table :data="data" row-key="username" stripe height="100%">
         <el-table-column prop="username" label="用户名" />
         <el-table-column prop="name" label="姓名" />
         <el-table-column prop="permissions" label="权限" width="460px" />
         <el-table-column label="操作" width="120px">
-          <template #default>
-            <el-button type="primary" link>编辑</el-button>
+          <template #default="{row}">
+            <el-button type="primary" link @click="openDailog(row)">编辑</el-button>
             <el-button type="danger" link>删除</el-button>
           </template>
         </el-table-column>
@@ -101,8 +130,8 @@ const handleConfirm = async (formEl: FormInstance | undefined) => {
     </div>
   </div>
 
-  <el-dialog v-model="dialogVisible" title="新增用户" width="1000">
-    <el-form class="add-user" ref="formRef" :model="form" label-width="120px">
+  <el-dialog v-model="dialogVisible" title="新增用户" width="720" custom-class="add-user-dialog">
+    <el-form class="add-user" ref="formRef" :model="form" label-width="100px" style="width: 88%;">
       <el-form-item label="用户名">
         <el-input v-model="form.username" />
       </el-form-item>
