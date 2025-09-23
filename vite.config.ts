@@ -66,4 +66,24 @@ export default defineConfig({
       plugins: [postcssPresetEnv()]
     }
   },
+  server: {
+    port: 5173,
+    open: true,
+    proxy: {
+      '/socket.io': {
+          ws: true,
+          changeOrigin: true,
+          target: 'ws://sp9.xuelangyun.com:30080/proxr/80210293/56366/cfe67260943111f08b037984bec80173/8888/',
+            // rewrite: (path) => path.replace(/^\/api/, ""),
+          headers: {
+            Cookie: 'sp9.sid2=s%3AvcNEOYKAH2pH5tpkBWFdgIYX-hLLdtHU.44zxD9L0e%2B%2B6iA1aKrJteNmlN%2BSzhL4r2syukLqjOZU'
+          }
+      }, 
+      // '/api': {
+      //   target: 'http://localhost:3001',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/api/, '')
+      // }
+    }
+  }
 })
