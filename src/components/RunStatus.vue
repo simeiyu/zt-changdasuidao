@@ -25,21 +25,12 @@ onMounted(() => {
   console.log('运行状态 mounted')
   !connected.value && socket.on('connect', () => {
     connected.value = true
-    socket.emit("value:get", {key: "刀盘转速"}, (res: any) => {
-      console.log('刀盘转速', res)
-    })
-    socket.emit("value:get", {key: "刀盘方向"}, (res: any) => {
-      console.log('刀盘方向', res)
-    })
-    socket.emit("value:get", {key: "推进状态"}, (res: any) => {
-      console.log('推进状态', res)
-    })
-    socket.emit("value:get", {key: "泥浆状态"}, (res: any) => {
-      console.log('泥浆状态', res)
+    socket.emit("type:sub", {type: "推进系统"}, (res: any) => {
+      console.log('推进系统', res)
     })
   })
-  socket.on("runstatus", (res: any) => {
-    console.log('运行状态', res)
+  socket.on("type:resp", (res: any) => {
+    console.log('type:resp==>', res)
   })
   socket.on("disconnect", () => {
     connected.value = false
