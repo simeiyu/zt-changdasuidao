@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import socket from '~/socket';
+
+const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 768;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -15,6 +18,23 @@ useResizeObserver(wrapper, updateScale)
 
 onMounted(() => {
   updateScale();
+  socket.on('connect', () => {
+    connected.value = true
+    socket.emit("type:sub", {type: "同步推拼阈值"}, (res: any) => {
+      console.log('同步推拼阈值', res)
+    })
+  })
+  socket.on("type:resp", (res: any) => {
+    console.log('type:resp=同步推拼阈值=>', res)
+    const { type, items } = res
+    if (type === '同步推拼阈值' && items.length) {
+      const zs = items.find(({key}) => key === '刀盘转速')
+      zs && (data[0].value = zs.value)
+    }
+  })
+  socket.on("disconnect", () => {
+    connected.value = false
+  })
 })
 
 // 同步推拼阈值

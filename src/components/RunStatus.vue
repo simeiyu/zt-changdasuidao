@@ -31,6 +31,11 @@ onMounted(() => {
   })
   socket.on("type:resp", (res: any) => {
     console.log('type:resp==>', res)
+    const { type, items } = res
+    if (type === '推进系统' && items.length) {
+      const zs = items.find(({key}) => key === '刀盘转速')
+      zs && (data[0].value = zs.value)
+    }
   })
   socket.on("disconnect", () => {
     connected.value = false

@@ -2,14 +2,14 @@ import { ElMessage } from "element-plus";
 import { io, Socket } from "socket.io-client";
 
 const socket: Socket = io('http://localhost:9093', {
-  autoConnect: false,
-  reconnection: true,
-  reconnectionAttempts: 5,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
-  timeout: 20000,
+  // autoConnect: false,
+  // reconnection: true,
+  // reconnectionAttempts: 5,
+  // reconnectionDelay: 1000,
+  // reconnectionDelayMax: 5000,
+  // timeout: 20000,
   // transports: ["websocket"],
-  // path: "/socket.io",
+  path: "/socket.io",
   // query: {
   //   token: localStorage.getItem("token"),
   // },
