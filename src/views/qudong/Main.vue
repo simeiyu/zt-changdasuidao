@@ -17,24 +17,6 @@ onMounted(() => {
   updateScale();
 })
 
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
-
 const source: Array<{label: string, value: string, unit?: string}> = [
   {label: '刀盘转速', value: '', unit: 'rpm'},
   {label: '给定频率', value: '', unit: 'Hz'},
@@ -118,7 +100,7 @@ const getTransform = (i: number, offset=0) => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <div class="dunwei">
         <div class="plate">
             <div class="daopan">
@@ -141,13 +123,13 @@ const getTransform = (i: number, offset=0) => {
                   </template>
                 </el-popover>
               </div>
-              <div class="box">
+              <!-- <div class="box">
                 <div class="box-row" v-for="item in source" :key="item.label">
                   <label class="box-label">{{ item.label }}</label>
                   <span class="box-value">{{ item.value }}</span>
                   <span class="box-unit" v-if="item.unit">{{ item.unit }}</span>
                 </div>
-              </div>
+              </div> -->
             </div>
         </div>
       </div>
@@ -170,15 +152,6 @@ const getTransform = (i: number, offset=0) => {
   padding: 130px 24px 24px;
   transform-origin: 0 0;
 }
-
-.status {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 30%;
-  min-width: 380px;
-}
-
 
 @mixin plate($el, $radius: 359px, $size: 124px, $bgColor: #ADC6E2) {
   $bd: 4px;

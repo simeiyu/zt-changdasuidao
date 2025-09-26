@@ -1,4 +1,4 @@
-export const getLineOption = (name: string) => {
+export const getLineOption = (dimensions: string[], name: string, color=["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"]) => {
   return {
     grid: {
       top: 24,
@@ -91,15 +91,18 @@ export const getLineOption = (name: string) => {
         },
       },
     },
-    color: ["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"],
-    series: [
-      {
+    dataset: {
+      dimensions: dimensions,
+    },
+    color: color,
+    series: dimensions.slice(1).map((item: string, index: number) => ({
         type: "line",
+        name: item,
         symbol: "circle",
         symbolSize: 8,
         showSymbol: false,
         smooth: true,
-        areaStyle: {
+        areaStyle: index > 0 ? { opacity: 0 } : {
           color: {
             type: "linear",
             x: 0,
@@ -120,51 +123,11 @@ export const getLineOption = (name: string) => {
         },
         encode: {
           x: 0,
-          y: 1,
-          seriesName: 1,
+          y: index + 1,
+          seriesName: index + 1,
         },
-        z: 1,
-      },
-      {
-        type: "line",
-        symbol: "circle",
-        symbolSize: 8,
-        showSymbol: false,
-        smooth: true,
-        encode: {
-          x: 0,
-          y: 2,
-          seriesName: 2,
-        },
-        z: 2,
-      },
-      {
-        type: "line",
-        symbol: "circle",
-        symbolSize: 8,
-        showSymbol: false,
-        smooth: true,
-        encode: {
-          x: 0,
-          y: 3,
-          seriesName: 3,
-        },
-        z: 3,
-      },
-      {
-        type: "line",
-        symbol: "circle",
-        symbolSize: 8,
-        showSymbol: false,
-        smooth: true,
-        encode: {
-          x: 0,
-          y: 4,
-          seriesName: 4,
-        },
-        z: 4,
-      },
-    ],
+    })
+    )
   };
 };
 

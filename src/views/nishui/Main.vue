@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import socket from '~/socket';
+
 const scale = ref(1);
 const MinWidth = 1204;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -15,25 +17,8 @@ useResizeObserver(wrapper, updateScale)
 
 onMounted(() => {
   updateScale();
+  handleSocket()
 })
-
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
 
 const columns = [{
   field: 'label',
@@ -80,12 +65,22 @@ const data = [{
   value2: '',  
 }]
 
+function handleSocket() {
+  socket.on('connect', () => {
+    console.log('connected !!!')
+
+    socket.emit('value:get', { key: 'db40_20' }, (res: any) => {
+      console.log('value:get', res)
+    })
+  })
+}
+
 </script>
 
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="nishui" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <InfoPane class="info" :columns="columns" :data="data" />
       <div class="configuration">
         <!-- 测点 -->
@@ -502,14 +497,6 @@ const data = [{
   // min-height: 100%;
   padding: 196px 16px 12px;
   transform-origin: 0 0;
-}
-
-.status {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 30%;
-  min-width: 380px;
 }
 
 .info {

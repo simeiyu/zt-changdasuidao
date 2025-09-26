@@ -1,18 +1,60 @@
 <script setup lang="ts">
+import socket from '~/socket';
 
-const props = defineProps<{
-  data: Array<{ label: string, value: string, status?: string, unit?: string}>;
-}>()
+const connected = ref(false)
+
+const data = reactive([{
+  label: '刀盘转速',
+  value: '0.00',
+  unit: 'rpm'
+}, {
+  label: '刀盘方向',
+  value: '停止',
+  status: 'danger'
+}, {
+  label: '推进状态',
+  value: '停止',
+  status: 'danger'
+}, {
+  label: '泥浆状态',
+  value: '逆洗',
+  status: 'success'
+}])
+
+onMounted(() => {
+  console.log('运行状态 mounted')
+  !connected.value && socket.on('connect', () => {
+    connected.value = true
+    socket.emit("value:get", {key: "刀盘转速"}, (res: any) => {
+      console.log('刀盘转速', res)
+    })
+    socket.emit("value:get", {key: "刀盘方向"}, (res: any) => {
+      console.log('刀盘方向', res)
+    })
+    socket.emit("value:get", {key: "推进状态"}, (res: any) => {
+      console.log('推进状态', res)
+    })
+    socket.emit("value:get", {key: "泥浆状态"}, (res: any) => {
+      console.log('泥浆状态', res)
+    })
+  })
+  socket.on("runstatus", (res: any) => {
+    console.log('运行状态', res)
+  })
+  socket.on("disconnect", () => {
+    connected.value = false
+  })
+})
 
 </script>
 
 <template>
-  <div class="pane">
+  <div class="pane status">
     <div class="pane-header">
       <span class="pane-title">运行状态</span>
     </div>
     <div class="pane-body">
-      <div v-for="item in props.data" :key="item.label" class="item">
+      <div v-for="item in data" :key="item.label" class="item">
         <div class="item-info">
           <span class="item-value" :class="item.status ? item.status : ''">{{ item.value }}</span>
           <span class="item-unit" v-if="item.unit">{{ item.unit }}</span>
@@ -24,6 +66,14 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
+.status {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 30%;
+  min-width: 380px;
+}
+
 .pane {
   padding: 8px 16px;
   width: 450px;

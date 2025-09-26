@@ -17,34 +17,26 @@ onMounted(() => {
   updateScale();
 })
 
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
-
-const group = [
-  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+// 同步推拼阈值
+const source = [
+  {id: 'db999_648', label: '同步拼装开始最小移', value: '', unit: 'mm'},
+  {id: 'db999_460', label: '同步推拼上限压力', value: '', unit: 'bar'},
+  {id: 'db999_666', label: '同步推拼下限压力', value: '', unit: 'bar'},
 ]
+
+// 推进油缸
+const group = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
+// 推进油缸压力
+const pressure = ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00']
+// 推进油缸状态
+const status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// 推进组位移
+const shifting = [0, 0, 0, 0, 0, 0]
 
 const R = 220;
 
-const getTransform = (i: number, offset=0) => {
-  const angle = 360 / group[0].length * i - 90;
+const getTransform = (i: number, len: number, offset=0) => {
+  const angle = 360 / len * i - 90;
   const radius = R + offset;
   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
@@ -65,26 +57,37 @@ const getPathTransform = (i: number) => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <div class="dunwei">
         <div class="plate">
             <div class="daopan">
               <div class="group">
-                <span class="led" v-for="(value, j) in group[2]"
+                <span class="shifting" v-for="(value, j) in shifting"
+                  :key="j" 
+                  :style="{ transform: getTransform(j, shifting.length, 120) }">{{ value }}</span>
+                <span class="led" v-for="(value, j) in status"
                   :key="j" :class="value ? 'led-green' : 'led-red'"
-                  :style="{ transform: getTransform(j) }"></span>
-                <span v-for="(item, i) in group[0]"
+                  :style="{ transform: getTransform(j, group.length) }"></span>
+                <span v-for="(item, i) in group"
                   class="label"
                   :key="item"
-                  :style="{ transform: getTransform(i, 32) }"
+                  :style="{ transform: getTransform(i, group.length, 32) }"
                 >{{ item }}</span>
-                <span class="value" v-for="(value, j) in group[1]"
+                <span class="value" v-for="(value, j) in pressure"
                   :key="j"
-                  :style="{ transform: getTransform(j, 80) }">{{ value }}</span>
+                  :style="{ transform: getTransform(j, group.length, 80) }">{{ value }}</span>
               </div>
               <span class="path" v-for="(value, i) in pathes"
                 :key="i"
                 :style="{ transform: getPathTransform(i) }"></span>
+
+              <div class="box">
+                <div class="box-row" v-for="item in source">
+                  <span class="box-label">{{ item.label }}</span>
+                  <span class="box-value">{{ item.value }}</span>
+                  <span class="box-unit">{{ item.unit }}</span>
+                </div>
+              </div>
             </div>
         </div>
       </div>
@@ -191,6 +194,15 @@ const getPathTransform = (i: number) => {
   @include valueBox(52px, 24px);
 }
 
+.shifting {
+  position: absolute;
+  display: block;
+  top: -2px;
+  left: -16px;
+
+  @include valueBox(52px, 24px);
+}
+
 .led {
   position: absolute;
   display: block;
@@ -231,5 +243,43 @@ const getPathTransform = (i: number) => {
   margin-left: -10px;
   width: 20px;
   height: 20px;
+}
+
+.box {
+  position: absolute;
+  top: 140px;
+  left: 46px;
+  width: 330px;
+  padding: 6px;
+  border-radius: 2px;
+  border: 1px solid rgb(194 199 204 / 90%);
+  background-color: rgb(255 255 255 / 90%);
+
+  &-row {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;    
+  }
+
+  &-label {
+    display: inline-block;
+    width: 180px;
+    padding: 0 16px;
+    line-height: 20px;
+    text-align: right;
+  }
+
+  &-unit {
+    display: inline-block;
+    padding: 0 8px;
+    font-size: var(--el-font-size-small);
+    line-height: 20px;
+  }
+
+  &-value {
+    display: inline-block;
+
+    @include valueBox(80px, 20px, #fff, #C2C7CC);
+  }
 }
 </style>  

@@ -17,24 +17,6 @@ onMounted(() => {
   updateScale();
 })
 
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
-
 const columns = [{
   field: 'label',
   title: ''
@@ -49,7 +31,7 @@ const columns = [{
   unit: 'bar',
   output: true
 }]
-
+// 盾尾油脂泵
 const data = [{
   label: '1#',
   value1: '',
@@ -72,19 +54,36 @@ const data = [{
   value2: '', 
 }]
 
-const group = [
-  ['1#', '2#', '3#', '4#', '5#', '6#', '7#', '8#', '9#', '10#', '11#', '12#', '13#', '14#', '15#', '16#'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
+/**
+ * 密封腔压力
+ * 从内圈往外圈分别为：盾尾密封前腔、盾尾密封前中腔、盾尾密封后中腔、盾尾密封后腔、盾尾密封预留腔
+ * 最大压力设定：超出最大压力，显示红色
+ */
+const group = ['1#', '2#', '3#', '4#', '5#', '6#', '7#', '8#', '9#', '10#', '11#', '12#', '13#', '14#', '15#', '16#']
+const values = reactive([
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+])
+// 盾尾密封前腔 压力
+// 盾尾密封前中腔 压力
+// 盾尾密封后中腔 压力
+// 盾尾密封后腔 压力
+// 盾尾密封预留腔 压力
+const maxLimits = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 const R = 130;
 
 const getTransform = (i: number, j=0) => {
-  const angle = 360 / group[0].length * i - 90;
+  const angle = 360 / group.length * i - 90;
   const radius = R + j * 42;
   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
@@ -95,7 +94,7 @@ const getTransform = (i: number, j=0) => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <InfoPane class="info" :title="'盾尾油脂泵'" :columns="columns" :data="data" />
       <div class="dunwei">
         <div class="plate_1">
@@ -106,14 +105,14 @@ const getTransform = (i: number, j=0) => {
                   <div class="plate_inner" style="padding: 4px;">
                     <div class="daopan">
                       <div class="group">
-                        <span v-for="(item, i) in group[0]"
+                        <span v-for="(item, i) in group"
                           class="label"
                           :key="item"
                           :style="{ transform: getTransform(i) }"
                         >{{ item }}</span>
-                        <template v-for="(row, i) in group.slice(1)" :key="i">
+                        <template v-for="(row, i) in values" :key="i">
                           <span class="value" v-for="(value, j) in row"
-                            :key="j"
+                            :key="j" :class="{ 'red': value > maxLimits[i][j] }"
                             :style="{ transform: getTransform(j, i+1) }">{{ value }}</span>
                         </template>
                       </div>
@@ -147,14 +146,6 @@ const getTransform = (i: number, j=0) => {
   transform-origin: 0 0;
   display: flex;
   justify-content: center;
-}
-
-.status {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 30%;
-  min-width: 380px;
 }
 
 .info {
@@ -248,6 +239,12 @@ $space: 7px;
   display: block;
 
   @include valueBox(32px, 20px);
+
+  &.red {
+    color: var(--el-color-danger);
+    border-color: var(--el-color-danger);
+    background-color: var(--el-color-danger-light-9);
+  }
 }
 
 .group {

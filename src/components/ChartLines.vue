@@ -4,8 +4,12 @@ import { getLineOption } from '~/assets/constant';
 
 const props = defineProps({
   dimensions: {
-    type: Array,
+    type: Array as PropType<string[]>, 
     default: () => []
+  },
+  color: {
+    type: Array as PropType<string[]>, 
+    default: () => ["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"]
   },
   data: {
     type: Array, 
@@ -21,7 +25,6 @@ const props = defineProps({
   }
 })
 const chartRef = ref<null | HTMLElement>(null);
-const option = getLineOption(props.unit);
 
 let myChart: echarts.ECharts;
 function onResize() {
@@ -39,9 +42,12 @@ watch(() => props.data, () => {
 
 onMounted(() => {
   if (chartRef.value) {
+    const option = getLineOption(props.dimensions, props.unit);
+    console.log('option', option)
     myChart = echarts.init(chartRef.value);
     myChart.setOption({
       ...option,
+      color: props.color,
       dataset: {
         dimensions: props.dimensions,
         source: props.data

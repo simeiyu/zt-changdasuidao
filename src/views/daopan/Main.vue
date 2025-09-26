@@ -17,30 +17,12 @@ useResizeObserver(wrapper, updateScale)
 onMounted(() => {
   updateScale();
 })
-
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
 </script>
 
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <div class="dunwei">
         <div class="daopan">  </div>
       </div>
@@ -62,14 +44,6 @@ const runStatusData = [{
   width: 100%;
   padding: 157px 24px 24px;
   transform-origin: 0 0;
-}
-
-.status {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 30%;
-  min-width: 380px;
 }
 
 .dunwei {

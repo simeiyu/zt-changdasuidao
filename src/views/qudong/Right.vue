@@ -102,6 +102,7 @@ const list = [{label: '1#', status: 1}, {label: '2#', status: 1}, {label: '3#', 
 
     &.warn {
       background-image: url('~/assets/images/dianji_warn@2x.png');
+      background-color: #FFECE8;
     }
   }
 }

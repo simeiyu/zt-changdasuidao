@@ -17,24 +17,6 @@ onMounted(() => {
   updateScale();
 })
 
-const runStatusData = [{
-  label: '刀盘转速',
-  value: '0.00',
-  unit: 'rpm'
-}, {
-  label: '刀盘方向',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '推进状态',
-  value: '停止',
-  status: 'danger'
-}, {
-  label: '泥浆状态',
-  value: '逆洗',
-  status: 'success'
-}]
-
 const group = [
   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
   ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
@@ -65,7 +47,7 @@ const getPathTransform = (i: number) => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus class="status" :data="runStatusData" />
+      <RunStatus />
       <div class="dunwei">
         
         
@@ -89,15 +71,6 @@ const getPathTransform = (i: number) => {
   padding: 130px 24px 24px;
   transform-origin: 0 0;
 }
-
-.status {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 30%;
-  min-width: 380px;
-}
-
 
 @mixin plate($el, $radius: 359px, $size: 124px, $bgColor: #ADC6E2) {
   $bd: 4px;

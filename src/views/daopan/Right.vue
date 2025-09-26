@@ -25,7 +25,7 @@ const options = [
     label: 'Option5',
   },
 ]
-
+const color = ["#0084FF", "#F53F3F", "#FAAD14", "#00B42A"]
 const collects = [
   {label: '今日报警', value: 2 },
   {label: '本月报警', value: 3 },
@@ -46,17 +46,18 @@ const tableData = [
   }
 ]
 
-const dimensions = ['时间', '实测', '预测', '上限', '下限'];
+const dimensions = ['time', '进排浆流量差', '上限', '下限'];
+const dimensions2 = ['time', '实测', '风险'];
 
 const source1 = [
-  ['12:00', 120, 130],
-  ['12:01', 80, 80],
-  ['12:02', 150, 130],
-  ['12:03', 120, 130],
-  ['12:04', 100, 130],
-  ['12:05', 110, 130],
-  ['12:06', 120, 130],
-  ['12:07', 150, 130],
+  ['12:00', 120, 120, 130],
+  ['12:01', 80, 120, 80],
+  ['12:02', 150, 120, 130],
+  ['12:03', 120, 120, 130],
+  ['12:04', 100, 120, 130],
+  ['12:05', 110, 120, 130],
+  ['12:06', 120, 120, 130],
+  ['12:07', 150, 120, 130],
 ]
 
 const handleChange = (value: any) => {
@@ -65,16 +66,17 @@ const handleChange = (value: any) => {
 </script>
 
 <template>  
-  <Title1 class="mg-t mg-l mg-r mg-b-lg">推进组压力</Title1>
-  <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h"/>  
+  <Title1 class="mg-t mg-l mg-r mg-b-lg">推进泵流量差</Title1>
+  <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h" :color="color" />  
   <div class="right-box mg-t mg-b-lg">
     <el-radio-group v-model="active" @change="handleChange">
-      <el-radio-button :value="0">进浆流量</el-radio-button>
-      <el-radio-button :value="1">排浆流量</el-radio-button>
+      <el-radio-button :value="0">刀盘总推进力</el-radio-button>
+      <el-radio-button :value="1">刀盘扭矩</el-radio-button>
+      <el-radio-button :value="2">贯入度</el-radio-button>
     </el-radio-group>
-    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" />
+    <!-- <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" /> -->
   </div>
-  <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h"/>
+  <ChartLines :dimensions="dimensions2" :data="source1" :height="220" unit="m 3/h" :color="color" />
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" :height="200" />
 </template>
