@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { filter, map, toNumber } from 'lodash';
-import socket from '~/socket';
+import socket, { state } from '~/socket';
 
-const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 768;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -19,12 +18,13 @@ useResizeObserver(wrapper, updateScale)
 
 onMounted(() => {
   updateScale();
-  socket.on('connect', () => {
-    connected.value = true
+  
+  !state.connected ? socket.on('connect', () => {
     socket.emit("type:sub", {type: "同步推拼阈值"}, (res: any) => {
       console.log('同步推拼阈值', res)
     })
-  })
+  }) : socket.emit("type:sub", {type: "同步推拼阈值"})
+
   socket.on("type:resp", (res: any) => {
     console.log('type:resp=同步推拼阈值=>', res)
     const { type, items } = res
@@ -58,9 +58,6 @@ onMounted(() => {
       })
       shifting.value = weiyi
     }
-  })
-  socket.on("disconnect", () => {
-    connected.value = false
   })
 })
 

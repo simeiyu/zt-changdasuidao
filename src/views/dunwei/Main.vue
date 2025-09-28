@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { filter, forEach, map, toNumber } from 'lodash';
-import socket from '~/socket';
+import socket, { state } from '~/socket';
 
-const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 766;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -132,12 +131,12 @@ const updateValues = (items: any[]) => {
 onMounted(() => {
   updateScale();
   console.log('盾尾密封 Main mounted')
-  socket.on('connect', () => {
-    connected.value = true
+  !state.connected ? socket.on('connect', () => {
     socket.emit("type:sub", {type: "盾尾油脂泵"}, (res: any) => {
       console.log('盾尾油脂泵', res)
     })
-  })
+  }) : socket.emit("type:sub", {type: "盾尾油脂泵"})
+
   socket.on("type:resp", (res: any) => {
     console.log('type:resp=盾尾油脂泵=>', res)
     const { type, items } = res
@@ -149,9 +148,6 @@ onMounted(() => {
       console.log('密封腔压力', items)
       updateValues(items)
     }
-  })
-  socket.on("disconnect", () => {
-    connected.value = false
   })
 })
 </script>

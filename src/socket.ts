@@ -1,5 +1,6 @@
 import { ElMessage } from "element-plus";
 import { io, Socket } from "socket.io-client";
+import { reactive } from "vue";
 
 const socket: Socket = io('http://localhost:9093', {
   // autoConnect: false,
@@ -15,12 +16,18 @@ const socket: Socket = io('http://localhost:9093', {
   // },
 });
 
+export const state = reactive({
+  connected: false 
+})
+
 socket.on("connect", () => {
   console.log("Connected to server");
+  state.connected = true;
 })
 
 socket.on("disconnect", () => {
   console.log("Disconnected from server");
+  state.connected = false;
 
   ElMessage.error({
     message: "Disconnected from server",

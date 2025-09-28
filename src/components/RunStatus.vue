@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { find } from 'lodash';
-import socket from '~/socket';
-
-const connected = ref(false)
+import socket, { state } from '~/socket';
 
 const data = reactive([{
   label: '刀盘转速',
@@ -24,12 +22,11 @@ const data = reactive([{
 
 onMounted(() => {
   console.log('运行状态 mounted')
-  !connected.value && socket.on('connect', () => {
-    connected.value = true
+  !state.connected ? socket.on('connect', () => {
     socket.emit("type:sub", {type: "推进系统"}, (res: any) => {
       console.log('推进系统', res)
     })
-  })
+  }) : socket.emit("type:sub", {type: "推进系统"})
   socket.on("type:resp", (res: any) => {
     const { type, items } = res
     if (type === '推进系统' && items.length) {
@@ -43,9 +40,6 @@ onMounted(() => {
       result3 && (data[2].value = result3.value)
       result4 && (data[3].value = result4.value)
     }
-  })
-  socket.on("disconnect", () => {
-    connected.value = false
   })
 })
 
