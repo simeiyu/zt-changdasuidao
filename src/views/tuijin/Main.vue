@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { find } from 'lodash';
+import { filter, find, map, toNumber } from 'lodash';
 import socket from '~/socket';
 
 const connected = ref(false)
@@ -35,12 +35,28 @@ onMounted(() => {
           source[i].value = item.value
         }
       });
-      const tjyl = find(items, {comment: '推进油缸压力'})
-      console.log('推进油缸压力', tjyl)
-      const tjzt = find(items, {comment: '推进油缸状态'})
-      console.log('推进油缸状态', tjzt)
-      const tjwy = find(items, {comment: '推进组位移'})
-      console.log('推进组位移', tjwy)
+    }
+    if (type === '推进油缸压力' && items.length) {
+      // 压力
+      const yali = map(filter(items, (item) => item.key.indexOf('推进油缸') > -1), (item) => {
+        const key = toNumber(item.key.replace('推进油缸', '').replace('压力', ''))
+        return { ...item, key }
+      })
+      const yali_data = yali.sort((a, b) => a.key - b.key)
+      pressure.value = map(yali_data, (item) => item.value)
+      // 状态
+      const zhuangtai = map(filter(items, (item) => item.key.indexOf('油缸状态') > -1), (item) => {
+        const key = toNumber(item.key.replace('#油缸状态', ''))
+        return { ...item, key }
+      })
+      const zhuangtai_data = zhuangtai.sort((a, b) => a.key - b.key)
+      status.value = map(zhuangtai_data, (item) => item.value)
+      // 位移
+      const weiyi = map(filter(items, (item) => item.key.indexOf('组位移') > -1), (item) => {
+        const key = toNumber(item.key.replace('组位移', ''))
+        return { ...item, key }
+      })
+      shifting.value = weiyi
     }
   })
   socket.on("disconnect", () => {
@@ -59,11 +75,11 @@ const source = reactive([
 // 推进油缸
 const group = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
 // 推进油缸压力
-const pressure = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const pressure = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 // 推进油缸状态
-const status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const status = ref([true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true])
 // 推进组位移
-const shifting = [0, 0, 0, 0, 0, 0]
+const shifting = ref<Array<any>>([])
 
 const R = 220;
 
@@ -94,9 +110,9 @@ const getPathTransform = (i: number) => {
         <div class="plate">
             <div class="daopan">
               <div class="group">
-                <span class="shifting" v-for="(value, j) in shifting"
-                  :key="j" 
-                  :style="{ transform: getTransform(j, shifting.length, 120) }">{{ value }}</span>
+                <span class="shifting" v-for="(item, j) in shifting"
+                  :key="item.key" 
+                  :style="{ transform: getTransform(j, shifting.length, 120) }">{{ item.value }}</span>
                 <span class="led" v-for="(value, j) in status"
                   :key="j" :class="value ? 'led-green' : 'led-red'"
                   :style="{ transform: getTransform(j, group.length) }"></span>
