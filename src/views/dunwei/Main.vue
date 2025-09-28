@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { filter, find, forEach, map, toNumber } from 'lodash';
+import socket from '~/socket';
+
+const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 766;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -12,10 +16,6 @@ const updateScale = () => {
 }
 
 useResizeObserver(wrapper, updateScale)
-
-onMounted(() => {
-  updateScale();
-})
 
 const columns = [{
   field: 'label',
@@ -32,7 +32,7 @@ const columns = [{
   output: true
 }]
 // 盾尾油脂泵
-const data = [{
+const data = ref([{
   label: '1#',
   value1: '',
   value2: '',  
@@ -52,7 +52,7 @@ const data = [{
   label: '5#',
   value1: '',
   value2: '', 
-}]
+}])
 
 /**
  * 密封腔压力
@@ -60,6 +60,7 @@ const data = [{
  * 最大压力设定：超出最大压力，显示红色
  */
 const group = ['1#', '2#', '3#', '4#', '5#', '6#', '7#', '8#', '9#', '10#', '11#', '12#', '13#', '14#', '15#', '16#']
+const names = ['盾尾密封前腔', '盾尾密封前中腔', '盾尾密封后中腔', '盾尾密封后腔', '盾尾密封预留腔']
 const values = reactive([
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -67,18 +68,13 @@ const values = reactive([
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ])
-// 盾尾密封前腔 压力
-// 盾尾密封前中腔 压力
-// 盾尾密封后中腔 压力
-// 盾尾密封后腔 压力
-// 盾尾密封预留腔 压力
-const maxLimits = [
+const maxLimits = reactive([
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
+])
 
 const R = 130;
 
@@ -89,6 +85,74 @@ const getTransform = (i: number, j=0) => {
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
   return `translate(${x}px, ${y}px)`
 }
+
+// 更新盾尾油脂泵
+const updateData = (items: any[]) => {
+  const dataMap: { [key: string]: any[] } = {}
+  forEach(items, ({key, value}) => {
+    const keyArr = key.split('#')
+    const num = keyArr[0].replace('盾尾油脂泵', '')
+    if (!dataMap[num]) {
+      dataMap[num] = [null, null]
+    }
+    if (keyArr[1] === '手动冲程') {
+      dataMap[num][0] = value
+    } else if (keyArr[1] === '出口压力') {
+      dataMap[num][1] = value
+    }        
+  })
+  console.log('盾尾油脂泵 dataMap', dataMap)
+  data.value = Object.keys(dataMap).map(key => {
+    const [value1, value2] = dataMap[key]
+    return {
+      label: `${key}#`,
+      value1,
+      value2,
+    }
+  })
+}
+
+// 更新密封腔压力
+const updateValues = (items: any[]) => {
+  names.forEach((name, i) => {
+    const alldata = filter(items, ({key}) => key.indexOf(name) > -1)
+    let rows = filter(alldata, ({key}) => key.indexOf('#压力') > -1)
+    let limits = filter(alldata, ({key}) => key.indexOf('#最大压力设定') > -1)
+    rows = map(rows, (item: {key: string, value: any}) => ({ ...item, key: toNumber(item.key.replace(name, '').replace('#压力', '')) }))
+    limits = map(limits, (item: {key: string, value: any}) => ({ ...item, key: toNumber(item.key.replace(name, '').replace('#最大压力设定', '')) }))
+    rows = rows.sort((a, b) => a.key - b.key)
+    limits = limits.sort((a, b) => a.key - b.key)
+    console.log('  密封腔压力', name, rows)
+    console.log('最大压力设定', name, rows)
+    values[i] = rows.map(({value}) => value)
+    maxLimits[i] = limits.map(({value}) => value)
+  })
+}
+
+onMounted(() => {
+  updateScale();
+  socket.on('connect', () => {
+    connected.value = true
+    socket.emit("type:sub", {type: "盾尾油脂泵"}, (res: any) => {
+      console.log('盾尾油脂泵', res)
+    })
+  })
+  socket.on("type:resp", (res: any) => {
+    console.log('type:resp=盾尾油脂泵=>', res)
+    const { type, items } = res
+    if (type === '盾尾油脂泵' && items.length) {
+      console.log('盾尾油脂泵', items)
+      updateData(items)
+    }
+    if (type === '密封腔压力' && items.length) {
+      console.log('密封腔压力', items)
+      updateValues(items)
+    }
+  })
+  socket.on("disconnect", () => {
+    connected.value = false
+  })
+})
 </script>
 
 <template>

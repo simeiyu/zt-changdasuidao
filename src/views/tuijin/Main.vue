@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { find } from 'lodash';
 import socket from '~/socket';
 
 const connected = ref(false)
@@ -28,8 +29,18 @@ onMounted(() => {
     console.log('type:resp=同步推拼阈值=>', res)
     const { type, items } = res
     if (type === '同步推拼阈值' && items.length) {
-      const zs = items.find(({key}) => key === '刀盘转速')
-      zs && (data[0].value = zs.value)
+      comments.forEach((comment, i) => {
+        const item = items.find((item: any) => item.comment === comment)
+        if (item) {
+          source[i].value = item.value
+        }
+      });
+      const tjyl = find(items, {comment: '推进油缸压力'})
+      console.log('推进油缸压力', tjyl)
+      const tjzt = find(items, {comment: '推进油缸状态'})
+      console.log('推进油缸状态', tjzt)
+      const tjwy = find(items, {comment: '推进组位移'})
+      console.log('推进组位移', tjwy)
     }
   })
   socket.on("disconnect", () => {
@@ -38,16 +49,17 @@ onMounted(() => {
 })
 
 // 同步推拼阈值
-const source = [
+const comments = ['同拼模式开始最小位移', '推进分区允许最大压力设置值', '同拼推进压力下限']
+const source = reactive([
   {id: 'db999_648', label: '同步拼装开始最小移', value: '', unit: 'mm'},
   {id: 'db999_460', label: '同步推拼上限压力', value: '', unit: 'bar'},
   {id: 'db999_666', label: '同步推拼下限压力', value: '', unit: 'bar'},
-]
+])
 
 // 推进油缸
 const group = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
 // 推进油缸压力
-const pressure = ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00']
+const pressure = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 // 推进油缸状态
 const status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 // 推进组位移

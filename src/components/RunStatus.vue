@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { find } from 'lodash';
 import socket from '~/socket';
 
 const connected = ref(false)
@@ -33,8 +34,14 @@ onMounted(() => {
     console.log('type:resp==>', res)
     const { type, items } = res
     if (type === '推进系统' && items.length) {
-      const zs = items.find(({key}) => key === '刀盘转速')
-      zs && (data[0].value = zs.value)
+      const result1 = find(items, {key: '刀盘转速'})
+      const result2 = find(items, {key: '刀盘方向'})
+      const result3 = find(items, {key: '推进状态'})
+      const result4 = find(items, {key: '泥浆状态'})
+      result1 && (data[0].value = result1.value)
+      result2 && (data[1].value = result2.value)
+      result3 && (data[2].value = result3.value)
+      result4 && (data[3].value = result4.value)
     }
   })
   socket.on("disconnect", () => {

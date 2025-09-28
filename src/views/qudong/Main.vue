@@ -1,7 +1,20 @@
 <script setup lang="ts">
+import { filter, find, forEach, map, toNumber } from 'lodash';
+import socket from '~/socket';
+
+const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 768;
 const wrapper = ref<HTMLDivElement | null>(null);
+
+const UNITS: {[key: string]: string} = {
+  '电流': 'A',
+  '温度': '℃',
+  '扭矩': 'Nm',
+  '峭度': '',
+  '转速': 'rpm',
+  '磨损': '',
+}
 
 const updateScale = () => {
   if (wrapper.value) {
@@ -13,83 +26,92 @@ const updateScale = () => {
 
 useResizeObserver(wrapper, updateScale)
 
+const updateData = (items: any[]) => {
+  const statusData = map(filter(items, (item: any) => item.key.indexOf('状态指示灯') > -1), (item: any) => {
+    const key = toNumber(item.key.replace('状态指示灯', '').replace('电机M', ''))
+    return {
+      ...item,
+      key,
+    }
+  })
+  forEach(statusData, (item: any) => {
+    data[item.key].status = item.value
+  })
+
+  properties.forEach((property) => {
+    const dataItems = map(filter(items, (item: any) => item.key.indexOf(property) > -1), (item: any) => {
+      const key = toNumber(item.key.replace(`#电机${property}`, ''))
+      return {
+        ...item,
+        key,
+      }
+    })
+    console.log(property, '---> ', dataItems)
+    forEach(dataItems, (item: any) => {
+      data[item.key][property] = item.value
+    })
+  })
+}
+
 onMounted(() => {
   updateScale();
+  
+  socket.on('connect', () => {
+    connected.value = true
+    socket.emit("type:sub", {type: "驱动电机"}, (res: any) => {
+      console.log('驱动电机', res)
+    })
+  })
+  socket.on("type:resp", (res: any) => {
+    console.log('type:resp=驱动电机=>', res)
+    const { type, items } = res
+    if (type === '驱动电机' && items.length) {
+      console.log('驱动电机', items)
+      updateData(items)
+    }
+  })
+  socket.on("disconnect", () => {
+    connected.value = false
+  })
 })
 
-const source: Array<{label: string, value: string, unit?: string}> = [
-  {label: '刀盘转速', value: '', unit: 'rpm'},
-  {label: '给定频率', value: '', unit: 'Hz'},
-  {label: '主驱动冷却流量', value: '', unit: 'm 3/h'},
-  {label: '当前阶段', value: ''},
-  {label: '当前堵转次数', value: ''},
-  {label: '总堵转次数', value: ''},
-  {label: '当前堵转次数', value: '', unit: 'rpm'},
-]
+const properties = ["电流", "温度", "扭矩", "峭度", "转速", "磨损"]
 
-const data: Array<{id: string, title: string, details: Array<{label: string, value: number, unit?: string}>}> = [
-  {
-    id: '1',
-    title: '1#电机运行参数',
-    details: [
-      {label: '电流', value: 202, unit: 'A'},
-      {label: '温度', value: 54, unit: '℃'},
-      {label: '扭矩', value: 1045, unit: 'Nm'},
-      {label: '峭度:', value: 5.2 },
-      {label: '转速', value: 1280, unit: 'rpm'},
-      {label: '磨损', value: 3.5}
-    ]
-  }, {
-    id: '2',
-    title: '2#电机运行参数',
-    details: [
-      {label: '电流', value: 202, unit: 'A'},
-      {label: '温度', value: 54, unit: '℃'},
-      {label: '扭矩', value: 1045, unit: 'Nm'},
-      {label: '峭度:', value: 5.2 },
-      {label: '转速', value: 1280, unit: 'rpm'},
-      {label: '磨损', value: 3.5}
-    ]
-  }, {
-    id: '3',
-    title: '4#电机运行参数',
-    details: [
-      {label: '电流', value: 202, unit: 'A'},
-      {label: '温度', value: 54, unit: '℃'},
-      {label: '扭矩', value: 1045, unit: 'Nm'},
-      {label: '峭度:', value: 5.2 },
-      {label: '转速', value: 1280, unit: 'rpm'},
-      {label: '磨损', value: 3.5}
-    ]
-  }, {
-    id: '4',
-    title: '4#电机运行参数',
-    details: [
-      {label: '电流', value: 202, unit: 'A'},
-      {label: '温度', value: 54, unit: '℃'},
-      {label: '扭矩', value: 1045, unit: 'Nm'},
-      {label: '峭度:', value: 5.2 },
-      {label: '转速', value: 1280, unit: 'rpm'},
-      {label: '磨损', value: 3.5}
-    ]
-  }, {
-    id: '5',
-    title: '5#电机运行参数',
-    details: [
-      {label: '电流', value: 202, unit: 'A'},
-      {label: '温度', value: 54, unit: '℃'},
-      {label: '扭矩', value: 1045, unit: 'Nm'},
-      {label: '峭度:', value: 5.2 },
-      {label: '转速', value: 1280, unit: 'rpm'},
-      {label: '磨损', value: 3.5}
-    ]
-  }
-]
+const data = reactive<{[key: number]: {[key: string]: any}}>({
+  1: {
+  },
+  2: {
+  },
+  3: {
+  },
+  4: {
+  },
+  5: {
+  },
+  6: {
+  },
+  7: {
+  },
+  8: {
+  },
+  9: {
+  },
+  10: {
+  },
+  11: {
+  },
+  12: {
+  },
+  13: {
+  },
+  14: {
+  },
+})
 
 const R = 220;
 
 const getTransform = (i: number, offset=0) => {
-  const angle = 360 / data.length * i - 90;
+  const angle = 360 / 14 * i - 90;
   const radius = R + offset;
   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
@@ -105,31 +127,23 @@ const getTransform = (i: number, offset=0) => {
         <div class="plate">
             <div class="daopan">
               <div class="group">
-                <el-popover :width="260" popper-class="pop" :show-arrow="false" v-for="(item, index) in data" :title="item.title" :key="item.id">
+                <el-popover :width="260" popper-class="pop" :show-arrow="false" v-for="(item, key) in data" :title="key + '#电机运行参数'" :key="key">
                   <template #reference>
-                    <div class="value" :class="{'red': item.id === '4'}"
-                      :key="index"
-                      :style="{ transform: getTransform(index, 80) }"
-                    ><span>{{ item.id }}</span></div>
+                    <div class="value" :class="{'red': key === 4}" :style="{ transform: getTransform(key-1, 80) }">
+                      <span>{{ key }}</span>
+                    </div>
                   </template>
                   <template #default>
                     <ul class="list">
-                      <li v-for="(d, i) in item.details" :key="i">
-                        <span>{{ d.label }}</span>
-                        <span>{{ d.value }}</span>
-                        <span>{{ d.unit }}</span>
+                      <li v-for="(label) in properties" :key="label">
+                        <span>{{ label }}</span>
+                        <span>{{ item[label] }}</span>
+                        <span>{{ UNITS[label] }}</span>
                       </li>
                     </ul>
                   </template>
                 </el-popover>
               </div>
-              <!-- <div class="box">
-                <div class="box-row" v-for="item in source" :key="item.label">
-                  <label class="box-label">{{ item.label }}</label>
-                  <span class="box-value">{{ item.value }}</span>
-                  <span class="box-unit" v-if="item.unit">{{ item.unit }}</span>
-                </div>
-              </div> -->
             </div>
         </div>
       </div>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { filter, find, forEach, map, toNumber } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
+import socket from '~/socket';
+
+const connected = ref(false)
 
 const active = ref(0);
 const type = ref('前腔-1#压力测');
@@ -63,6 +67,27 @@ const source1 = [
 const handleChange = (value: any) => {
   console.log(value)
 }
+
+onMounted(() => {
+  console.log('刀盘系统 mounted')  
+  socket.on('connect', () => {
+    connected.value = true
+    socket.emit("type:sub", {type: "刀盘系统"}, (res: any) => {
+      console.log('刀盘系统', res)
+    })
+  })
+  socket.on("type:resp", (res: any) => {
+    console.log('type:resp=刀盘系统=>', res)
+    const { type, items } = res
+    if (type === '刀盘系统' && items.length) {
+      console.log('刀盘系统', items)
+      // updateData(items)
+    }
+  })
+  socket.on("disconnect", () => {
+    connected.value = false
+  })
+})
 </script>
 
 <template>  
