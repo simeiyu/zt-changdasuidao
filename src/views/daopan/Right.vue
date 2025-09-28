@@ -69,7 +69,7 @@ const handleChange = (value: any) => {
 }
 
 onMounted(() => {
-  console.log('刀盘系统 mounted')  
+  console.log('刀盘系统 Right mounted')  
   socket.on('connect', () => {
     connected.value = true
     socket.emit("type:sub", {type: "刀盘系统"}, (res: any) => {

@@ -55,6 +55,7 @@ const updateData = (items: any[]) => {
 
 onMounted(() => {
   updateScale();
+  console.log('驱动点击 Main mounted')
   
   socket.on('connect', () => {
     connected.value = true

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { filter, find, map, toNumber } from 'lodash';
+import { filter, map, toNumber } from 'lodash';
 import socket from '~/socket';
 
 const connected = ref(false)
