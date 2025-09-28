@@ -135,7 +135,7 @@ const getTransform = (i: number, offset=0) => {
                     <ul class="list">
                       <li v-for="(label) in properties" :key="label">
                         <span>{{ label }}</span>
-                        <span>{{ item[label] }}</span>
+                        <span>{{ Math.round(item[label] * 100) / 100 }}</span>
                         <span>{{ UNITS[label] }}</span>
                       </li>
                     </ul>
