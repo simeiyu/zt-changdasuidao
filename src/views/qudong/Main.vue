@@ -125,7 +125,7 @@ const getTransform = (i: number, offset=0) => {
         <div class="plate">
             <div class="daopan">
               <div class="group">
-                <el-popover :width="260" popper-class="pop" :show-arrow="false" v-for="(item, key) in data" :title="key + '#电机运行参数'" :key="key">
+                <el-popover :width="300" popper-class="pop" :show-arrow="false" v-for="(item, key) in data" :title="key + '#电机运行参数'" :key="key">
                   <template #reference>
                     <div class="value" :class="{'red': key === 4}" :style="{ transform: getTransform(key-1, 80) }">
                       <span>{{ key }}</span>
@@ -135,7 +135,7 @@ const getTransform = (i: number, offset=0) => {
                     <ul class="list">
                       <li v-for="(label) in properties" :key="label">
                         <span>{{ label }}</span>
-                        <span>{{ Math.round(item[label] * 100) / 100 }}</span>
+                        <span>{{ item[label] ? Math.round(item[label] * 100) / 100 : ''}}</span>
                         <span>{{ UNITS[label] }}</span>
                       </li>
                     </ul>
