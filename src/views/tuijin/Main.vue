@@ -30,7 +30,7 @@ onMounted(() => {
     const { type, items } = res
     if (type === '同步推拼阈值' && items.length) {
       comments.forEach((comment, i) => {
-        const item = items.find((item: any) => item.comment === comment)
+        const item = items.find((item: any) => item.key === comment)
         if (item) {
           source[i].value = item.value
         }

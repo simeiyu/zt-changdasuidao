@@ -31,9 +31,9 @@ onMounted(() => {
     })
   })
   socket.on("type:resp", (res: any) => {
-    console.log('type:resp==>', res)
     const { type, items } = res
     if (type === '推进系统' && items.length) {
+      console.log('type:resp 推进系统==>', res)
       const result1 = find(items, {key: '刀盘转速'})
       const result2 = find(items, {key: '刀盘方向'})
       const result3 = find(items, {key: '推进状态'})
