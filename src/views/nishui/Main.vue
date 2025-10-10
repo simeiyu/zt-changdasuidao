@@ -83,6 +83,14 @@ const handleEmit = () => {
   socket.emit("type:sub", { type: '磨损检测' })
   socket.emit("type:sub", { type: 'P0.1/P0.2' })
   socket.emit("type:sub", { type: 'P1.1/P2.1' })
+  socket.emit("type:sub", { type: '冲刷流量' })
+  socket.emit("type:sub", { type: '泥水仓压力' })
+  socket.emit("type:sub", { type: '中心冲刷支路' })
+  socket.emit("type:sub", { type: '保压管线' })
+  socket.emit("type:sub", { type: '进浆/排浆' })
+  socket.emit("type:sub", { type: 'V61 - V68' })
+  socket.emit("type:sub", { type: 'F1 - F50' })
+  socket.emit("type:sub", { type: '泥水仓液位指示灯' })
 }
 
 function updateItems(items: Array<Item>, refObj: {[key:string]: string | number}) {
@@ -115,6 +123,7 @@ function handleSocket() {
   socket.on("type:resp", (res: any) => {
     const { type, items } = res
     if (!items.length) return
+    console.log('=== 泥水环流 ===>', res)
     switch (type) {
       case '磨损检测':
         updateData(items)
