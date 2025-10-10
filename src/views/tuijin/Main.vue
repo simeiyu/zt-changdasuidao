@@ -80,14 +80,14 @@ const group = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1
 // 推进油缸压力
 const pressure = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 // 推进油缸状态
-const status = ref([true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true])
+const status = ref([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false])
 // 推进组位移
-const shifting = ref<Array<any>>([])
+const shifting = ref<Array<any>>([{key: "A", value: 0}, {key: "B", value: 0}, {key: "C", value: 0}, {key: "D", value: 0}, {key: "E", value: 0}, {key: "F", value: 0}])
 
 const R = 220;
 
-const getTransform = (i: number, len: number, offset=0) => {
-  const angle = 360 / len * i - 90;
+const getTransform = (i: number, len: number, offset=0, start=90) => {
+  const angle = 360 / len * i - start;
   const radius = R + offset;
   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
@@ -114,8 +114,8 @@ const getPathTransform = (i: number) => {
             <div class="daopan">
               <div class="group">
                 <span class="shifting" v-for="(item, j) in shifting"
-                  :key="j" 
-                  :style="{ transform: getTransform(j, shifting.length, 120) }">{{ item.value }}</span>
+                  :key="item.key" :class="item.key"
+                  :style="{ transform: getTransform(j, shifting.length, 120, 30) }">{{ item.value }}</span>
                 <span class="led" v-for="(value, j) in status"
                   :key="j" :class="!value ? 'led-green' : 'led-red'"
                   :style="{ transform: getTransform(j, group.length) }"></span>
@@ -220,8 +220,7 @@ const getPathTransform = (i: number) => {
 .label {
   position: absolute;
   display: block;
-
-  // top: -4px;
+  top: -4px;
   left: -4px;
   width: 28px;
   height: 28px;
@@ -238,8 +237,7 @@ const getPathTransform = (i: number) => {
 .value {
   position: absolute;
   display: block;
-
-  // top: -2px;
+  top: -2px;
   left: -16px;
 
   @include valueBox(52px, 24px);
@@ -252,13 +250,44 @@ const getPathTransform = (i: number) => {
   left: -16px;
 
   @include valueBox(52px, 24px);
+
+  &::before {
+    position: absolute;
+    top: -20px;
+  }
+
+  &.A::before {
+    content: 'A';
+  }
+
+  &.B::before {
+    content: 'B';
+  }
+
+  &.C::before {
+    content: 'C';
+  }
+
+  &.D::before {
+    content: 'D';
+  }
+
+  &.E::before {
+    content: 'E';
+  }
+
+  &.F::before {
+    content: 'F';
+  }
 }
 
 .led {
   position: absolute;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+  top: -4px;
+  left: -4px;
   border-radius: 50%;
   background-position: center center;
   background-repeat: no-repeat;
