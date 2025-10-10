@@ -298,7 +298,7 @@ const getPathTransform = (i: number) => {
   }
   
   &-green {
-    background-image: url('~/assets/images/led_green.svg');
+    background-image: url('~/assets/images/led_green.png');
   }
 }
 
