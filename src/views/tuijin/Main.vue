@@ -114,10 +114,10 @@ const getPathTransform = (i: number) => {
             <div class="daopan">
               <div class="group">
                 <span class="shifting" v-for="(item, j) in shifting"
-                  :key="item.key" 
+                  :key="j" 
                   :style="{ transform: getTransform(j, shifting.length, 120) }">{{ item.value }}</span>
                 <span class="led" v-for="(value, j) in status"
-                  :key="j" :class="value ? 'led-green' : 'led-red'"
+                  :key="j" :class="!value ? 'led-green' : 'led-red'"
                   :style="{ transform: getTransform(j, group.length) }"></span>
                 <span v-for="(item, i) in group"
                   class="label"
@@ -133,7 +133,7 @@ const getPathTransform = (i: number) => {
                 :style="{ transform: getPathTransform(i) }"></span>
 
               <div class="box">
-                <div class="box-row" v-for="item in source">
+                <div class="box-row" v-for="(item, i) in source" :key="i">
                   <span class="box-label">{{ item.label }}</span>
                   <span class="box-value">{{ item.value }}</span>
                   <span class="box-unit">{{ item.unit }}</span>
