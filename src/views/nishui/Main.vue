@@ -268,7 +268,7 @@ function handleSocket() {
             </div>
             <div class="out-row">
               <div class="out-label">中心仓压力</div>
-              <div class="out-value">{{ nishuiCang['中心仓压力'] }}</div>
+              <div class="out-value">{{ nishuiCang['中心舱压力'] }}</div>
               <div class="out-unit">bar</div>
             </div>
           </div>
