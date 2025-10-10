@@ -80,7 +80,7 @@ const group = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1
 // 推进油缸压力
 const pressure = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 // 推进油缸状态
-const status = ref([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false])
+const status = ref([true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true])
 // 推进组位移
 const shifting = ref<Array<any>>([{key: "A", value: 0}, {key: "B", value: 0}, {key: "C", value: 0}, {key: "D", value: 0}, {key: "E", value: 0}, {key: "F", value: 0}])
 
@@ -117,7 +117,7 @@ const getPathTransform = (i: number) => {
                   :key="item.key" :class="item.key"
                   :style="{ transform: getTransform(j, shifting.length, 120, 30) }">{{ item.value }}</span>
                 <span class="led" v-for="(value, j) in status"
-                  :key="j" :class="!value ? 'led-green' : 'led-red'"
+                  :key="j" :class="value ? 'led-green' : 'led-red'"
                   :style="{ transform: getTransform(j, group.length) }"></span>
                 <span v-for="(item, i) in group"
                   class="label"
