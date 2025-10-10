@@ -69,12 +69,9 @@ const handleChange = (value: any) => {
 onMounted(() => {
   console.log('刀盘系统 Right mounted')  
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "刀盘系统"}, (res: any) => {
-      console.log('刀盘系统', res)
-    })
+    socket.emit("type:sub", {type: "刀盘系统"})
   }) : socket.emit("type:sub", {type: "刀盘系统"})
   socket.on("type:resp", (res: any) => {
-    console.log('type:resp=刀盘系统=>', res)
     const { type, items } = res
     if (type === '刀盘系统' && items.length) {
       console.log('刀盘系统', items)

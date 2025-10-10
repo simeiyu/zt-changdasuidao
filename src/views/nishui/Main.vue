@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { filter, forEach, keys } from 'lodash';
+import { forEach, keys } from 'lodash';
 import socket, { state } from '~/socket';
 
 const scale = ref(1);
 const MinWidth = 1204;
 const wrapper = ref<HTMLDivElement | null>(null);
 
-interface Item {key: string, value: string | number};
+interface Item {key: string, value: number | boolean};
 
 const updateScale = () => {
   if (wrapper.value) {
@@ -68,16 +68,16 @@ const data = ref<Array<{label: string, [key:string]: string | number}>>([{
   value2: '',  
 }])
 
-const P0_X = reactive<{ [key:string]: string | number }>({})
-const P1_X = reactive<{ [key:string]: string | number }>({})
-const washFlow = reactive<{ [key:string]: string | number }>({})
-const nishuiCang = reactive<{ [key:string]: string | number }>({})
-const zhongxin = reactive<{ [key:string]: string | number }>({})
-const baoyagx = reactive<{ [key:string]: string | number }>({})
-const jinPaiJiang = reactive<{ [key:string]: string | number }>({})
-const V6x = reactive<{ [key:string]: string | number }>({})
-const Fx = reactive<{ [key:string]: string | number }>({})
-const yeweiLed = reactive<{ [key:string]: string | number }>({})
+const P0_X = reactive<{ [key:string]: number }>({})
+const P1_X = reactive<{ [key:string]: number }>({})
+const washFlow = reactive<{ [key:string]: number }>({})
+const nishuiCang = reactive<{ [key:string]: number }>({})
+const zhongxin = reactive<{ [key:string]: number }>({})
+const baoyagx = reactive<{ [key:string]: number }>({})
+const jinPaiJiang = reactive<{ [key:string]: number }>({})
+const V6x = reactive<{ [key:string]: number }>({})
+const Fx = reactive<{ [key:string]: number }>({})
+const yeweiLed = reactive<{ [key:string]: number }>({})
 
 const handleEmit = () => {
   socket.emit("type:sub", { type: '磨损检测' })
@@ -93,9 +93,10 @@ const handleEmit = () => {
   socket.emit("type:sub", { type: '泥水仓液位指示灯' })
 }
 
-function updateItems(items: Array<Item>, refObj: {[key:string]: string | number}) {
+function updateItems(items: Array<Item>, refObj: {[key:string]: number}) {
   forEach(items, (item: Item) => {
-    refObj[item.key] = item.value
+    const val = Number(item.value)
+    refObj[item.key] = val && Math.round(val * 100) / 100
   })
 }
 
@@ -105,7 +106,8 @@ function updateData(items: Array<Item>) {
     const { key, value } = item
     const keys = key.split('磨损检测-')
     if (!_data[keys[0]]) _data[keys[0]] = {}
-    _data[keys[0]][`value${keys[1]}`] = value
+    const val = Number(item.value)
+    _data[keys[0]][`value${keys[1]}`] = val && Math.round(val * 100) / 100
   })
   data.value = keys(_data).map((key) => {
     return {
@@ -176,14 +178,14 @@ function handleSocket() {
           <span class="C9">C9</span>
           <span class="V32">V32</span>
           <span class="V55">V55</span>
-          <span class="V61" :class="{'red': V6x['V61'] === '1'}">V61</span>
-          <span class="V62">V62</span>
-          <span class="V63">V63</span> 
-          <span class="V64">V64</span>
-          <span class="V66">V66</span>
-          <span class="V67">V67</span>
-          <span class="V68">V68</span>
-          <span class="V69">V69</span>
+          <span class="V61" :class="{'red': V6x['v61开启按钮指示灯'] === 0 }">V61</span>
+          <span class="V62" :class="{'red': V6x['v62开启按钮指示灯'] === 0 }">V62</span>
+          <span class="V63" :class="{'red': V6x['v63开启按钮指示灯'] === 0 }">V63</span> 
+          <span class="V64" :class="{'red': V6x['v64开启按钮指示灯'] === 0 }">V64</span>
+          <span class="V66" :class="{'red': V6x['v66开启按钮指示灯'] === 0 }">V66</span>
+          <span class="V67" :class="{'red': V6x['v67开启按钮指示灯'] === 0 }">V67</span>
+          <span class="V68" :class="{'red': V6x['v68开启按钮指示灯'] === 0 }">V68</span>
+          <span class="V69" :class="{'red': V6x['v69开启按钮指示灯'] === 0 }">V69</span>
           <span class="V70">V70</span>
           <span class="V71">V71</span>
           <span class="V72">V72</span>
@@ -195,52 +197,52 @@ function handleSocket() {
           <div class="tap-col tap-col_1">
             <span>P1</span>
             <span>P2</span>
-            <span :class="{'red': Fx['F11'] === '1'}">F11</span>
-            <span>F12</span>
-            <span>F1</span>
-            <span>F17</span>
-            <span>F18</span>
-            <span>F6</span>
-            <span>F3</span>
-            <span>F4</span>
-            <span>F7</span>
+            <span :class="{'red': Fx['F11开启按钮指示灯'] === 0 }">F11</span>
+            <span :class="{'red': Fx['F12开启按钮指示灯'] === 0 }">F12</span>
+            <span :class="{'red': Fx['F1开启按钮指示灯'] === 0 }">F1</span>
+            <span :class="{'red': Fx['F17开启按钮指示灯'] === 0 }">F17</span>
+            <span :class="{'red': Fx['F18开启按钮指示灯'] === 0 }">F18</span>
+            <span :class="{'red': Fx['F6开启按钮指示灯'] === 0 }">F6</span>
+            <span :class="{'red': Fx['F3开启按钮指示灯'] === 0 }">F3</span>
+            <span :class="{'red': Fx['F4开启按钮指示灯'] === 0 }">F4</span>
+            <span :class="{'red': Fx['F7开启按钮指示灯'] === 0 }">F7</span>
           </div>
           <div class="tap-col tap-col_2">
-            <span>F8</span>
-            <span>F30</span>
-            <span>F31</span>
-            <span>F32</span>
-            <span>F37</span>
-            <span>F38</span>
+            <span :class="{'red': Fx['F8开启按钮指示灯'] === 0 }">F8</span>
+            <span :class="{'red': Fx['F30开启按钮指示灯'] === 0 }">F30</span>
+            <span :class="{'red': Fx['F31开启按钮指示灯'] === 0 }">F31</span>
+            <span :class="{'red': Fx['F32开启按钮指示灯'] === 0 }">F32</span>
+            <span :class="{'red': Fx['F37开启按钮指示灯'] === 0 }">F37</span>
+            <span :class="{'red': Fx['F38开启按钮指示灯'] === 0 }">F38</span>
           </div>
           <div class="tap-col tap-col_3">
-            <span>F51</span>
-            <span>F50</span>
+            <span :class="{'red': Fx['F51开启按钮指示灯'] === 0 }">F51</span>
+            <span :class="{'red': Fx['F50开启按钮指示灯'] === 0 }">F50</span>
           </div>
-          <span class="P0_1" :class="{'red': P0_X['P0.1泵启动按钮灯'] === '1'}">P0.1</span>
-          <span class="P0_2" :class="{'red': P0_X['P0.2泵启动按钮灯'] === '1'}">P0.2</span>
-          <span class="P1_1" :class="{'red': P1_X['P1.1泵启动按钮灯'] === '1'}">P1.1</span>
-          <span class="P2_1" :class="{'red': P1_X['P2.1泵启动按钮灯'] === '1'}">P2.1</span>
+          <span class="P0_1" :class="{'red': P0_X['P0.1泵启动按钮灯'] === 0}">P0.1</span>
+          <span class="P0_2" :class="{'red': P0_X['P0.2泵启动按钮灯'] === 0}">P0.2</span>
+          <span class="P1_1" :class="{'red': P1_X['P1.1泵启动按钮灯'] === 0}">P1.1</span>
+          <span class="P2_1" :class="{'red': P1_X['P2.1泵启动按钮灯'] === 0}">P2.1</span>
         </div>
         <div class="tag" style="top: 684px; left: 554px;">采石箱</div>
         <!-- 信号灯 -->
         <div class="state-group">
-          <div class="state"><span class="led led-red"></span>5.6m</div>
-          <div class="state" style="margin-top: 22px;"><span class="led led-red"></span>4.8m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>4.0m</div>
-          <div class="state" style="margin-top: 50px;"><span class="led led-red"></span>3.2m</div>
-          <div class="state" style="margin-top: 60px;"><span class="led led-green"></span>2.4m</div>
-          <div class="state" style="margin-top: 40px;"><span class="led led-red"></span>1.6m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-yellow"></span>0.8m</div>
-          <div class="state" style="margin-top: 22px;"><span class="led led-red"></span>0m</div>
-          <div class="state" style="margin-top: 26px;"><span class="led led-red"></span>-0.7m</div>
-          <div class="state" style="margin-top: 20px;"><span class="led led-red"></span>-1.4m</div>
-          <div class="state" style="margin-top: 24px;"><span class="led led-red"></span>-2.1m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-2.8m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-3.5m</div>
-          <div class="state" style="margin-top: 18px;"><span class="led led-red"></span>-4.2m</div>
-          <div class="state" style="margin-top: 14px;"><span class="led led-red"></span>-4.2m</div>
-          <div class="state" style="margin-top: 12px;"><span class="led led-red"></span>-5.6m</div>
+          <div class="state"><span class="led" :class="{'led-red': yeweiLed['泥水仓5.6m液位指示灯'] === 0}"></span>5.6m</div>
+          <div class="state" style="margin-top: 22px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓4.8m液位指示灯'] === 0}"></span>4.8m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓4.0m液位指示灯'] === 0}"></span>4.0m</div>
+          <div class="state" style="margin-top: 50px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓3.2m液位指示灯'] === 0}"></span>3.2m</div>
+          <div class="state" style="margin-top: 60px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓2.4m液位指示灯'] === 0}"></span>2.4m</div>
+          <div class="state" style="margin-top: 40px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓1.6m液位指示灯'] === 0}"></span>1.6m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓0.8m液位指示灯'] === 0}"></span>0.8m</div>
+          <div class="state" style="margin-top: 22px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓0m液位指示灯'] === 0}"></span>0m</div>
+          <div class="state" style="margin-top: 26px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-0.7m液位指示灯'] === 0}"></span>-0.7m</div>
+          <div class="state" style="margin-top: 20px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-1.4m液位指示灯'] === 0}"></span>-1.4m</div>
+          <div class="state" style="margin-top: 24px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-2.1m液位指示灯'] === 0}"></span>-2.1m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-2.8m液位指示灯'] === 0}"></span>-2.8m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-3.5m液位指示灯'] === 0}"></span>-3.5m</div>
+          <div class="state" style="margin-top: 18px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-4.2m液位指示灯'] === 0}"></span>-4.2m</div>
+          <div class="state" style="margin-top: 14px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-4.9m液位指示灯'] === 0}"></span>-4.9m</div>
+          <div class="state" style="margin-top: 12px;"><span class="led" :class="{'led-red': yeweiLed['泥水仓-5.6m液位指示灯'] === 0}"></span>-5.6m</div>
         </div>
         <!-- 顶部 -->
         <div class="sup">
@@ -670,17 +672,10 @@ function handleSocket() {
   background-position: center 33%;
   background-repeat: no-repeat;
   background-size: 120% 120%;
+  background-image: url('~/assets/images/led_green@4x.png');
   
   &-red {
     background-image: url('~/assets/images/led_red@4x.png');
-  }
-  
-  &-green {
-    background-image: url('~/assets/images/led_green@4x.png');
-  }
-  
-  &-yellow {
-    background-image: url('~/assets/images/led_yellow@4x.png');
   }
 }
 
