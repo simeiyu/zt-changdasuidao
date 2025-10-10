@@ -58,7 +58,7 @@ onMounted(() => {
         status.value = map(zhuangtai_data, (item) => item.value)
         // 位移
         const weiyi = map(filter(items, (item) => item.key.indexOf('组位移') > -1), (item) => {
-          const key = toNumber(item.key.replace('组位移', ''))
+          const key = item.key.replace('组位移', '')
           return { ...item, key }
         })
         shifting.value = weiyi
