@@ -19,8 +19,6 @@ useResizeObserver(wrapper, updateScale)
 function handleEmit () {
   socket.emit("type:sub", {type: "同步推拼阈值"})
   socket.emit("type:sub", {type: "推进油缸压力"})
-  socket.emit("type:sub", {type: "推进油缸状态"})
-  socket.emit("type:sub", {type: "推进组位移"})
 }
 
 onMounted(() => {
@@ -44,29 +42,27 @@ onMounted(() => {
         });
         break;
       case '推进油缸压力':
+        // 压力
+        const yali = map(filter(items, (item) => item.key.indexOf('推进油缸') > -1), (item) => {
+          const key = toNumber(item.key.replace('推进油缸', '').replace('压力', ''))
+          return { ...item, key }
+        })
+        const yali_data = yali.sort((a, b) => a.key - b.key)
+        pressure.value = map(yali_data, (item) => Math.round(item.value * 100) / 100)
+        // 状态
+        const zhuangtai = map(filter(items, (item) => item.key.indexOf('油缸状态') > -1), (item) => {
+          const key = toNumber(item.key.replace('#油缸状态', ''))
+          return { ...item, key }
+        })
+        const zhuangtai_data = zhuangtai.sort((a, b) => a.key - b.key)
+        status.value = map(zhuangtai_data, (item) => item.value)
+        // 位移
+        const weiyi = map(filter(items, (item) => item.key.indexOf('组位移') > -1), (item) => {
+          const key = toNumber(item.key.replace('组位移', ''))
+          return { ...item, key }
+        })
+        shifting.value = weiyi
         break;
-    }
-    if (type === '推进油缸压力' && items.length) {
-      // 压力
-      const yali = map(filter(items, (item) => item.key.indexOf('推进油缸') > -1), (item) => {
-        const key = toNumber(item.key.replace('推进油缸', '').replace('压力', ''))
-        return { ...item, key }
-      })
-      const yali_data = yali.sort((a, b) => a.key - b.key)
-      pressure.value = map(yali_data, (item) => item.value)
-      // 状态
-      const zhuangtai = map(filter(items, (item) => item.key.indexOf('油缸状态') > -1), (item) => {
-        const key = toNumber(item.key.replace('#油缸状态', ''))
-        return { ...item, key }
-      })
-      const zhuangtai_data = zhuangtai.sort((a, b) => a.key - b.key)
-      status.value = map(zhuangtai_data, (item) => item.value)
-      // 位移
-      const weiyi = map(filter(items, (item) => item.key.indexOf('组位移') > -1), (item) => {
-        const key = toNumber(item.key.replace('组位移', ''))
-        return { ...item, key }
-      })
-      shifting.value = weiyi
     }
   })
 })
