@@ -134,7 +134,7 @@ function handleEmit () {
 
 onMounted(() => {
   updateScale();
-  console.log('盾尾密封 Main mounted')
+  
   !state.connected ? socket.on('connect', () => {
     handleEmit()
   }) : handleEmit()

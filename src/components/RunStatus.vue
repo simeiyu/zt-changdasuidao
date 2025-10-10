@@ -32,13 +32,22 @@ onMounted(() => {
     if (type === '推进系统' && items.length) {
       console.log('type:resp 推进系统==>', res)
       const result1 = find(items, {key: '刀盘转速'})
-      const result2 = find(items, {key: '刀盘方向'})
+      const left = find(items, {key: '刀盘右转'})
+      const right = find(items, {key: '刀盘左转'})
       const result3 = find(items, {key: '推进模式'})
       const result4 = find(items, {key: '泥水仓逆冲洗按钮灯'})
       result1 && (data[0].value = Math.round(result1.value * 100) / 100)
-      result2 && (data[1].value = result2.value)
-      result3 && (data[2].value = result3.value)
-      result4 && (data[3].value = result4.value)
+      if (left.value || right.value) {
+        data[1].status = 'success'
+        data[1].value = left.value ? '左转' : '右转'
+      } else {
+        data[1].status = 'danger'
+        data[1].value = '停止'
+      }
+      data[2].status = result3.value ? 'success' : 'danger'
+      data[2].value = result3.value ? '推进' : '停止'
+      data[3].status = result4.value ? 'success' : 'danger'
+      data[3].value = result4.value ? '逆洗' : '停止'
     }
   })
 })
