@@ -16,25 +16,35 @@ const updateScale = () => {
 
 useResizeObserver(wrapper, updateScale)
 
+function handleEmit () {
+  socket.emit("type:sub", {type: "同步推拼阈值"})
+  socket.emit("type:sub", {type: "推进油缸压力"})
+  socket.emit("type:sub", {type: "推进油缸状态"})
+  socket.emit("type:sub", {type: "推进组位移"})
+}
+
 onMounted(() => {
   updateScale();
   
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "同步推拼阈值"}, (res: any) => {
-      console.log('同步推拼阈值', res)
-    })
-  }) : socket.emit("type:sub", {type: "同步推拼阈值"})
+    handleEmit()
+  }) : handleEmit()
 
   socket.on("type:resp", (res: any) => {
-    console.log('type:resp=同步推拼阈值=>', res)
+    console.log('=推进系统=>', res)
     const { type, items } = res
-    if (type === '同步推拼阈值' && items.length) {
-      comments.forEach((comment, i) => {
-        const item = items.find((item: any) => item.key === comment)
-        if (item) {
-          source[i].value = item.value
-        }
-      });
+    if (!items.length) return
+    switch (type) {
+      case '同步推拼阈值':
+        comments.forEach((comment, i) => {
+          const item = items.find((item: any) => item.key === comment)
+          if (item) {
+            source[i].value = `${Math.round(item.value * 100) / 100}`
+          }
+        });
+        break;
+      case '推进油缸压力':
+        break;
     }
     if (type === '推进油缸压力' && items.length) {
       // 压力

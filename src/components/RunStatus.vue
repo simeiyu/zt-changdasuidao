@@ -4,7 +4,7 @@ import socket, { state } from '~/socket';
 
 const data = reactive([{
   label: '刀盘转速',
-  value: '0.00',
+  value: 0.00,
   unit: 'rpm'
 }, {
   label: '刀盘方向',
@@ -35,7 +35,7 @@ onMounted(() => {
       const result2 = find(items, {key: '刀盘方向'})
       const result3 = find(items, {key: '推进模式'})
       const result4 = find(items, {key: '泥水仓逆冲洗按钮灯'})
-      result1 && (data[0].value = result1.value)
+      result1 && (data[0].value = Math.round(result1.value * 100) / 100)
       result2 && (data[1].value = result2.value)
       result3 && (data[2].value = result3.value)
       result4 && (data[3].value = result4.value)

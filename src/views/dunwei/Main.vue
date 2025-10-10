@@ -95,12 +95,11 @@ const updateData = (items: any[]) => {
       dataMap[num] = [null, null]
     }
     if (keyArr[1] === '手动冲程') {
-      dataMap[num][0] = value
+      dataMap[num][0] = Math.round(value * 100) / 100
     } else if (keyArr[1] === '出口压力') {
-      dataMap[num][1] = value
+      dataMap[num][1] = Math.round(value * 100) / 100
     }        
   })
-  console.log('盾尾油脂泵 dataMap', dataMap)
   data.value = Object.keys(dataMap).map(key => {
     const [value1, value2] = dataMap[key]
     return {
@@ -123,19 +122,22 @@ const updateValues = (items: any[]) => {
     limits = limits.sort((a, b) => a.key - b.key)
     console.log('  密封腔压力', name, rows)
     console.log('最大压力设定', name, rows)
-    values[i] = rows.map(({value}) => value)
-    maxLimits[i] = limits.map(({value}) => value)
+    values[i] = rows.map(({value}) => Math.round(value * 100) / 100)
+    maxLimits[i] = limits.map(({value}) => Math.round(value * 100) / 100)
   })
+}
+
+function handleEmit () {
+  socket.emit("type:sub", {type: "盾尾油脂泵"})
+  socket.emit("type:sub", {type: "密封腔压力"})
 }
 
 onMounted(() => {
   updateScale();
   console.log('盾尾密封 Main mounted')
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "盾尾油脂泵"}, (res: any) => {
-      console.log('盾尾油脂泵', res)
-    })
-  }) : socket.emit("type:sub", {type: "盾尾油脂泵"})
+    handleEmit()
+  }) : handleEmit()
 
   socket.on("type:resp", (res: any) => {
     console.log('type:resp=盾尾油脂泵=>', res)
