@@ -7,11 +7,11 @@ const router = useRouter()
 const route = useRoute()
 
 const menu = [
-  {
-    title: '设备概览',
-    icon: 'overview',
-    path: '/'
-  },
+  // {
+  //   title: '设备概览',
+  //   icon: 'overview',
+  //   path: '/'
+  // },
   {
     title: '泥水环流',
     icon: 'nishui',
@@ -37,11 +37,11 @@ const menu = [
     icon: 'qudong',
     path: '/qudong'
   },
-  {
-    title: '数据查询',
-    icon: 'shujv',
-    path: '/shujv'
-  },
+  // {
+  //   title: '数据查询',
+  //   icon: 'shujv',
+  //   path: '/shujv'
+  // },
 ]
 
 const collapsed = ref(false)

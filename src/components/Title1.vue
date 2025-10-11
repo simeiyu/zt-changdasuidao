@@ -31,7 +31,7 @@
 
   &-text {
     font-size: var(--el-font-size-base);
-    line-height: 1px;
+    line-height: 1.5;
   }
 }
 </style>

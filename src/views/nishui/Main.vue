@@ -61,11 +61,7 @@ const data = ref<Array<{label: string, [key:string]: string | number}>>([{
 }, {
   label: 'P0.2出口泥浆硬管',
   value1: '',
-  value2: '',  
-}, {
-  label: '',
-  value1: '',
-  value2: '',  
+  value2: '', 
 }])
 
 const P0_X = reactive<{ [key:string]: number }>({})
