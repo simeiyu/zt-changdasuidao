@@ -70,10 +70,10 @@ onBeforeRouteUpdate((to) => {
       <el-icon class="side-icon"><SvgIcon :icon-name="item.icon" /></el-icon>
       <template #title>{{ item.title }}</template>
     </el-menu-item>
-    <el-menu-item v-if="userStore.roles.includes('admin')" key="admin" index="/admin">
+    <!-- <el-menu-item v-if="userStore.roles.includes('admin')" key="admin" index="/admin">
       <el-icon class="side-icon"><i-ep-user-filled /></el-icon>
       <template #title>用户管理</template>
-    </el-menu-item>
+    </el-menu-item> -->
   </el-menu>
 </template>
 

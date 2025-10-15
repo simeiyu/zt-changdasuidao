@@ -26,7 +26,7 @@ const handleCommand = (command: string) => {
       <a class="logo" v-on:click="router.push('/')"><img src="../assets/logo.svg" alt="中铁装备" /></a>
       <div class="title"><img src="../assets/images/title.png" alt="长大隧道同步推拼智能盾构运行状态智能检测与诊断系统边缘端(崇太隧道)" /></div>
     </div>
-    <div class="header-right">
+    <!-- <div class="header-right">
       <el-badge :value="3" class="bell">
         <i-ep-bell-filled />
       </el-badge>
@@ -46,7 +46,7 @@ const handleCommand = (command: string) => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-    </div>
+    </div> -->
   </header>
 </template>
 

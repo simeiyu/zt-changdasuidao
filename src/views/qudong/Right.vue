@@ -3,28 +3,24 @@ import AlarmPane from '~/components/AlarmPane.vue';
 
 const active = ref(0);
 const type = ref('1#电机');
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
+
+const dianji = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]
+const dianjiStatus = reactive({
+  "1": 1,
+  "2": 1,
+  "3": 1,
+  "4": 0,
+  "5": 1,
+  "6": 1,
+  "7": 1,
+  "8": 1,
+  "9": 1,
+  "10": 1,
+  "11": 1,
+  "12": 1,
+  "13": 1,
+  "14": 1
+})
 
 const collects = [
   {label: '今日报警', value: 2 },
@@ -61,13 +57,12 @@ const handleChange = (value: any) => {
   console.log(value)
 }
 
-const list = [{label: '1#', status: 1}, {label: '2#', status: 1}, {label: '3#', status: 1}, {label: '4#', status: 0}, {label: '5#', status: 1}, {label: '6#', status: 1}, {label: '7#', status: 1}, {label: '8#', status: 1}, {label: '9#', status: 1}, {label: '10#', status: 1}, {label: '11#', status: 1}, {label: '12#', status: 1}, {label: '13#', status: 1}, {label: '14#', status: 1}]
 </script>
 
 <template>  
   <Title1 class="mg-t mg-l mg-r">电机健康状态</Title1>
   <ul class="list">
-    <li v-for="item in list" :key="item.label" class="list-item" :class="{'warn': item.status === 0}">{{ item.label }}</li>
+    <li v-for="(value, key) in dianjiStatus" :key="key" class="list-item" :class="{'warn': value === 0}">{{ key + "#" }}</li>
   </ul>
   <ChartRadar />
   <Title1 class="mg-t mg-l mg-r mg-b-lg">振动分析</Title1>
@@ -76,7 +71,14 @@ const list = [{label: '1#', status: 1}, {label: '2#', status: 1}, {label: '3#', 
       <el-radio-button :value="0">时域波形</el-radio-button>
       <el-radio-button :value="1">频域波形</el-radio-button>
     </el-radio-group>
-    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 100px;" />
+    <el-select v-model="type" placeholder="请选择" style="width: 100px;">
+      <el-option
+        v-for="item in dianji"
+        :key="item"
+        :label="item + '#电机'"
+        :value="item + '#电机'"
+      />
+    </el-select>
   </div>
   <ChartWave :data="source1" unit="m 3/h"/>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>

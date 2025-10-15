@@ -49,7 +49,7 @@ const tableData = [
 ]
 
 const dimensions = ['time', '进排浆流量差', '上限', '下限'];
-const dimensions2 = ['time', '实测', '风险'];
+const dimensions2 = ['time', '实测', '最大设定值'];
 
 const source1 = [
   ['12:00', 120, 120, 130],
