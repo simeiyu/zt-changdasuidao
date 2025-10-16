@@ -76,7 +76,6 @@ const handleEmit = () => {
   socket.emit("series:watch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
   socket.emit("series:watch", { state: '刀盘扭矩', minutes: 10, intervalMs: 10000 } )
   socket.emit("series:watch", { state: '贯入度', minutes: 10, intervalMs: 10000 } )
-  socket.emit("series:watch", { type: '刀盘系统', minutes: 10, intervalMs: 10000 } )
 }
 
 onMounted(() => {
@@ -108,8 +107,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  socket.emit("series:unwatch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
-  socket.emit("series:unwatch", { type: '刀盘系统', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:unwatch", { type: '刀盘总推进力' } )
+  socket.emit("series:unwatch", { type: '刀盘扭矩' } )
+  socket.emit("series:unwatch", { type: '贯入度' } )
 })
 </script>
 
