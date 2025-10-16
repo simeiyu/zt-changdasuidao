@@ -91,7 +91,7 @@ onMounted(() => {
       case '刀盘总推进力':
         daopanSource["0"] = const_data;
         break;
-      case '刀盘总推进力':
+      case '刀盘扭矩':
         daopanSource["1"] = const_data;
         break;
       case '贯入度':
