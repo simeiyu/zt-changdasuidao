@@ -32,7 +32,6 @@ function onResize() {
 }
 
 watch(() => props.data, () => {
-  myChart.clear();
   myChart.setOption({
     dataset: {
       dimensions: props.dimensions,
@@ -44,7 +43,6 @@ watch(() => props.data, () => {
 onMounted(() => {
   if (chartRef.value) {
     const option = getLineOption(props.dimensions, props.unit);
-    console.log('option', option)
     myChart = echarts.init(chartRef.value);
     myChart.setOption({
       ...option,
