@@ -64,8 +64,8 @@ onMounted(() => {
         daopanSource["3"] = const_data;
         break;
       case '推进泵流量差':
-        daopanSource["0"] = const_data;
         dimensions.value = ['time', ...states]
+        daopanSource["0"] = const_data;
         // TODO
         break;
     }
