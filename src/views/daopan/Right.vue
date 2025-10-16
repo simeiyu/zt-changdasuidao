@@ -108,6 +108,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  socket.emit("series:unwatch", { type: '推进泵流量差' } )
   socket.emit("series:unwatch", { type: '刀盘总推进力' } )
   socket.emit("series:unwatch", { type: '刀盘扭矩' } )
   socket.emit("series:unwatch", { type: '贯入度' } )
