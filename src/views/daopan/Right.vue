@@ -66,18 +66,27 @@ const handleChange = (value: any) => {
   console.log(value)
 }
 
+const handleEmit = () => {
+  socket.emit("series:watch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:watch", { state: '刀盘系统', minutes: 10, intervalMs: 10000 } )
+}
+
 onMounted(() => {
   console.log('刀盘系统 Right mounted')  
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "刀盘系统"})
-  }) : socket.emit("type:sub", {type: "刀盘系统"})
-  socket.on("type:resp", (res: any) => {
-    const { type, items } = res
-    if (type === '刀盘系统' && items.length) {
-      console.log('刀盘系统', items)
-      // updateData(items)
-    }
+    handleEmit()
+  }) : handleEmit()
+  socket.on("series:init", (res: any) => {
+   console.log('--- series:  init: ', res)
   })
+  socket.on("series:update", (res: any) => {
+   console.log('--- series:update: ', res)
+  })
+})
+
+onUnmounted(() => {
+  socket.emit("series:unwatch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:unwatch", { state: '刀盘系统', minutes: 10, intervalMs: 10000 } )
 })
 </script>
 
