@@ -73,6 +73,7 @@ const handleChange = (value: any) => {
 }
 
 const handleEmit = () => {
+  socket.emit("series:watch", { state: '推进泵流量差', minutes: 10, intervalMs: 10000 } )
   socket.emit("series:watch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
   socket.emit("series:watch", { state: '刀盘扭矩', minutes: 10, intervalMs: 10000 } )
   socket.emit("series:watch", { state: '贯入度', minutes: 10, intervalMs: 10000 } )
@@ -84,7 +85,6 @@ onMounted(() => {
     handleEmit()
   }) : handleEmit()
   socket.on("series:init", (res: any) => {
-    console.log('--- series:  init: ', res)
     const { type, const_data } = res
     switch (type) {
       case '刀盘总推进力':
@@ -96,7 +96,8 @@ onMounted(() => {
       case '贯入度':
         daopanSource["2"] = const_data;
         break;
-      case '刀盘系统':
+      case '推进泵流量差':
+        console.log('--- series:  init: ', res)
         // TODO
         break;
     }
