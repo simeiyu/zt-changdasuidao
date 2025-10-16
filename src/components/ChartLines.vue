@@ -32,6 +32,7 @@ function onResize() {
 }
 
 watch(() => props.data, () => {
+  myChart.clear();
   myChart.setOption({
     dataset: {
       dimensions: props.dimensions,
