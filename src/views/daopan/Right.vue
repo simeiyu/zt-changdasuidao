@@ -84,7 +84,7 @@ onMounted(() => {
         daopanSource["3"] = getNewDaopanSource('3', const_data);
         break;
       case '推进泵流量差':
-        daopanSource["0"] = getNewDaopanSource('1', const_data);
+        daopanSource["0"] = getNewDaopanSource('0', const_data);
         // TODO
         break;
     }
