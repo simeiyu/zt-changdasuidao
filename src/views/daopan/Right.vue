@@ -3,6 +3,7 @@ import { filter, find, forEach, map, toNumber } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
 import socket, { state } from '~/socket';
 
+const MAX_LEN = 80;
 const active = ref('1');
 const color = ["#0084FF", "#F53F3F", "#FAAD14", "#00B42A"]
 const collects = [
@@ -71,9 +72,30 @@ onMounted(() => {
     }
   })
   socket.on("series:update", (res: any) => {
-   console.log('--- series:update: ', res)
+    const { type, const_data } = res
+    switch (type) {
+      case '刀盘总推进力':
+        daopanSource["1"] = getNewDaopanSource('1', const_data);
+        break;
+      case '刀盘扭矩':
+        daopanSource["2"] = getNewDaopanSource('2', const_data);
+        break;
+      case '贯入度':
+        daopanSource["3"] = getNewDaopanSource('3', const_data);
+        break;
+      case '推进泵流量差':
+        daopanSource["0"] = getNewDaopanSource('1', const_data);
+        // TODO
+        break;
+    }
   })
 })
+
+function getNewDaopanSource (key: string, data: any[]) {
+  const newSource = daopanSource[key].concat(data);
+  const len = newSource.length;
+  return len > MAX_LEN ? newSource.slice(len - MAX_LEN) : newSource
+}
 
 onUnmounted(() => {
   socket.emit("series:unwatch", { type: '推进泵流量差' } )
