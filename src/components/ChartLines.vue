@@ -31,10 +31,22 @@ function onResize() {
   myChart.resize();
 }
 
-watch(() => props.data, () => {
+watch(() => props.data, (source) => {
   myChart.setOption({
     dataset: {
       dimensions: props.dimensions,
+      source: source
+    }
+  })
+})
+
+watch(() => props.dimensions, (newDimensions) => {
+  const option = getLineOption(newDimensions, props.unit);
+  myChart.setOption({
+    ...option,
+    color: props.color,
+    dataset: {
+      dimensions: newDimensions,
       source: props.data
     }
   })
