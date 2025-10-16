@@ -41,6 +41,7 @@ watch(() => props.data, (source) => {
 })
 
 watch(() => props.dimensions, (newDimensions) => {
+  myChart.clear();
   const option = getLineOption(newDimensions, props.unit);
   myChart.setOption({
     ...option,

@@ -73,6 +73,7 @@ onMounted(() => {
   })
   socket.on("series:update", (res: any) => {
     const { type, const_data } = res
+    console.log("update:", res)
     switch (type) {
       case '刀盘总推进力':
         daopanSource["1"] = getNewDaopanSource('1', const_data);
