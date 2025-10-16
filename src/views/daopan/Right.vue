@@ -3,7 +3,7 @@ import { filter, find, forEach, map, toNumber } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
 import socket, { state } from '~/socket';
 
-const active = ref(0);
+const active = ref('0');
 const type = ref('前腔-1#压力测');
 const options = [
   {
@@ -62,13 +62,21 @@ const source1 = [
   ['12:07', 150, 120, 130],
 ]
 
+const daopanSource = reactive<Record<string, any[]>>({
+  "0": [],
+  "1": [],
+  "2": []
+})
+
 const handleChange = (value: any) => {
   console.log(value)
 }
 
 const handleEmit = () => {
   socket.emit("series:watch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
-  socket.emit("series:watch", { state: '刀盘系统', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:watch", { state: '刀盘扭矩', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:watch", { state: '贯入度', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:watch", { type: '刀盘系统', minutes: 10, intervalMs: 10000 } )
 }
 
 onMounted(() => {
@@ -77,7 +85,22 @@ onMounted(() => {
     handleEmit()
   }) : handleEmit()
   socket.on("series:init", (res: any) => {
-   console.log('--- series:  init: ', res)
+    console.log('--- series:  init: ', res)
+    const { type, const_data } = res
+    switch (type) {
+      case '刀盘总推进力':
+        daopanSource["0"] = const_data;
+        break;
+      case '刀盘总推进力':
+        daopanSource["1"] = const_data;
+        break;
+      case '贯入度':
+        daopanSource["2"] = const_data;
+        break;
+      case '刀盘系统':
+        // TODO
+        break;
+    }
   })
   socket.on("series:update", (res: any) => {
    console.log('--- series:update: ', res)
@@ -86,7 +109,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   socket.emit("series:unwatch", { state: '刀盘总推进力', minutes: 10, intervalMs: 10000 } )
-  socket.emit("series:unwatch", { state: '刀盘系统', minutes: 10, intervalMs: 10000 } )
+  socket.emit("series:unwatch", { type: '刀盘系统', minutes: 10, intervalMs: 10000 } )
 })
 </script>
 
@@ -95,13 +118,12 @@ onUnmounted(() => {
   <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h" :color="color" />  
   <div class="right-box mg-t mg-b-lg">
     <el-radio-group v-model="active" @change="handleChange">
-      <el-radio-button :value="0">刀盘总推进力</el-radio-button>
-      <el-radio-button :value="1">刀盘扭矩</el-radio-button>
-      <el-radio-button :value="2">贯入度</el-radio-button>
+      <el-radio-button :value="'0'">刀盘总推进力</el-radio-button>
+      <el-radio-button :value="'1'">刀盘扭矩</el-radio-button>
+      <el-radio-button :value="'2'">贯入度</el-radio-button>
     </el-radio-group>
-    <!-- <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" /> -->
   </div>
-  <ChartLines :dimensions="dimensions2" :data="source1" :height="220" unit="m 3/h" :color="color" />
+  <ChartLines :dimensions="dimensions2" :data="daopanSource[active]" :height="220" unit="m 3/h" :color="color" />
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" :height="200" />
 </template>
