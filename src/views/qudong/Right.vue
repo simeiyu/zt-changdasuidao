@@ -69,7 +69,7 @@ const handleChange = (value: any) => {
   <div class="right-box">
     <el-radio-group v-model="active" @change="handleChange">
       <el-radio-button :value="0">时域波形</el-radio-button>
-      <el-radio-button :value="1">频域波形</el-radio-button>
+      <el-radio-button :value="1" disabled>频域波形</el-radio-button>
     </el-radio-group>
     <el-select v-model="type" placeholder="请选择" style="width: 100px;">
       <el-option
