@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { filter, forEach, map, toNumber } from 'lodash';
+import { ElMessage } from 'element-plus';
+import { filter, forEach, keys, map, toNumber } from 'lodash';
 import socket, { state } from '~/socket';
 
-const connected = ref(false)
 const scale = ref(1);
 const MinWidth = 768;
 const wrapper = ref<HTMLDivElement | null>(null);
@@ -11,9 +11,8 @@ const UNITS: {[key: string]: string} = {
   '电流': 'A',
   '温度': '℃',
   '扭矩': 'Nm',
-  '峭度': '',
-  '转速': 'rpm',
-  '磨损': '',
+  '功率': 'kW',
+  '频率': 'Hz',
 }
 
 const updateScale = () => {
@@ -52,28 +51,42 @@ const updateData = (items: any[]) => {
     })
   })
 }
-
-onMounted(() => {
-  updateScale();
-  console.log('驱动点击 Main mounted')
-  
-  !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "驱动电机"}, (res: any) => {
-      console.log('驱动电机', res)
-    })
-  }) : socket.emit("type:sub", {type: "驱动电机"})
-  
-  socket.on("type:resp", (res: any) => {
-    console.log('type:resp=驱动电机=>', res)
-    const { type, items } = res
-    if (type === '驱动电机' && items.length) {
-      console.log('驱动电机', items)
-      updateData(items)
+// 电机扭矩预测算法
+const getElectricMachinePredict = async () => {
+  try {
+    const res = await fetch(`/getAlgoResult?algoName=electricMachinePredict`, {
+      method: 'GET'
+    });
+    const {success, data} = await res.json();
+    if (success) {
+      /**
+       * "data": {
+            "predict": {},  # 预测值
+            "actual" : {} # 实际值
+          },
+       */
+      console.log('electricMachinePredict: ', data);
+      const _predict: {[key: string]: number} = {};
+      forEach(keys(data.predict), (item) => {
+        const key = toNumber(item.replace('#电机扭矩', ''));
+        _predict[key] = Math.round(data.predict[item] * 100) / 100;
+      })
+      const _actual: {[key: string]: number} = {};
+      forEach(keys(data.actual), (item) => {
+        const key = toNumber(item.replace('#电机扭矩', ''));
+        _actual[key] = Math.round(data.actual[item] * 100) / 100;
+      })
+      predict.value = _predict;
+      actual.value = _actual;
+    } else {
+      throw new Error('Failed to fetch algo result');
     }
-  })
-})
+  } catch (error) {
+    ElMessage.error('Error fetching algo result:' + error);
+  }
+}
 
-const properties = ["电流", "温度", "扭矩", "峭度", "转速", "磨损"]
+const properties = ["电流", "功率", "温度", "频率"];
 
 const data = reactive<{[key: number]: {[key: string]: any}}>({
   1: {
@@ -105,6 +118,8 @@ const data = reactive<{[key: number]: {[key: string]: any}}>({
   14: {
   },
 })
+const actual = ref<{[key: number]: number}>({});
+const predict = ref<{[key: number]: number}>({});
 
 const R = 220;
 
@@ -115,6 +130,26 @@ const getTransform = (i: number, offset=0) => {
   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
   return `translate(${x}px, ${y}px)`
 }
+
+onMounted(() => {
+  updateScale();
+  console.log('驱动点击 Main mounted')
+  getElectricMachinePredict();
+
+  !state.connected ? socket.on('connect', () => {
+    socket.emit("type:sub", {type: "驱动电机"}, (res: any) => {
+      console.log('驱动电机', res)
+    })
+  }) : socket.emit("type:sub", {type: "驱动电机"})
+  
+  socket.on("type:resp", (res: any) => {
+    const { type, items } = res
+    if (type === '驱动电机' && items.length) {
+      console.log('驱动电机', items)
+      updateData(items)
+    }
+  })
+})
 </script>
 
 <template>
@@ -137,6 +172,16 @@ const getTransform = (i: number, offset=0) => {
                         <span>{{ label }}</span>
                         <span>{{ item[label] ? Math.round(item[label] * 100) / 100 : ''}}</span>
                         <span>{{ UNITS[label] }}</span>
+                      </li>
+                      <li>
+                        <span>扭矩(实测)</span>
+                        <span>{{ actual[key] }}</span>
+                        <span>{{ UNITS["扭矩"] }}</span>
+                      </li>
+                      <li>
+                        <span>扭矩(预测)</span>
+                        <span>{{ predict[key] }}</span>
+                        <span>{{ UNITS["扭矩"] }}</span>
                       </li>
                     </ul>
                   </template>
@@ -303,6 +348,10 @@ const getTransform = (i: number, offset=0) => {
 
     &:nth-child(2n) {
       padding-left: 8px;
+    }
+
+    &:last-child {
+      padding-left: 0;
     }
 
     >span {
