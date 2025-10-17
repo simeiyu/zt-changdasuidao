@@ -220,6 +220,7 @@ export const waveOption = {
 };
 
 export const radarOption = {
+    color: ["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"],
     radar: {
       center: ["50%", "50%"],
       radius: "74%",
@@ -248,37 +249,19 @@ export const radarOption = {
       },
       indicator: [{text: '1', max: 1}, {text: '2', max: 1}, {text: '3', max: 1}, {text: '4', max: 1}, {text: '5', max: 1}, {text: '6', max: 1}, {text: '7', max: 1}, {text: '8', max: 1}, {text: '9', max: 1}, {text: '10', max: 1}, {text: '11', max: 1}, {text: '12', max: 1}, {text: '13', max: 1}, {text: '14', max: 1}]
     },
-    series: [{
-      name: 'xxx',
-      type: 'radar',
-      symbolSize: 0,
-      lineStyle: {
-        color: '#C2C7CC',
-        width: 2,
-      },
-      data: [
-        {
-          value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-          name: 'A'
-        },
-      ]
-    }, {
-      name: 'xxx',
-      type: 'radar',
-      symbolSize: 0,
-      lineStyle: {
-        color: '#0084FF',
-        width: 2,
-      },
-      areaStyle: {
-        color: '#2EA1FF',
-        opacity: 0.4,
-      },
-      data: [
-        {
-          value: [0.8, 0.8, 0.8, 0.8, 0.8, 0.5, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
-          name: 'Allocated Budget'
-        }
-      ]
-    }],
+    // series: [{
+    //   name: 'xxx',
+    //   type: 'radar',
+    //   symbolSize: 0,
+    //   lineStyle: {
+    //     color: '#C2C7CC',
+    //     width: 2,
+    //   },
+    //   data: [
+    //     {
+    //       value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    //       name: 'A'
+    //     },
+    //   ]
+    // }],
 }

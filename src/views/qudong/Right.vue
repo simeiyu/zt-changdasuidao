@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { ElMessage } from 'element-plus';
+import { forEach, isEmpty, keys, map, filter } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
 
 const active = ref(0);
 const type = ref('1#电机');
 
 const dianji = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]
-const dianjiStatus = reactive({
+const dianjiStatus = reactive<{[key: string]: 0 | 1}>({
   "1": 1,
   "2": 1,
   "3": 1,
-  "4": 0,
+  "4": 1,
   "5": 1,
   "6": 1,
   "7": 1,
@@ -52,10 +54,70 @@ const source1 = [
   ['12:06', 120, 130],
   ['12:07', 150, 130],
 ]
+const radarData = ref<{name: string, value: number[]}[]>([]);
 
 const handleChange = (value: any) => {
   console.log(value)
 }
+const RADAR_LABEL: {[key:string]: string} = {
+  "electricCurrent": "电流",
+  "frequency": "频率",
+  "power": "功率",
+  "torque": "扭矩"
+}
+const getRadarData = (data: Record<string, Record<string, number>>) => {
+  return map(filter(keys(data), (item: string) => item ==='torque'), (name) => {
+    const value: number[] = [];
+    forEach(keys(data[name]), (key) => {
+      const index = parseInt(key.replace('#电机', '')) - 1;
+      value[index] = Math.round(data[name][key] * 100) / 100;
+    })
+    return {name: RADAR_LABEL[name], value};
+  })
+}
+
+// 电机算法
+const getElectricMachine = async () => {
+  try {
+    const res = await fetch(`/getAlgoResult?algoName=electricMachine`, {
+      method: 'GET'
+    });
+    const {success, data} = await res.json();
+    if (success) {
+      /**
+       * "abnormalInfo": {
+            "electricCurrent": [], #返回异常电机电流的编号，空则无异常
+            "frequency": [], # 返回异常电机频率的编号，空则无异常
+            "power": [], # 返回异常电机功率的编号，空则无异常
+            "torque": [] # 返回异常电机扭矩的编号，空则无异常
+        },
+        "data": { #雷达图数据
+            "electricCurrent": {}, # 返回各电机电流的健康度，空则暂无数据
+            "frequency": {},# 返回各电机频率的健康度，空则暂无数据
+            "power": {},# 返回各电机功率的健康度，空则暂无数据
+            "torque": {}# 返回各电机扭矩的健康度，空则暂无数据
+        }
+       */
+      keys(data.abnormalInfo).forEach((key: string) => {
+        if (!isEmpty(data.abnormalInfo[key])) {
+          data.abnormalInfo[key].forEach((item: string) => {
+            dianjiStatus[`${item.replace('#电机', '')}`] = 0;
+          })
+        }
+      });
+      radarData.value = getRadarData(data.data);
+    } else {
+      throw new Error('Failed to fetch algo result');
+    }
+    console.log('Algo Result:', data);
+  } catch (error: Error | any) {
+    ElMessage.error('Error fetching algo result:' + error.message);
+  }
+}
+
+onMounted(() => {
+  getElectricMachine()
+})
 
 </script>
 
@@ -64,7 +126,7 @@ const handleChange = (value: any) => {
   <ul class="list">
     <li v-for="(value, key) in dianjiStatus" :key="key" class="list-item" :class="{'warn': value === 0}">{{ key + "#" }}</li>
   </ul>
-  <ChartRadar />
+  <ChartRadar :data="radarData" />
   <Title1 class="mg-t mg-l mg-r mg-b-lg">振动分析</Title1>
   <div class="right-box">
     <el-radio-group v-model="active" @change="handleChange">

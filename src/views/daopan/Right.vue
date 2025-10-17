@@ -107,7 +107,7 @@ onUnmounted(() => {
 </script>
 
 <template>  
-  <Title1 class="mg-t mg-l mg-r mg-b-lg">推进泵流量差</Title1>
+  <Title1 class="mg-t mg-l mg-r mg-b-lg">进排浆流量差</Title1>
   <ChartLines :dimensions="dimensions" :data="daopanSource[0]" :height="220" unit="m 3/h" :color="color" />  
   <div class="right-box mg-t mg-b-lg">
     <el-radio-group v-model="active" @change="handleChange">

@@ -79,11 +79,11 @@ export default defineConfig({
             Cookie: 'sp9.sid2=s%3AvcNEOYKAH2pH5tpkBWFdgIYX-hLLdtHU.44zxD9L0e%2B%2B6iA1aKrJteNmlN%2BSzhL4r2syukLqjOZU'
           }
       }, 
-      // '/api': {
-      //   target: 'http://localhost:3001',
-      //   changeOrigin: true,
-      //   rewrite: (path) => path.replace(/^\/api/, '')
-      // }
+      '/getAlgoResult': {
+        target: 'http://sp9.xuelangyun.com/proxr/80210312/56535/ea9188d0a96611f0affdb37d23f2cc3c/8888',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, '')
+      }
     }
   }
 })
