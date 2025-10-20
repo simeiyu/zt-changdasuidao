@@ -128,7 +128,7 @@ onUnmounted(() => {
 
 <template>  
   <Title1 class="mg-t mg-l mg-r">推进组压力</Title1>
-  <div class="tuiji-group" >
+  <div class="right-box mg-t" >
     <el-select v-model="group" placeholder="请选择" style="width: 100px;">
       <el-option v-for="(_, key) in groupSource" :key="key" :label="'推进' + key + '组'" :value="key"/>
     </el-select>
@@ -149,8 +149,3 @@ onUnmounted(() => {
   <AlarmPane :collects="collects" :data="tableData" :height="200" />
 </template>
 
-<style lang="scss" scoped>
-.tuiji-group {
-  margin: 8px 8px 0;
-}
-</style>
