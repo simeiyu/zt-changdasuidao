@@ -21,16 +21,14 @@ const data = reactive([{
 }])
 
 onMounted(() => {
-  console.log('运行状态 mounted')
+  // console.log('运行状态 mounted')
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "推进系统"}, (res: any) => {
-      console.log('推进系统', res)
-    })
+    socket.emit("type:sub", {type: "推进系统"})
   }) : socket.emit("type:sub", {type: "推进系统"})
   socket.on("type:resp", (res: any) => {
     const { type, items } = res
     if (type === '推进系统' && items.length) {
-      console.log('type:resp 推进系统==>', res)
+      // console.log('type:resp 推进系统==>', res)
       const result1 = find(items, {key: '刀盘转速'})
       const left = find(items, {key: '刀盘右转'})
       const right = find(items, {key: '刀盘左转'})

@@ -5,6 +5,7 @@ import Pressure from './Pressure.vue';
 import WavePane from './WavePane.vue';
 import { ElMessage } from 'element-plus';
 import { forEach } from 'lodash';
+import { time } from 'echarts';
 
 const collects = [
   {label: '今日报警', value: 2 },
@@ -37,9 +38,12 @@ const source = reactive<{ [key: string]: any[] }>({
   'outFlowPressure': [], // 排浆压力
 })
 
-
+let timer: any = null;
 // 泥水环流预测算法
-const getElectricMachinePredict = async () => {
+const getMudWaterPredict = async () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
   try {
     const res = await fetch(`/getAlgoResult?algoName=mudWaterPredict`, {
       method: 'GET'
@@ -68,17 +72,25 @@ const getElectricMachinePredict = async () => {
       source['outFlowRate'] = sourceData['outFlowRate'];
       source['inFlowPressure'] = sourceData['inFlowPressure'];
       source['outFlowPressure'] = sourceData['outFlowPressure'];
-      console.log('source: ', source);
     } else {
       throw new Error('Failed to fetch algo result');
     }
+    timer = setTimeout(() => {
+      getMudWaterPredict();
+    }, 1000); // 1 second
   } catch (error) {
     ElMessage.error('Error fetching algo result:' + error);
   }
 }
 
 onMounted(() => {
-  getElectricMachinePredict();
+  getMudWaterPredict();
+});
+
+onUnmounted(() => {
+  if (timer) {
+    clearTimeout(timer);
+  }
 });
 </script>
 

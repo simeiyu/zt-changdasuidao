@@ -51,8 +51,13 @@ const updateData = (items: any[]) => {
     })
   })
 }
+
+let timer: any = null;
 // 电机扭矩预测算法
 const getElectricMachinePredict = async () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
   try {
     const res = await fetch(`/getAlgoResult?algoName=electricMachinePredict`, {
       method: 'GET'
@@ -65,7 +70,6 @@ const getElectricMachinePredict = async () => {
             "actual" : {} # 实际值
           },
        */
-      console.log('electricMachinePredict: ', data);
       const _predict: {[key: string]: number} = {};
       forEach(keys(data.predict), (item) => {
         const key = toNumber(item.replace('#电机扭矩', ''));
@@ -81,6 +85,9 @@ const getElectricMachinePredict = async () => {
     } else {
       throw new Error('Failed to fetch algo result');
     }
+    timer = setTimeout(() => {
+      getElectricMachinePredict();
+    }, 1000); // 1 second
   } catch (error) {
     ElMessage.error('Error fetching algo result:' + error);
   }
@@ -148,6 +155,13 @@ onMounted(() => {
     }
   })
 })
+
+onUnmounted(() => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+});
+
 </script>
 
 <template>

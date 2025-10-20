@@ -29,16 +29,12 @@ const emited: Record<PumpType, boolean> = {
   '排浆泵垂直': false,
   '排浆泵水平': false,
 }
-const data = [
-  ['12:00', 120, 130, 170, 20],
-  ['12:01', 80, 80, 180, 30],
-  ['12:02', 150, 130, 170, 20],
-  ['12:03', 120, 130, 170, 20],
-  ['12:04', 100, 130, 170, 20],
-  ['12:05', 110, 130, 170, 20],
-  ['12:06', 120, 130, 170, 20],
-  ['12:07', 150, 130, 170, 20],
-]
+const source = reactive<Record<PumpType, any[]>>({
+  '排浆泵轴承箱': [],
+  '排浆泵轴向': [],
+  '排浆泵垂直': [],
+  '排浆泵水平': [],
+})
 
 const handleEmit = (type: PumpType) => {
   if (emited[type]) return;
@@ -46,21 +42,32 @@ const handleEmit = (type: PumpType) => {
   socket.emit("vibration:watch", { type });
 }
 
+watch(type, (newType, oldType) => {
+  if (oldType) {
+    socket.emit("vibration:unwatch", { type: oldType } )
+    emited[oldType] = false;
+    source[oldType] = [];
+  }
+  handleEmit(newType);
+})
+
 onMounted(() => {  
   !state.connected ? socket.on('connect', () => {
     handleEmit(type.value)
   }) : handleEmit(type.value);
 
   socket.on("vibration:update", (res: any) => {
-    // const { type, const_data } = res
-    console.log("vibration:update:", res)
+    const { type, time, value } = res
+    source[type as PumpType] = value;
   });
 })
 
 onUnmounted(() => {
   for(let key in emited) {
+    if (!emited[key as PumpType]) continue;
     socket.emit("vibration:unwatch", { type: key } )
     emited[key as PumpType] = false;
+    source[key as PumpType] = [];
   }
 });
 </script>
@@ -72,7 +79,7 @@ onUnmounted(() => {
       <el-radio-button :value="0">时域波形</el-radio-button>
       <el-radio-button :value="1" disabled>频域波形</el-radio-button>
     </el-radio-group>
-    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 132px;" @change="handleEmit" />
+    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 132px;" />
   </div>
   <ChartWave :data="data" />
 </template>

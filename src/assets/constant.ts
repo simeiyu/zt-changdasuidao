@@ -138,7 +138,7 @@ export const getLineOption = (dimensions: string[], name: string, color=["#0084F
 export const waveOption = {
   grid: {
     top: 24,
-    left: 16,
+    left: 24,
     right: 16,
     bottom: 16,
     containLabel: true,
