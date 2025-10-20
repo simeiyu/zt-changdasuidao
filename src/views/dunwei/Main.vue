@@ -140,14 +140,14 @@ onMounted(() => {
   }) : handleEmit()
 
   socket.on("type:resp", (res: any) => {
-    console.log('type:resp=盾尾油脂泵=>', res)
+    // console.log('type:resp=盾尾油脂泵=>', res)
     const { type, items } = res
     if (type === '盾尾油脂泵' && items.length) {
-      console.log('盾尾油脂泵', items)
+      // console.log('盾尾油脂泵', items)
       updateData(items)
     }
     if (type === '密封腔压力' && items.length) {
-      console.log('密封腔压力', items)
+      // console.log('密封腔压力', items)
       updateValues(items)
     }
   })

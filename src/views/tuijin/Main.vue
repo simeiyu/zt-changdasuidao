@@ -29,7 +29,7 @@ onMounted(() => {
   }) : handleEmit()
 
   socket.on("type:resp", (res: any) => {
-    console.log('=推进系统=>', res)
+    // console.log('=推进系统=>', res)
     const { type, items } = res
     if (!items.length) return
     switch (type) {

@@ -133,19 +133,17 @@ const getTransform = (i: number, offset=0) => {
 
 onMounted(() => {
   updateScale();
-  console.log('驱动点击 Main mounted')
+  // console.log('驱动点击 Main mounted')
   getElectricMachinePredict();
 
   !state.connected ? socket.on('connect', () => {
-    socket.emit("type:sub", {type: "驱动电机"}, (res: any) => {
-      console.log('驱动电机', res)
-    })
+    socket.emit("type:sub", {type: "驱动电机"})
   }) : socket.emit("type:sub", {type: "驱动电机"})
   
   socket.on("type:resp", (res: any) => {
     const { type, items } = res
     if (type === '驱动电机' && items.length) {
-      console.log('驱动电机', items)
+      // console.log('驱动电机', items)
       updateData(items)
     }
   })

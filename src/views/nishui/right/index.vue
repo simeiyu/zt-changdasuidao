@@ -46,7 +46,7 @@ const getElectricMachinePredict = async () => {
     });
     const {success, data} = await res.json();
     if (success) {
-      console.log('mudWaterPredict: ', data);
+      // console.log('mudWaterPredict: ', data);
       const keys = Object.keys(source);
       const sourceData: { [key: string]: any[] } = {
         inFlowRate: [],
