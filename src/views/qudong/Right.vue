@@ -76,8 +76,12 @@ const getRadarData = (data: Record<string, Record<string, number>>) => {
   })
 }
 
+let timer: any = null;
 // 电机算法
 const getElectricMachine = async () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
   try {
     const res = await fetch(`/getAlgoResult?algoName=electricMachine`, {
       method: 'GET'
@@ -109,7 +113,9 @@ const getElectricMachine = async () => {
     } else {
       throw new Error('Failed to fetch algo result');
     }
-    console.log('Algo Result:', data);
+    timer = setTimeout(() => {
+      getElectricMachine();
+    }, 1000); // 1 second
   } catch (error: Error | any) {
     ElMessage.error('Error fetching algo result:' + error.message);
   }
@@ -118,6 +124,12 @@ const getElectricMachine = async () => {
 onMounted(() => {
   getElectricMachine()
 })
+
+onUnmounted(() => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+});
 
 </script>
 
