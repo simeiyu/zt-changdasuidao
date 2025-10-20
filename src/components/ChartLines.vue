@@ -54,6 +54,20 @@ watch(() => props.dimensions, (newDimensions) => {
   })
 })
 
+watch(() => props.unit, (newunit) => {
+  if (!myChart) return;
+  myChart.clear();
+  const option = getLineOption(props.dimensions, newunit);
+  myChart.setOption({
+    ...option,
+    color: props.color,
+    dataset: {
+      dimensions: props.dimensions,
+      source: props.data
+    }
+  })
+})
+
 onMounted(() => {
   if (chartRef.value) {
     const option = getLineOption(props.dimensions, props.unit);
