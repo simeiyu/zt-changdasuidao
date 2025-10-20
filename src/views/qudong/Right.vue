@@ -2,6 +2,7 @@
 import { ElMessage } from 'element-plus';
 import { forEach, isEmpty, keys, map, filter } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
+import socket, { state } from '~/socket';
 
 const active = ref(0);
 const type = ref('1#电机');
@@ -44,16 +45,7 @@ const tableData = [
   }
 ]
 
-const source1 = [
-  ['12:00', 120, 130],
-  ['12:01', 80, 80],
-  ['12:02', 150, 130],
-  ['12:03', 120, 130],
-  ['12:04', 100, 130],
-  ['12:05', 110, 130],
-  ['12:06', 120, 130],
-  ['12:07', 150, 130],
-]
+const waveSource = reactive<Record<string, any[]>>({});
 const radarData = ref<{name: string, value: number[]}[]>([]);
 
 const handleChange = (value: any) => {
@@ -121,13 +113,38 @@ const getElectricMachine = async () => {
   }
 }
 
+const handleEmit = (type: string) => {
+  socket.emit("vibration:watch", { type });
+}
+
+watch(type, (newType, oldType) => {
+  if (oldType) {
+    socket.emit("vibration:unwatch", { type: oldType } )
+    delete waveSource[oldType];
+  }
+  handleEmit(newType);
+})
+
 onMounted(() => {
   getElectricMachine()
+
+  !state.connected ? socket.on('connect', () => {
+    handleEmit(type.value)
+  }) : handleEmit(type.value);
+
+  socket.on("vibration:update", (res: any) => {
+    const { type, time, value } = res
+    const key = type.replace('号', '#')
+    waveSource[key] = value;
+  });
 })
 
 onUnmounted(() => {
   if (timer) {
     clearTimeout(timer);
+  }
+  for(let key in waveSource) {
+    socket.emit("vibration:unwatch", { type: key } )
   }
 });
 
@@ -154,7 +171,7 @@ onUnmounted(() => {
       />
     </el-select>
   </div>
-  <ChartWave :data="source1" unit="m 3/h"/>
+  <ChartWave :data="waveSource[type]" unit="m 3/h"/>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" />
 </template>

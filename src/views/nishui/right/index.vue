@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import AlarmPane from '~/components/AlarmPane.vue';
-import FlowPane from './FlowPane.vue';
-import Pressure from './Pressure.vue';
 import WavePane from './WavePane.vue';
 import { ElMessage } from 'element-plus';
 import { forEach } from 'lodash';
-import { time } from 'echarts';
 
 const collects = [
   {label: '今日报警', value: 2 },

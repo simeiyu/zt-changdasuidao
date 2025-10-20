@@ -23,12 +23,6 @@ const options = [
   },
 ]
 
-const emited: Record<PumpType, boolean> = {
-  '排浆泵轴承箱': false,
-  '排浆泵轴向': false,
-  '排浆泵垂直': false,
-  '排浆泵水平': false,
-}
 const source = reactive<Record<PumpType, any[]>>({
   '排浆泵轴承箱': [],
   '排浆泵轴向': [],
@@ -37,16 +31,13 @@ const source = reactive<Record<PumpType, any[]>>({
 })
 
 const handleEmit = (type: PumpType) => {
-  if (emited[type]) return;
-  emited[type] = true;
   socket.emit("vibration:watch", { type });
 }
 
 watch(type, (newType, oldType) => {
   if (oldType) {
     socket.emit("vibration:unwatch", { type: oldType } )
-    emited[oldType] = false;
-    source[oldType] = [];
+    delete source[oldType as PumpType];
   }
   handleEmit(newType);
 })
@@ -63,11 +54,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  for(let key in emited) {
-    if (!emited[key as PumpType]) continue;
+  for(let key in source) {
     socket.emit("vibration:unwatch", { type: key } )
-    emited[key as PumpType] = false;
-    source[key as PumpType] = [];
+    delete source[key as PumpType];
   }
 });
 </script>
@@ -81,7 +70,7 @@ onUnmounted(() => {
     </el-radio-group>
     <el-select v-model="type" placeholder="请选择" :options="options" style="width: 132px;" />
   </div>
-  <ChartWave :data="data" />
+  <ChartWave :data="source[type]" />
 </template>
 
 <style scoped lang="scss">
