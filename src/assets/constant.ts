@@ -2,8 +2,8 @@ export const getLineOption = (dimensions: string[], name: string, color=["#0084F
   return {
     grid: {
       top: 24,
-      left: 8,
-      right: 16,
+      left: 16,
+      right: 24,
       bottom: 16,
       containLabel: true,
     },
@@ -30,6 +30,7 @@ export const getLineOption = (dimensions: string[], name: string, color=["#0084F
           opacity: 1,
         },
       },
+      appendToBody: true,
     },
     xAxis: {
       type: "category",
@@ -49,6 +50,9 @@ export const getLineOption = (dimensions: string[], name: string, color=["#0084F
         margin: 6,
         color: "#4E5969",
         fontSize: 10,
+        formatter: function (value: string) {
+          return value.indexOf(" ") > 0 ? value.split(" ")[1] : value;
+        },
       },
       splitLine: {
         show: true,

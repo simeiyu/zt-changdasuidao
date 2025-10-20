@@ -3,6 +3,8 @@ import AlarmPane from '~/components/AlarmPane.vue';
 import FlowPane from './FlowPane.vue';
 import Pressure from './Pressure.vue';
 import WavePane from './WavePane.vue';
+import { ElMessage } from 'element-plus';
+import { forEach } from 'lodash';
 
 const collects = [
   {label: '今日报警', value: 2 },
@@ -23,12 +25,83 @@ const data = [
     content: '设备3报警'
   }
 ]
+const flowRate = ref('inFlowRate')
+const flowPressure = ref('inFlowPressure')
+
+const dimensions = ['时间', '预测', '上限', '下限'];
+
+const source = reactive<{ [key: string]: any[] }>({
+  'inFlowRate': [],      // 进浆流量
+  'outFlowRate': [],     // 排浆流量
+  'inFlowPressure': [],  // 进浆压力
+  'outFlowPressure': [], // 排浆压力
+})
+
+
+// 泥水环流预测算法
+const getElectricMachinePredict = async () => {
+  try {
+    const res = await fetch(`/getAlgoResult?algoName=mudWaterPredict`, {
+      method: 'GET'
+    });
+    const {success, data} = await res.json();
+    if (success) {
+      console.log('mudWaterPredict: ', data);
+      const keys = Object.keys(source);
+      const sourceData: { [key: string]: any[] } = {
+        inFlowRate: [],
+        outFlowRate: [],
+        inFlowPressure: [],
+        outFlowPressure: []
+      }
+      forEach(data, (item) => {
+        const time = item['time'];
+        forEach(keys, (key) => {
+          const values = []
+          values.push(Math.round(item.data[key] * 100) / 100);
+          values.push(Math.round(item.data[`${key}Max`] * 100) / 100);
+          values.push(Math.round(item.data[`${key}Min`] * 100) / 100);
+          sourceData[key].push([time, ...values]);
+        })
+      })
+      source['inFlowRate'] = sourceData['inFlowRate'];
+      source['outFlowRate'] = sourceData['outFlowRate'];
+      source['inFlowPressure'] = sourceData['inFlowPressure'];
+      source['outFlowPressure'] = sourceData['outFlowPressure'];
+      console.log('source: ', source);
+    } else {
+      throw new Error('Failed to fetch algo result');
+    }
+  } catch (error) {
+    ElMessage.error('Error fetching algo result:' + error);
+  }
+}
+
+onMounted(() => {
+  getElectricMachinePredict();
+});
 </script>
 
 <template>  
-  <FlowPane />
-  <Pressure />
+  <el-radio-group class="flow-radio" v-model="flowRate">
+    <el-radio-button :value="'inFlowRate'">进浆流量</el-radio-button>
+    <el-radio-button :value="'outFlowRate'">排浆流量</el-radio-button>
+  </el-radio-group>
+  <ChartLines :dimensions="dimensions" :data="source[flowRate]" unit="m 3/h"/>
+  
+  <el-radio-group class="flow-radio" v-model="flowPressure">
+    <el-radio-button :value="'inFlowPressure'">进浆压力</el-radio-button>
+    <el-radio-button :value="'outFlowPressure'">排浆压力</el-radio-button>
+  </el-radio-group>
+  <ChartLines :dimensions="dimensions" :data="source[flowPressure]" unit="bar"/>
   <WavePane />
   <Title1 class="mg-t-sm mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="data" />
 </template>
+
+<style scoped lang="scss">
+.flow-radio {
+  margin: 8px;
+}
+
+</style>
