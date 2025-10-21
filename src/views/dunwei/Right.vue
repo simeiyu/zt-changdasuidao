@@ -35,7 +35,7 @@ const option = {
   },
   legend: {
     top: 0,
-    left: 8,
+    right: 16,
     itemWidth: 8,
     itemHeight: 4,
     itemGap: 12,
@@ -206,9 +206,10 @@ const getChartLineOption = (dimensions: string[], data: Array<number[]>) => {
     ...option,
     legend: {
       ...option.legend,
+      left: 16,
       type: 'scroll',
     },
-    color: dimensions.length > 4 ? dimensions.map((_, index: number) => dimensions.length - 1 === index ? '#FF7D00' : `rgba(0, 132, 255, ${1 - index * 0.08})`) : ["#0084FF", "#00B42A", "#F53F3F", "#FAAD14"],
+    color: dimensions.length > 4 ? dimensions.map((_, index: number) => dimensions.length - 1 === index ? '#FF7D00' : `rgba(0, 132, 255, ${1 - index * 0.08})`) : ["#0084FF", "#00B42A", "#FAAD14", "#F53F3F"],
     dataset: {
       dimensions: ['index'].concat(dimensions),
       source: [map(data[0], (_, index) => index)].concat(data)
@@ -240,6 +241,7 @@ const getChartScatterOption = (dimensions=['散点', '上限', '当前与右侧�
     series: map(dimensions, (item: string, index: number) => ({
       type: index === 0 ? 'scatter' : 'line',
       name: item,
+      showSymbol: index === 0,
       seriesLayoutBy: 'row',
       encode: {
         x: 0,
