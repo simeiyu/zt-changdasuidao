@@ -74,11 +74,8 @@ const permissionOptions: { key: string; label: string }[] = [{
 }]
 
 const update = () => {
-  loading.value = true
+  // loading.value = true
   console.log('search: ', search.value)
-  setTimeout(() => {
-    loading.value = false
-  }, 60000)
 }
 
 const handleSizeChange = (val: number) => {
