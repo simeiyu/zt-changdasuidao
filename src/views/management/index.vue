@@ -78,7 +78,7 @@ const update = () => {
   console.log('search: ', search.value)
   setTimeout(() => {
     loading.value = false
-  }, 1000)
+  }, 60000)
 }
 
 const handleSizeChange = (val: number) => {

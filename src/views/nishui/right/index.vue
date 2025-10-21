@@ -74,7 +74,7 @@ const getMudWaterPredict = async () => {
     }
     timer = setTimeout(() => {
       getMudWaterPredict();
-    }, 1000); // 1 second
+    }, 60000); // 1 second
   } catch (error) {
     ElMessage.error('Error fetching algo result:' + error);
   }

@@ -107,7 +107,7 @@ const getElectricMachine = async () => {
     }
     timer = setTimeout(() => {
       getElectricMachine();
-    }, 1000); // 1 second
+    }, 60000); // 1 second
   } catch (error: Error | any) {
     ElMessage.error('Error fetching algo result:' + error.message);
   }
