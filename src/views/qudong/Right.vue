@@ -5,7 +5,7 @@ import AlarmPane from '~/components/AlarmPane.vue';
 import socket, { state } from '~/socket';
 
 const active = ref(0);
-const type = ref('1#电机');
+const type = ref('1');
 
 const dianji = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]
 const dianjiStatus = reactive<{[key: string]: 0 | 1}>({
@@ -114,12 +114,15 @@ const getElectricMachine = async () => {
 }
 
 const handleEmit = (type: string) => {
-  socket.emit("vibration:watch", { type });
+  socket.emit("topic:sub", { dest: `/topic/hfcomponent/${type}号电机` });
+  socket.emit("topic:history", { dest: `/topic/hfcomponent/${type}号电机`, limit: 200 }, (res: any) => {
+    console.log('topic:history=>', res);
+  });
 }
 
 watch(type, (newType, oldType) => {
   if (oldType) {
-    socket.emit("vibration:unwatch", { type: oldType } )
+    socket.emit("topic:unsub", { dest: `/topic/hfcomponent/${oldType}号电机` } )
     delete waveSource[oldType];
   }
   handleEmit(newType);
@@ -132,10 +135,11 @@ onMounted(() => {
     handleEmit(type.value)
   }) : handleEmit(type.value);
 
-  socket.on("vibration:update", (res: any) => {
-    const { type, time, value } = res
-    const key = type.replace('号', '#')
-    waveSource[key] = value;
+  socket.on("topic:hfcomponent", (res: any) => {
+    console.log('topic:hfcomponent=>', res);
+    // const { type, time, value } = res
+    // const key = type.replace('号电机', '')
+    // waveSource[key] = value;
   });
 })
 
@@ -144,7 +148,7 @@ onUnmounted(() => {
     clearTimeout(timer);
   }
   for(let key in waveSource) {
-    socket.emit("vibration:unwatch", { type: key } )
+    socket.emit("topic:unsub", { dest: `/topic/hfcomponent/${key}号电机` } )
   }
 });
 
@@ -167,7 +171,7 @@ onUnmounted(() => {
         v-for="item in dianji"
         :key="item"
         :label="item + '#电机'"
-        :value="item + '#电机'"
+        :value="item"
       />
     </el-select>
   </div>
