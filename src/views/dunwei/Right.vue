@@ -241,6 +241,8 @@ const getChartScatterOption = (dimensions=['散点', '上限', '当前与右侧�
     series: map(dimensions, (item: string, index: number) => ({
       type: index === 0 ? 'scatter' : 'line',
       name: item,
+      symbol: "circle",
+      symbolSize: index === 0 ? 12 : 1,
       showSymbol: index === 0,
       seriesLayoutBy: 'row',
       encode: {
