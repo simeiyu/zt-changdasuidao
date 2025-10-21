@@ -255,7 +255,6 @@ const getChartScatterOption = (dimensions=['散点', '上限', '当前与右侧�
 }
 
 const updateCharts = () => {
-  console.log('updateCharts', active.value, source.value[active.value].chart_type);
   if (chartRef1.value) {
     if (!myChart1) {
       myChart1 = echarts.init(chartRef1.value);
