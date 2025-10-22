@@ -51,6 +51,6 @@ onUnmounted(() => {
 .chart-wave {
   width: 344px;
   height: 160px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 </style>
