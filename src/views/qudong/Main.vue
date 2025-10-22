@@ -45,7 +45,7 @@ const updateData = (items: any[]) => {
         key,
       }
     })
-    console.log(property, '---> ', dataItems)
+    // console.log(property, '---> ', dataItems)
     forEach(dataItems, (item: any) => {
       data[item.key][property] = item.value
     })
