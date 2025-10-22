@@ -117,6 +117,7 @@ const handleEmit = (type: string) => {
   socket.emit("topic:sub", { dest: `/topic/hfcomponent/${type}号电机` });
   socket.emit("topic:history", { dest: `/topic/hfcomponent/${type}号电机`, limit: 200 }, (res: any) => {
     console.log('topic:history=>', res);
+    waveSource[type] = res.items;
   });
 }
 
@@ -137,59 +138,72 @@ onMounted(() => {
 
   socket.on("topic:hfcomponent:1号电机", (res: any) => {
     console.log('topic:hfcomponent:1号电机=>', res);
-    // waveSource["1"] = res.value;
+    waveSource["1"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:2号电机", (res: any) => {
     console.log('topic:hfcomponent:2号电机=>', res);
+    waveSource["2"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:3号电机", (res: any) => {
     console.log('topic:hfcomponent:3号电机=>', res);
+    waveSource["3"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:4号电机", (res: any) => {
     console.log('topic:hfcomponent:4号电机=>', res);
+    waveSource["4"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:5号电机", (res: any) => {
     console.log('topic:hfcomponent:5号电机=>', res);
+    waveSource["5"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:6号电机", (res: any) => {
     console.log('topic:hfcomponent:6号电机=>', res);
+    waveSource["6"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:7号电机", (res: any) => {
     console.log('topic:hfcomponent:7号电机=>', res);
+    waveSource["7"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:8号电机", (res: any) => {
     console.log('topic:hfcomponent:8号电机=>', res);
+    waveSource["8"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:9号电机", (res: any) => {
     console.log('topic:hfcomponent:9号电机=>', res);
+    waveSource["9"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:10号电机", (res: any) => {
     console.log('topic:hfcomponent:10号电机=>', res);
+    waveSource["10"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:11号电机", (res: any) => {
     console.log('topic:hfcomponent:11号电机=>', res);
+    waveSource["11"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:12号电机", (res: any) => {
     console.log('topic:hfcomponent:12号电机=>', res);
+    waveSource["12"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:13号电机", (res: any) => {
     console.log('topic:hfcomponent:13号电机=>', res);
+    waveSource["13"] = res.const_data;
   });
 
   socket.on("topic:hfcomponent:14号电机", (res: any) => {
     console.log('topic:hfcomponent:14号电机=>', res);
+    waveSource["14"] = res.const_data;
   });
 })
 
