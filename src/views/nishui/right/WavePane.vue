@@ -49,6 +49,7 @@ onMounted(() => {
 
   socket.on("vibration:update", (res: any) => {
     const { type, time, value } = res
+    console.log('vibration:update=>', res);
     source[type as PumpType] = value;
   });
 })

@@ -121,7 +121,6 @@ function handleSocket() {
   socket.on("type:resp", (res: any) => {
     const { type, items } = res
     if (!items.length) return
-    console.log('=== 泥水环流 ===>', res)
     switch (type) {
       case '磨损检测':
         updateData(items)
