@@ -17,7 +17,7 @@ const handleEmit = (type: PumpType) => {
 }
 
 watch(type, (newType) => {
-  if (!source[newType].length) {
+  if (!source[newType] || !source[newType].length) {
     handleEmit(newType);
   }
 })
