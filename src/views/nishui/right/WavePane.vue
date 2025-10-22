@@ -4,24 +4,6 @@ import socket, { state } from '~/socket';
 type PumpType = '排浆泵轴承箱' | '排浆泵轴向' | '排浆泵垂直' | '排浆泵水平';
 const active = ref(0)
 const type = ref<PumpType>('排浆泵轴承箱')
-const options = [
-  {
-    value: '排浆泵轴承箱',
-    label: '排浆泵轴承箱',
-  },
-  {
-    value: '排浆泵轴向',
-    label: '排浆泵轴向',
-  },
-  {
-    value: '排浆泵垂直',
-    label: '排浆泵垂直',
-  },
-  {
-    value: '排浆泵水平',
-    label: '排浆泵水平',
-  },
-]
 
 const source = reactive<Record<PumpType, any[]>>({
   '排浆泵轴承箱': [],
@@ -34,13 +16,16 @@ const handleEmit = (type: PumpType) => {
   socket.emit("vibration:watch", { type });
 }
 
-watch(type, (newType, oldType) => {
-  if (oldType) {
-    socket.emit("vibration:unwatch", { type: oldType } )
-    delete source[oldType as PumpType];
+watch(type, (newType) => {
+  if (!source[newType].length) {
+    handleEmit(newType);
   }
-  handleEmit(newType);
 })
+
+const updateSource = (type: PumpType, data: any[]) => {
+  const len = data.length
+  source[type] = len ? source[type].slice(len).concat(data) : source[type].concat(data);
+}
 
 onMounted(() => {  
   !state.connected ? socket.on('connect', () => {
@@ -48,9 +33,9 @@ onMounted(() => {
   }) : handleEmit(type.value);
 
   socket.on("vibration:update", (res: any) => {
-    const { type, time, value } = res
     console.log('vibration:update=>', res);
-    source[type as PumpType] = value;
+    // const { type, time, value } = res
+    // updateSource(type as PumpType, value);
   });
 })
 
@@ -69,7 +54,12 @@ onUnmounted(() => {
       <el-radio-button :value="0">时域波形</el-radio-button>
       <!-- <el-radio-button :value="1" disabled>频域波形</el-radio-button> -->
     </el-radio-group>
-    <el-select v-model="type" placeholder="请选择" :options="options" style="width: 132px;" />
+    <el-select v-model="type" placeholder="请选择" style="width: 132px;">
+      <el-option label="排浆泵轴承箱" value="排浆泵轴承箱"></el-option>
+      <el-option label="排浆泵轴向" value="排浆泵轴向"></el-option>
+      <el-option label="排浆泵垂直" value="排浆泵垂直"></el-option>
+      <el-option label="排浆泵水平" value="排浆泵水平"></el-option>
+    </el-select>
   </div>
   <ChartWave :data="source[type]" />
 </template>
