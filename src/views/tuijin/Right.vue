@@ -70,7 +70,7 @@ const getPushPredict = async () => {
     });
     const {success, data} = await res.json();
     if (success) {
-      console.log('pushPredict: ', data);
+      // console.log('pushPredict: ', data);
       const _A: any[] = [];
       const _B: any[] = [];
       const _C: any[] = [];

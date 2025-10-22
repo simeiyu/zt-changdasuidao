@@ -7,7 +7,7 @@ const updateScale = () => {
   if (wrapper.value) {
     const wrapperWidth = wrapper.value.offsetWidth;
     const _scale = wrapperWidth / MinWidth;
-    console.log(_scale)
+    // console.log(_scale)
     scale.value = _scale > 1 ? 1 : _scale;
   }
 }

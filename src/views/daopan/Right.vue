@@ -48,7 +48,7 @@ const handleEmit = () => {
 }
 
 onMounted(() => {
-  console.log('刀盘系统 Right mounted')  
+  // console.log('刀盘系统 Right mounted')  
   !state.connected ? socket.on('connect', () => {
     handleEmit()
   }) : handleEmit()
