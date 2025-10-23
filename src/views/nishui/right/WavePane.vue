@@ -23,9 +23,10 @@ watch(type, (newType) => {
 })
 
 const updateSource = (type: PumpType, data: any[]) => {
-  const _data = source[type].concat(data)
-  const len = data.length
-  source[type] = len > 200 ? _data.slice(len - 200) : _data;
+  // const _data = source[type].concat(data)
+  // const len = data.length
+  // source[type] = len > 200 ? _data.slice(len - 200) : _data;
+  source[type] = data;
 }
 
 onMounted(() => {  
