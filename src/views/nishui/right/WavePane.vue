@@ -12,15 +12,12 @@ const source = reactive<Record<PumpType, any[]>>({
   '排浆泵水平': [],
 })
 
-const handleEmit = (type: PumpType) => {
-  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/${type}` });
+const handleEmit = () => {
+  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/排浆泵轴承箱` });
+  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/排浆泵轴向` });
+  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/排浆泵垂直` });
+  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/排浆泵水平` });
 }
-
-watch(type, (newType) => {
-  if (!source[newType] || !source[newType].length) {
-    handleEmit(newType);
-  }
-})
 
 const updateSource = (type: PumpType, data: any[]) => {
   // const _data = source[type].concat(data)
@@ -31,8 +28,8 @@ const updateSource = (type: PumpType, data: any[]) => {
 
 onMounted(() => {  
   !state.connected ? socket.on('connect', () => {
-    handleEmit(type.value)
-  }) : handleEmit(type.value);
+    handleEmit()
+  }) : handleEmit();
 
   socket.on("topic:hfpumpcomponent:排浆泵轴承箱", (res: any) => {
     const { component, const_data } = res
