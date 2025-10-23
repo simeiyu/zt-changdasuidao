@@ -5,22 +5,22 @@ import { ElMessage } from 'element-plus';
 import { forEach } from 'lodash';
 
 const collects = [
-  {label: '今日报警', value: 2 },
-  {label: '本月报警', value: 3 },
-  {label: '累计报警', value: 5 },
+  {label: '本周报警', value: 0 },
+  {label: '本月报警', value: 0 },
+  {label: '累计报警', value: 4 },
 ]
 const data = [
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备1报警'
+    time: '2025-09-14 09:46:17',
+    content: 'P2.1可能异常磨损，建议关闭故障泵的进浆阀、排浆阀，检查关键部位磨损量'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备2报警'
+    time: '2025-07-12 15:54:12',
+    content: 'P0.4可能异常磨损，建议关闭故障泵的进浆阀、排浆阀，检查关键部位磨损量'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备3报警'
+    time: '2025-05-18 16:37:31',
+    content: 'P1.1可能出现密封失效，建议关闭故障泵的进浆阀、排浆阀，进行排查'
   }
 ]
 const flowRate = ref('inFlowRate')

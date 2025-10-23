@@ -128,22 +128,22 @@ function onResize() {
 
 
 const collects = [
-  { label: '今日报警', value: 2 },
-  { label: '本月报警', value: 3 },
+  { label: '本周报警', value: 0 },
+  { label: '本月报警', value: 1 },
   { label: '累计报警', value: 5 },
 ]
 const tableData = [
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备1报警'
+    time: '2025-10-03 10:27:14',
+    content: '盾尾密封前腔1压力突然下降，可能出现盾尾密封刷破损，建议降低推进速度，进行排查定位破损刷'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备2报警'
+    time: '2025-09-14 15:34:22',
+    content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备3报警'
+    time: '2025-09-02 16:17:56',
+    content: '盾尾密封后腔腔2压力变化速度异常，可能出现盾尾密封刷泄露，建议暂停推进，进行排查定位泄露区域'
   }
 ]
 
@@ -302,7 +302,7 @@ onUnmounted(() => {
   <div class="chart-line" ref="chartRef1"></div>
   <div class="chart-line" ref="chartRef2"></div>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
-  <AlarmPane :collects="collects" :data="tableData" :height="200" />
+  <AlarmPane :collects="collects" :data="tableData" />
 </template>
 
 <style scoped lang="scss">

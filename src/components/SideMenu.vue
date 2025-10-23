@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useUserStore } from '~/store/user'
+// import { useUserStore } from '~/store/user'
 
-const userStore = useUserStore()
+// const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -15,7 +15,7 @@ const menu = [
   {
     title: '泥水环流',
     icon: 'nishui',
-    path: '/nishui'
+    path: '/'
   },
   {
     title: '盾尾密封',

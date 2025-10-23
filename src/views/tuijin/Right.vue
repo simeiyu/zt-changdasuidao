@@ -7,22 +7,22 @@ const active = ref<'pressure' | 'flow'>('pressure');
 const type = ref('1');
 
 const collects = [
-  {label: '今日报警', value: 2 },
-  {label: '本月报警', value: 3 },
-  {label: '累计报警', value: 5 },
+  {label: '本周报警', value: 1 },
+  {label: '本月报警', value: 1 },
+  {label: '累计报警', value: 8 },
 ]
 const tableData = [
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备1报警'
+    time: '2025-10-24 11:28:37',
+    content: '推进油缸位移9出现异常，可能出现内泄露故障，建议降低推进速度，通过盾构姿态控制系统补偿位移偏差'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备2报警'
+    time: '2025-08-22 15:34:42',
+    content: '推进B组压力过高，建议降低 A 组推进比例阀电流'
   },
   {
-    time: '2022-01-01 12:00:00',
-    content: '设备3报警'
+    time: '2025-04-18 15:26:31',
+    content: '推进泵12压力压力过高，建议检查出口溢流阀'
   }
 ]
 
@@ -146,6 +146,6 @@ onUnmounted(() => {
   </div>
   <ChartLines :dimensions="dimensions" :data="bengSource[type][active]" :height="220" :unit="UNITS[active]"/>
   <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
-  <AlarmPane :collects="collects" :data="tableData" :height="200" />
+  <AlarmPane :collects="collects" :data="tableData" />
 </template>
 

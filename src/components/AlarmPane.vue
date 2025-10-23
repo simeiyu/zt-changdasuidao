@@ -3,7 +3,7 @@
 const props = defineProps({
   height: {
     type: Number,
-    default: 128
+    default: 260
   },
   data: {
     type: Array<{time: string, content: string}>,
@@ -26,7 +26,7 @@ const props = defineProps({
   <div class="alarm-table">
     <el-table :data="data" size="small" :height="height">
       <el-table-column label="序号" type="index" width="44" />
-      <el-table-column prop="time" label="时间" width="146" />
+      <el-table-column prop="time" label="时间" width="96" />
       <el-table-column prop="content" label="报警内容" />
     </el-table>
   </div>

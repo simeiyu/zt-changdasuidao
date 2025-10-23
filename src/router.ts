@@ -1,21 +1,22 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { useUserStore } from './store/user'
+// import { useUserStore } from './store/user'
 
 const routes = [
   {
     path: '/',
     component: () => import('./views/index.vue'),
     children: [
-      {
-        name: '设备概览',
-        path: '/',
-        icon: 'overview',
-        component: () => import('./views/Overview.vue')
-      },
+      // {
+      //   name: '设备概览',
+      //   path: '/',
+      //   icon: 'overview',
+      //   component: () => import('./views/Overview.vue')
+      // },
       {
         name: '泥水环流',
         path: '/nishui',
         icon: 'nishui',
+        alias: ['/', '/nishui'],
         component: () => import('./views/nishui/index.vue')
       },
       {
