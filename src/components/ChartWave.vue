@@ -16,12 +16,14 @@ function onResize() {
   myChart.resize();
 }
 
-watch(() => props.data, () => {
-  myChart.setOption({
-    dataset: {
-      source: props.data
-    }
-  })
+watch(() => props.data, (newData) => {
+  if (chartRef.value) {
+    myChart.setOption({
+      dataset: {
+        source: newData
+      }
+    })
+  }
 })
 
 onMounted(() => {
