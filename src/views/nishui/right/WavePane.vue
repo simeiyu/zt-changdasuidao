@@ -23,8 +23,9 @@ watch(type, (newType) => {
 })
 
 const updateSource = (type: PumpType, data: any[]) => {
+  const _data = source[type].concat(data)
   const len = data.length
-  source[type] = len ? source[type].slice(len).concat(data) : source[type].concat(data);
+  source[type] = len > 200 ? _data.slice(len - 200) : _data;
 }
 
 onMounted(() => {  
@@ -33,18 +34,20 @@ onMounted(() => {
   }) : handleEmit(type.value);
 
   socket.on("topic:hfpumpcomponent:排浆泵轴承箱", (res: any) => {
-    console.log('排浆泵轴承箱 =>', res);
-    // const { type, time, value } = res
-    // updateSource(type as PumpType, value);
+    const { component, const_data } = res
+    updateSource(component as PumpType, const_data);
   });
   socket.on("topic:hfpumpcomponent:排浆泵轴向", (res: any) => {
-    console.log('排浆泵轴向 =>', res);
+    const { component, const_data } = res
+    updateSource(component as PumpType, const_data);
   });
   socket.on("topic:hfpumpcomponent:排浆泵垂直", (res: any) => {
-    console.log('排浆泵垂直 =>', res);
+    const { component, const_data } = res
+    updateSource(component as PumpType, const_data);
   });
   socket.on("topic:hfpumpcomponent:排浆泵水平", (res: any) => {
-    console.log('排浆泵水平 =>', res);
+    const { component, const_data } = res
+    updateSource(component as PumpType, const_data);
   });
 })
 
