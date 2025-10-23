@@ -13,7 +13,7 @@ const source = reactive<Record<PumpType, any[]>>({
 })
 
 const handleEmit = (type: PumpType) => {
-  socket.emit("vibration:watch", { type });
+  socket.emit("topic:sub", { dest: `/topic/hfpumpcomponent/${type}` });
 }
 
 watch(type, (newType) => {
@@ -32,16 +32,25 @@ onMounted(() => {
     handleEmit(type.value)
   }) : handleEmit(type.value);
 
-  socket.on("vibration:update", (res: any) => {
-    console.log('vibration:update=>', res);
+  socket.on("topic:hfpumpcomponent:排浆泵轴承箱", (res: any) => {
+    console.log('排浆泵轴承箱 =>', res);
     // const { type, time, value } = res
     // updateSource(type as PumpType, value);
+  });
+  socket.on("topic:hfpumpcomponent:排浆泵轴向", (res: any) => {
+    console.log('排浆泵轴向 =>', res);
+  });
+  socket.on("topic:hfpumpcomponent:排浆泵垂直", (res: any) => {
+    console.log('排浆泵垂直 =>', res);
+  });
+  socket.on("topic:hfpumpcomponent:排浆泵水平", (res: any) => {
+    console.log('排浆泵水平 =>', res);
   });
 })
 
 onUnmounted(() => {
   for(let key in source) {
-    socket.emit("vibration:unwatch", { type: key } )
+    socket.emit("topic:unsub", { dest: `/topic/hfpumpcomponent/${key}` } )
     delete source[key as PumpType];
   }
 });
