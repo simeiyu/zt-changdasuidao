@@ -61,7 +61,8 @@ const getElectricMachinePredict = async () => {
   }
   try {
     const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=electricMachinePredict`, {
-      method: 'GET'
+      method: 'GET',
+      mode: 'cors',
     });
     const {success, data} = await res.json();
     if (success) {

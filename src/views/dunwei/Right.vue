@@ -156,7 +156,8 @@ const getTailShield = async () => {
   }
   try {
     const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=tailShield`, {
-      method: 'GET'
+      method: 'GET',
+      mode: 'cors',
     });
     const { success, data } = await res.json();
     if (success) {

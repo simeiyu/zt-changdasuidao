@@ -44,7 +44,8 @@ const getMudWaterPredict = async () => {
   }
   try {
     const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=mudWaterPredict`, {
-      method: 'GET'
+      method: 'GET',
+      mode: 'cors',
     });
     const {success, data} = await res.json();
     if (success) {
