@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { filter, find, forEach, map, toNumber } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
 import socket, { state } from '~/socket';
 

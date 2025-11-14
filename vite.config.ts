@@ -80,7 +80,8 @@ export default defineConfig({
           }
       }, 
       '/getAlgoResult': {
-        target: 'http://sp9.xuelangyun.com/proxr/80210312/56535/ea9188d0a96611f0affdb37d23f2cc3c/8888',
+        // target: 'http://sp9.xuelangyun.com/proxr/80210312/56535/ea9188d0a96611f0affdb37d23f2cc3c/8888',
+        target: 'localhost:39000',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       }
