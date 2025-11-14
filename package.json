@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
+    "serve": "cd dist && http-server -p 39000",
     "lint:style": "stylelint \"src/**/*.{css,less,vue}\" --fix"
   },
   "dependencies": {
