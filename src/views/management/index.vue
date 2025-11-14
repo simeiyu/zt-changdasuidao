@@ -94,7 +94,7 @@ const openDailog = (item: any) => {
 const handleConfirm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   try {
-    const validated = await formEl.validate()
+    // const validated = await formEl.validate()
 
   } catch (error) {
     console.log(error)

@@ -25,8 +25,8 @@ const rules = {
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   try {
-    const validated = await formEl.validate()
-    const logined = userStore.login(state)
+    // const validated = await formEl.validate()
+    // const logined = userStore.login(state)
     const redirect = (route.query.redirect as string) || '/'
     router.push(redirect)
   } catch (error) {

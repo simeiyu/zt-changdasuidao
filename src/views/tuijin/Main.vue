@@ -128,7 +128,7 @@ const getPathTransform = (i: number) => {
                   :key="j"
                   :style="{ transform: getTransform(j, group.length, 80) }">{{ value }}</span>
               </div>
-              <span class="path" v-for="(value, i) in pathes"
+              <span class="path" v-for="(_, i) in pathes"
                 :key="i"
                 :style="{ transform: getPathTransform(i) }"></span>
 

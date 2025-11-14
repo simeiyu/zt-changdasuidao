@@ -17,31 +17,31 @@ onMounted(() => {
   updateScale();
 })
 
-const group = [
-  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
-  ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
+// const group = [
+//   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
+//   ['0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+// ]
 
-const R = 220;
+// const R = 220;
 
-const getTransform = (i: number, offset=0) => {
-  const angle = 360 / group[0].length * i - 90;
-  const radius = R + offset;
-  const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
-  const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
-  return `translate(${x}px, ${y}px)`
-}
+// const getTransform = (i: number, offset=0) => {
+//   const angle = 360 / group[0].length * i - 90;
+//   const radius = R + offset;
+//   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
+//   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
+//   return `translate(${x}px, ${y}px)`
+// }
 
-const pathes = new Array(6).fill(1)
+// const pathes = new Array(6).fill(1)
 
-const getPathTransform = (i: number) => {
-  const angle = 360 / pathes.length * i;
-  const radius = R + 76;
-  const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
-  const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
-  return `translate(${x}px, ${y}px) rotate(${angle}deg)`
-}
+// const getPathTransform = (i: number) => {
+//   const angle = 360 / pathes.length * i;
+//   const radius = R + 76;
+//   const x = Math.round(Math.cos(angle * Math.PI / 180) * radius * 100) / 100;
+//   const y = Math.round(Math.sin(angle * Math.PI / 180) * radius * 100) / 100;
+//   return `translate(${x}px, ${y}px) rotate(${angle}deg)`
+// }
 </script>
 
 <template>

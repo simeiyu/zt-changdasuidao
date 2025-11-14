@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-const props = defineProps<{
+defineProps<{
   title?: string;
   columns: {field: string; title: string; unit?: string; output?: boolean; }[];
   data: Array<{ id?: string | number; [key: string]: any; }>;

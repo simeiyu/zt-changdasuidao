@@ -35,7 +35,7 @@ const rules = reactive({
   ]
 })
 
-const validateNewPass = (rule: any, value: any, callback: any) => {
+const validateNewPass = (_: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入新密码'))
   } else {
@@ -46,7 +46,7 @@ const validateNewPass = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
-const validateNewPass2 = (rule: any, value: any, callback: any) => {
+const validateNewPass2 = (_: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请确认新密码'))
   } else if (value !== passForm.newPassword) {
@@ -144,7 +144,7 @@ const handleSaveUerInfo = async (elem: FormInstance | undefined) => {
     </div>
     <div class="footer" v-else>
       <el-button type="default" @click="router.go(-1)">返回</el-button>
-      <el-button type="primary" @click="handleSaveUerInfo">保存</el-button>
+      <el-button type="primary" @click="handleSaveUerInfo(userForm)">保存</el-button>
     </div>
   </div>
 </template>

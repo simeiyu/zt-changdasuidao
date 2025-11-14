@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-const props = defineProps({
+defineProps({
   height: {
     type: Number,
     default: 260

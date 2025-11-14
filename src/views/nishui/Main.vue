@@ -99,7 +99,7 @@ function updateItems(items: Array<Item>, refObj: {[key:string]: number}) {
 function updateData(items: Array<Item>) {
   const _data: {[key:string]: {[key:string]: string | number}} = {}
   forEach(items, (item) => {
-    const { key, value } = item
+    const { key } = item
     const keys = key.split('磨损检测-')
     if (!_data[keys[0]]) _data[keys[0]] = {}
     const val = Number(item.value)

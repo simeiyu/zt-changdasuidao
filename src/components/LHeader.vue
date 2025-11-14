@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useUserStore } from '~/store/user'
+// import { useUserStore } from '~/store/user'
 
-const userStore = useUserStore()
+// const userStore = useUserStore()
 const router = useRouter()
 
-const handleCommand = (command: string) => {
-  switch (command) {
-    case 'admin':
-      router.push('/admin')
-      break
-    case 'userInfo':
-      router.push('/userInfo')
-      break
-    case 'logout':
-      userStore.logout()
-      break
-  }
-}
+// const handleCommand = (command: string) => {
+//   switch (command) {
+//     case 'admin':
+//       router.push('/admin')
+//       break
+//     case 'userInfo':
+//       router.push('/userInfo')
+//       break
+//     case 'logout':
+//       userStore.logout()
+//       break
+//   }
+// }
 </script>
 
 <template>
