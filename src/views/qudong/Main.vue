@@ -2,6 +2,7 @@
 import { ElMessage } from 'element-plus';
 import { filter, forEach, keys, map, toNumber } from 'lodash';
 import socket, { state } from '~/socket';
+import { algoPrefix } from '~/utils';
 
 const scale = ref(1);
 const MinWidth = 768;
@@ -59,7 +60,7 @@ const getElectricMachinePredict = async () => {
     clearTimeout(timer);
   }
   try {
-    const res = await fetch(`/getAlgoResult?algoName=electricMachinePredict`, {
+    const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=electricMachinePredict`, {
       method: 'GET'
     });
     const {success, data} = await res.json();

@@ -3,6 +3,7 @@ import * as echarts from 'echarts';
 import { ElMessage } from 'element-plus';
 import { map } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
+import { algoPrefix } from '~/utils';
 
 const chartRef1 = ref<null | HTMLElement>(null);
 const chartRef2 = ref<null | HTMLElement>(null);
@@ -154,7 +155,7 @@ const getTailShield = async () => {
     clearTimeout(timer);
   }
   try {
-    const res = await fetch(`/getAlgoResult?algoName=tailShield`, {
+    const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=tailShield`, {
       method: 'GET'
     });
     const { success, data } = await res.json();

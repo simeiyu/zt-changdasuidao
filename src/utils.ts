@@ -1,0 +1,1 @@
+export const algoPrefix = 'http://localhost:39000'

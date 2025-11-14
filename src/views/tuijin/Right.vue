@@ -2,6 +2,7 @@
 import { ElMessage } from 'element-plus';
 import { forEach } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
+import { algoPrefix } from '~/utils';
 
 const active = ref<'pressure' | 'flow'>('pressure');
 const type = ref('1');
@@ -65,7 +66,7 @@ const getPushPredict = async () => {
     clearTimeout(timer);
   }
   try {
-    const res = await fetch(`/getAlgoResult?algoName=pushPredict`, {
+    const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=pushPredict`, {
       method: 'GET'
     });
     const {success, data} = await res.json();

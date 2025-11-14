@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus';
 import { forEach, isEmpty, keys, map, filter } from 'lodash';
 import AlarmPane from '~/components/AlarmPane.vue';
 import socket, { state } from '~/socket';
+import { algoPrefix } from '~/utils';
 
 const active = ref(0);
 const type = ref('1');
@@ -75,7 +76,7 @@ const getElectricMachine = async () => {
     clearTimeout(timer);
   }
   try {
-    const res = await fetch(`/getAlgoResult?algoName=electricMachine`, {
+    const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=electricMachine`, {
       method: 'GET'
     });
     const {success, data} = await res.json();

@@ -3,6 +3,7 @@ import AlarmPane from '~/components/AlarmPane.vue';
 import WavePane from './WavePane.vue';
 import { ElMessage } from 'element-plus';
 import { forEach } from 'lodash';
+import { algoPrefix } from '~/utils';
 
 const collects = [
   {label: '本周报警', value: 0 },
@@ -42,7 +43,7 @@ const getMudWaterPredict = async () => {
     clearTimeout(timer);
   }
   try {
-    const res = await fetch(`/getAlgoResult?algoName=mudWaterPredict`, {
+    const res = await fetch(`${algoPrefix}/getAlgoResult?algoName=mudWaterPredict`, {
       method: 'GET'
     });
     const {success, data} = await res.json();
