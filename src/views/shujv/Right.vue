@@ -75,6 +75,5 @@ const handleChange = (value: any) => {
     <el-select v-model="type" placeholder="请选择" :options="options" style="width: 114px;" />
   </div>
   <ChartLines :dimensions="dimensions" :data="source1" :height="220" unit="m 3/h"/>
-  <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" :height="200" />
 </template>

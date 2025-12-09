@@ -106,7 +106,6 @@ onUnmounted(() => {
   </el-radio-group>
   <ChartLines :dimensions="dimensions" :data="source[flowPressure]" unit="bar"/>
   <WavePane />
-  <Title1 class="mg-t-sm mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="data" />
 </template>
 

@@ -303,7 +303,6 @@ onUnmounted(() => {
   </div>
   <div class="chart-line" ref="chartRef1"></div>
   <div class="chart-line" ref="chartRef2"></div>
-  <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" />
 </template>
 

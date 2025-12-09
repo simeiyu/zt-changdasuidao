@@ -116,6 +116,5 @@ onUnmounted(() => {
     </el-radio-group>
   </div>
   <ChartLines :dimensions="dimensions2" :data="daopanSource[active]" :height="220" unit="m 3/h" :color="color" />
-  <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" />
 </template>

@@ -147,7 +147,6 @@ onUnmounted(() => {
     </el-select>
   </div>
   <ChartLines :dimensions="dimensions" :data="bengSource[type][active]" :height="220" :unit="UNITS[active]"/>
-  <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" />
 </template>
 

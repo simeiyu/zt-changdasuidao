@@ -246,7 +246,6 @@ onUnmounted(() => {
     </el-select>
   </div>
   <ChartWave :data="waveSource[type]" unit="m 3/h"/>
-  <Title1 class="mg-t mg-l mg-r">预测报警</Title1>
   <AlarmPane :collects="collects" :data="tableData" :height="196" />
 </template>
 
