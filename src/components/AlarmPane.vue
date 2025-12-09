@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { filter } from 'lodash'
+
 defineProps({
   height: {
     type: Number,
@@ -19,13 +21,13 @@ const form = reactive({
   time: '',
   status: ''
 })
+
 const page = reactive({
   current: 1,
   size: 10,
-  total: 100
 })
 
-const source = ref([{
+const constSource = [{
   id: 1,
   xt: '推进系统',
   time: '2025-11-24 11:28:37',
@@ -144,7 +146,18 @@ const source = ref([{
   content: '盾尾密封后腔腔2压力变化速度异常，可能出现盾尾密封刷泄露，建议暂停推进，进行排查定位泄露区域',
   status: '已恢复',
   clStatus: '已处理'
-}])
+}]
+
+const source = ref(constSource)
+
+const updateSource = () => {
+  page.current = 1
+  source.value = !form.xt && !form.time && !form.status ? constSource : filter(constSource, ({xt, time, status}) => {
+    return !!form.xt && form.xt === xt || !!form.time && time.indexOf(form.time) > -1 || !!form.status && status === form.status 
+  })
+}
+
+const data = computed(() => source.value.slice((page.current - 1) * page.size, page.current * page.size))
 </script>
 
 <template>
@@ -172,34 +185,44 @@ const source = ref([{
   >
     <el-form inline>
       <el-form-item label="报警系统" :label-width="80">
-        <el-select style="width: 200px;" v-model="form.xt" :options="[{label: '泥水环流', value: '泥水环流'}, {label: '盾尾密封', value: '盾尾密封'}, {label: '推进系统', value: '推进系统'}, {label: '刀盘系统', value: '刀盘系统'}, {label: '驱动电机', value: '驱动电机'}]" />
+        <el-select style="width: 200px;" v-model="form.xt" :options="[{label: '泥水环流', value: '泥水环流'}, {label: '盾尾密封', value: '盾尾密封'}, {label: '推进系统', value: '推进系统'}, {label: '刀盘系统', value: '刀盘系统'}, {label: '驱动电机', value: '驱动电机'}]" @change="updateSource" clearable />
       </el-form-item>
       <el-form-item label="报警时间">
-        <el-date-picker v-model="form.time" />
+        <el-date-picker v-model="form.time" value-format="YYYY-MM-DD" @change="updateSource" />
       </el-form-item>
       <el-form-item label="报警状态">
-        <el-select style="width: 200px;" v-model="form.status" :options="[{label: '已恢复', value: '已恢复'}, {label: '报警中', value: '报警中'}]" />
+        <el-select style="width: 200px;" v-model="form.status" :options="[{label: '已恢复', value: '已恢复'}, {label: '报警中', value: '报警中'}]" @change="updateSource" clearable />
       </el-form-item>
     </el-form>
-    <el-table class="tb" :data="source" :height="440" stripe>
+    <el-table class="tb" :data="data" :height="462" stripe>
       <el-table-column label="序号" type="index" width="60" />
       <el-table-column prop="xt" label="报警系统" width="100" />
       <el-table-column prop="time" label="报警时间" width="160" />
       <el-table-column prop="content" label="报警内容" show-overflow-tooltip />
       <el-table-column prop="status" label="报警状态" width="100" />
-      <el-table-column prop="clStatus" label="报警状态" width="100" />
+      <el-table-column prop="clStatus" label="处理状态" width="100">
+        <template #default="scope">
+          <el-tag
+            :type="scope.row.clStatus === '待处理' ? 'primary' : 'success'"
+            disable-transitions
+            >{{ scope.row.clStatus }}</el-tag
+          >
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="80">
         <template #default>
           <el-button link type="primary" :disabled="true">处理</el-button>
-      </template>
+        </template>
       </el-table-column>
     </el-table>
 
     <template #footer>
-        <el-pagination
-          class="pagination" layout="total, prev, pager, next, sizes" background
-          :total="page.total"
-        />
+      <el-pagination
+        class="pagination" layout="total, prev, pager, next, sizes" background
+        v-model:current-page="page.current"
+        v-model:page-size="page.size"
+        :total="source.length"
+      />
     </template>
   </el-dialog>
 </template>

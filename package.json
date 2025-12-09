@@ -13,7 +13,7 @@
   "dependencies": {
     "@vueuse/core": "^13.8.0",
     "echarts": "^6.0.0",
-    "element-plus": "^2.11.2",
+    "element-plus": "^2.12.0",
     "express": "^5.1.0",
     "express-ws": "^5.0.2",
     "http": "0.0.1-security",
