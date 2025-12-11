@@ -164,7 +164,7 @@ function handleSocket() {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="nishui" :style="{ transform: `scale(${scale})` }">
-      <RunStatus />
+      <!-- <RunStatus /> -->
       <InfoPane class="info" :columns="columns" :data="data" />
       <div class="configuration">
         <!-- 测点 -->

@@ -108,7 +108,7 @@ const getPathTransform = (i: number) => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus />
+      <!-- <RunStatus /> -->
       <div class="dunwei">
         <div class="plate">
             <div class="daopan">

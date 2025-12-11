@@ -47,7 +47,7 @@ onMounted(() => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus />
+      <!-- <RunStatus /> -->
       <div class="dunwei">
         
         

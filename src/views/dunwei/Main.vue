@@ -157,7 +157,7 @@ onMounted(() => {
 <template>
   <div class="wrapper" ref="wrapper">
     <div class="main" :style="{ transform: `scale(${scale})` }">
-      <RunStatus />
+      <!-- <RunStatus /> -->
       <InfoPane class="info" :title="'盾尾油脂泵'" :columns="columns" :data="data" />
       <div class="dunwei">
         <div class="plate_1">
