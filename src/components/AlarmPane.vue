@@ -4,7 +4,7 @@ import { filter } from 'lodash'
 defineProps({
   height: {
     type: Number,
-    default: 260
+    default: 265
   },
   data: {
     type: Array<{time: string, content: string}>,
@@ -157,7 +157,7 @@ const updateSource = () => {
   })
 }
 
-const data = computed(() => source.value.slice((page.current - 1) * page.size, page.current * page.size))
+const alarmList = computed(() => source.value.slice((page.current - 1) * page.size, page.current * page.size))
 </script>
 
 <template>
@@ -194,7 +194,7 @@ const data = computed(() => source.value.slice((page.current - 1) * page.size, p
         <el-select style="width: 200px;" v-model="form.status" :options="[{label: '已恢复', value: '已恢复'}, {label: '报警中', value: '报警中'}]" @change="updateSource" clearable />
       </el-form-item>
     </el-form>
-    <el-table class="tb" :data="data" :height="462" stripe>
+    <el-table class="tb" :data="alarmList" :height="462" stripe>
       <el-table-column label="序号" type="index" width="60" />
       <el-table-column prop="xt" label="报警系统" width="100" />
       <el-table-column prop="time" label="报警时间" width="160" />

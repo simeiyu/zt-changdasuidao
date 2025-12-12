@@ -27,22 +27,26 @@ const dianjiStatus = reactive<{[key: string]: 0 | 1}>({
 })
 
 const collects = [
-  {label: '本周报警', value: 1 },
-  {label: '本月报警', value: 1 },
-  {label: '累计报警', value: 13 },
+  {label: '本周报警', value: 0 },
+  {label: '本月报警', value: 0 },
+  {label: '累计报警', value: 4 },
 ]
 const tableData = [
   {
-    time: '2025-10-21 14:37:54',
+    time: '2025/10/21 14:37',
     content: '1#电机过载，建议降低负载，进行排查'
   },
   {
-    time: '2025-09-25 16:46:22',
+    time: '2025/9/21 16:46',
     content: '6#电机可能轴承损坏，建议进行排查'
   },
   {
-    time: '2025-09-02 10:27:23',
+    time: '2025/9/3 10:27',
     content: '12#电机过载，建议降低负载，进行排查'
+  },
+  {
+    time: '2025/8/22 16:12',
+    content: '6#电机过载，建议降低负载，进行排查'
   }
 ]
 
@@ -246,7 +250,7 @@ onUnmounted(() => {
     </el-select>
   </div>
   <ChartWave :data="waveSource[type]" unit="m 3/h"/>
-  <AlarmPane :collects="collects" :data="tableData" :height="196" />
+  <AlarmPane :collects="collects" :data="tableData" :height="252" />
 </template>
 
 <style lang="scss" scoped>

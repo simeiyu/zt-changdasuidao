@@ -7,21 +7,21 @@ const active = ref('1');
 const color = ["#0084FF", "#F53F3F", "#FAAD14", "#00B42A"]
 const collects = [
   {label: '本周报警', value: 0 },
-  {label: '本月报警', value: 2 },
-  {label: '累计报警', value: 12 },
+  {label: '本月报警', value: 0 },
+  {label: '累计报警', value: 3 },
 ]
 const tableData = [
   {
-    time: '2025-10-14 11:43:07',
+    time: '2025/10/5 11:43',
     content: '存在显著刀盘负载异常，结泥饼风险较高，建议进行冲洗'
   },
   {
-    time: '2025-10-05 13:43:54',
-    content: '存在显著刀盘负载异常，存在结泥饼风险，建议进行冲洗'
+    time: '2025/9/15 13:43',
+    content: '刀盘负载异常，存在结泥饼风险，建议进行冲洗'
   },
   {
-    time: '2025-09-15 10:16:39',
-    content: '存在显著刀盘负载异常，结泥饼风险较高，建议进行冲洗'
+    time: '2025/4/21 10:16',
+    content: '刀盘负载异常，存在结泥饼风险，建议进行冲洗'
   }
 ]
 
@@ -116,5 +116,5 @@ onUnmounted(() => {
     </el-radio-group>
   </div>
   <ChartLines :dimensions="dimensions2" :data="daopanSource[active]" :height="220" unit="m 3/h" :color="color" />
-  <AlarmPane :collects="collects" :data="tableData" />
+  <AlarmPane :collects="collects" :data="tableData" :height="220" />
 </template>
