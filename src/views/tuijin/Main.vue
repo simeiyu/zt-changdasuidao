@@ -159,8 +159,8 @@ const getPathTransform = (i: number) => {
   position: relative;
   min-width: 766px;
   width: 100%;
-  min-height: 872px;
-  padding: 130px 24px 24px;
+  min-height: 800px;
+  padding: 40px 24px 24px;
   transform-origin: 0 0;
 }
 

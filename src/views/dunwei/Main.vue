@@ -205,7 +205,7 @@ onMounted(() => {
   min-width: 766px;
   width: 100%;
   min-height: 100%;
-  padding: 200px 48px 24px 24px;
+  padding: 140px 48px 24px 24px;
   transform-origin: 0 0;
   display: flex;
   justify-content: center;

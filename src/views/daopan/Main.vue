@@ -42,7 +42,7 @@ onMounted(() => {
 .main {
   position: relative;
   width: 100%;
-  padding: 157px 24px 24px;
+  padding: 80px 24px 24px;
   transform-origin: 0 0;
 }
 

@@ -220,7 +220,7 @@ onUnmounted(() => {
 .main {
   position: relative;
   width: 100%;
-  padding: 130px 24px 24px;
+  padding: 40px 24px 24px;
   transform-origin: 0 0;
 }
 
