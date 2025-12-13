@@ -131,26 +131,26 @@ function onResize() {
 const collects = [
   { label: '本周报警', value: 0 },
   { label: '本月报警', value: 0 },
-  { label: '累计报警', value: 4 },
+  { label: '累计报警', value: 1 },
 ]
 
 const tableData = [
   {
     time: '2025/9/6 10:27',
-    content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
+    content: '盾尾密封前中腔4压力突然升高，密封口可能形成堵塞风险，建议检查密封口'
   },
-  {
-    time: '2025/7/18 15:34',
-    content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
-  },
-  {
-    time: '2025/5/14 15:34',
-    content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
-  },
-  {
-    time: '2025/2/14 16:17',
-    content: '盾尾密封后腔腔2压力变化速度异常，可能出现盾尾密封刷泄露，建议暂停推进，进行排查定位泄露区域'
-  }
+  // {
+  //   time: '2025/7/18 15:34',
+  //   content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
+  // },
+  // {
+  //   time: '2025/5/14 15:34',
+  //   content: '盾尾密封前中腔4压力压力突然升高，密封口可能形成堵塞，建议检查密封口'
+  // },
+  // {
+  //   time: '2025/2/14 16:17',
+  //   content: '盾尾密封后腔腔2压力变化速度异常，可能出现盾尾密封刷泄露，建议暂停推进，进行排查定位泄露区域'
+  // }
 ]
 
 let timer: any = null;
@@ -308,7 +308,7 @@ onUnmounted(() => {
   </div>
   <div class="chart-line" ref="chartRef1"></div>
   <div class="chart-line" ref="chartRef2"></div>
-  <AlarmPane :collects="collects" :data="tableData" :height="366" />
+  <AlarmPane :collects="collects" :data="tableData" :height="108" />
 </template>
 
 <style scoped lang="scss">

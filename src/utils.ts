@@ -1,1 +1,2 @@
-export const algoPrefix = 'http://localhost:39000'
+export const algoPrefix = ''
+// export const algoPrefix = 'http://localhost:39000'
